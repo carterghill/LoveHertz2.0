@@ -1,0 +1,5 @@
+One-way tiles
+Static Objects
+Decorative placeables (non-collideable objects)
+moving platforms
+

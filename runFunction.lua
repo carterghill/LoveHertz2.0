@@ -1,0 +1,3 @@
+local func = ...
+
+func()
