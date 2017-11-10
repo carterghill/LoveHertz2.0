@@ -19,6 +19,12 @@ function Cameras:new()
 	end
 end
 
+function Cameras:setPosition(x, y)
+	c = Cameras:current()
+	c.x = x - love.graphics.getWidth()/2 + l.players.width/2
+	c.y = y - love.graphics.getHeight()/2 + l.players.height/2
+end
+
 function Cameras:update(dt)
 	--display = false
 	if EditModeUI.display and not UI:onInput() then
@@ -58,7 +64,7 @@ end
 
 -- moveTo: Moves the camera to the object in the alloted time
 function Cameras:moveTo(object, time, dt)
-	Cameras[cameraNum].xSpeed = ((object.x*globalScale + object.xSpeed/3 + object.width - love.graphics.getWidth( )/2) - Cameras[cameraNum].x*globalScale)/time
+	Cameras[cameraNum].xSpeed = ((object.x*globalScale + object.xSpeed/3 + object.width/2 - love.graphics.getWidth( )/2) - Cameras[cameraNum].x*globalScale)/time
 	Cameras[cameraNum].ySpeed = ((object.y*globalScale + object.ySpeed/10 + object.height/2 - love.graphics.getHeight( )/2) - Cameras[cameraNum].y*globalScale)/time
 
 end

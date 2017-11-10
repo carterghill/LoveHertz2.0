@@ -47,7 +47,11 @@ function EditModeUI:load()
     end)
   EditModeUI:add(save)
 
-  load = Element:new(1136, 52, 128, 32, "Text", "Load", function () l:load(lvlName.content..".txt") end)
+  c = function ()
+    l:load(lvlName.content..".txt")
+    Cameras:setPosition(l.players.x, l.players.y)
+  end
+  load = Element:new(1136, 52, 128, 32, "Text", "Load", c)
   EditModeUI:add(load)
 
   lvls = {}
