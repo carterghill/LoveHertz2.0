@@ -34,7 +34,7 @@ function EditModeUI:load()
     function ()
       savedLevels = love.filesystem.getDirectoryItems("My Levels")
       l:save(lvlName.content..".txt")
-      lvlName.active = false
+      EditModeUI:turnOffInput()
       local lvl = lvlName.content..".txt"
       for i=1, #savedLevels do
         if lvl == savedLevels[i] then
@@ -43,12 +43,17 @@ function EditModeUI:load()
       end
       local lvl = savedLevels[#savedLevels]
       lvl = lvl:gsub(".txt", "")
-      EditModeUI:add(Element:new(1000, 88+(#savedLevels)*26, 264, 26, "Text", lvlName.content, (function () lvlName.content = lvl end), nil, 12))
+      c = function ()
+        lvlName.content = lvl
+        EditModeUI:turnOffInput()
+      end
+      EditModeUI:add(Element:new(1000, 88+(#savedLevels)*26, 264, 26, "Text", lvlName.content, (c), nil, 12))
     end)
   EditModeUI:add(save)
 
   c = function ()
     l:load(lvlName.content..".txt")
+    EditModeUI:turnOffInput()
     Cameras:setPosition(l.players.x, l.players.y)
   end
   load = Element:new(1136, 52, 128, 32, "Text", "Load", c)

@@ -13,7 +13,6 @@ require("Background")
 -- This one is called right at the start
 function love.load()
   Placeables:newTile("tiles/grass")
-  images = loadImagesInFolder("tiles/grass")
   Cameras:new()
   P = Player:create("images/traveler")
   Tiles:place(0, 100)
@@ -71,9 +70,6 @@ function love.update(dt)
     end
     if love.mouse.isDown(2) then
       Tiles:remove()
-    end
-    if l ~=nil then
-      --l.players:update(0)
     end
   else
     if l ~=nil then

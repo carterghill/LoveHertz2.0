@@ -53,6 +53,13 @@ function UIGroup:new()
     end
   end
 
+  function  g:turnOffInput()
+    local x = self:getElements()
+    for i=1, #x do
+      x[i].input = false
+    end
+  end
+
   function  g:elementsOnInput()
     local x = self:getElements()
     for i=1, #x do
