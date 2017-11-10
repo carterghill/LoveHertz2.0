@@ -12,8 +12,10 @@ function UIGroup:new()
   function g:toggle()
     if self.display then
       self.display = false
+      love.keyboard.setKeyRepeat(false)
     else
       self.display = true
+      love.keyboard.setKeyRepeat(true)
     end
   end
 
