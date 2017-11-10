@@ -1,5 +1,5 @@
-require("PlayerUI")
-require("EditModeUI")
+require("UI/PlayerUI")
+require("UI/EditModeUI")
 
 UI = {
   elements = {}

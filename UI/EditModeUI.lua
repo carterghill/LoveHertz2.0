@@ -1,4 +1,4 @@
-require("UIGroup")
+require("UI/UIGroup")
 
 EditModeUI = {}
 
