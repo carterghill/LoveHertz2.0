@@ -71,7 +71,7 @@ end
 function UI:mouseOn()
 
   x, y = love.mouse.getPosition()
-  if (EditModeUI.display and EditModeUI:onPoint(x, y)) or PlayerUI:onPoint(x, y) then
+  if --[[(EditModeUI.display and EditModeUI:onPoint(x, y)) or]] PlayerUI:onPoint(x, y) then
     return true
   end
 

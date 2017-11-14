@@ -9,9 +9,13 @@ require("UI/EditModeUI")
 require("UI/PlayerUI")
 require("UI/UI")
 require("Background")
+require "gooi"
 
 -- This one is called right at the start
 function love.load()
+
+
+
   Placeables:newTile("tiles/grass")
   Cameras:new()
   P = Player:create("images/traveler")
@@ -32,8 +36,9 @@ function love.load()
   if love.filesystem.exists("save.txt") ~= nil then
     l:load()
   end
-
-  love.keyboard.setKeyRepeat(true)
+  txt1:setText(l.name)
+  debug = ""
+  --love.keyboard.setKeyRepeat(true)
 end
 tileNum = ""
 
@@ -45,23 +50,28 @@ function love.draw()
     Tiles:draw()
     l.players:draw()
   end
-  debug = "Level Name: "..l.name.."\n"..love.filesystem.getSaveDirectory().."\nTiles: "..#Tiles.set
-  love.graphics.print(debug.."\n"..tileNum.."FPS: "..love.timer.getFPS())
+  --debug = "Level Name: "..l.name.."\n"..love.filesystem.getSaveDirectory().."\nTiles: "..#Tiles.set
+  --love.graphics.print(debug.."\n"..tileNum.."FPS: "..love.timer.getFPS())
+  love.graphics.print("FPS: "..love.timer.getFPS())
 
   --health:draw()
   --box:draw()
-  if EditModeUI.display then
-    --EditModeUI:draw()
-  end
+  --if EditModeUI.display then
+    EditModeUI:draw()
+  --end
   --PlayerUI:draw()
-  UI:draw()
+  --UI:draw()
 
 end
 
 -- This one is also being called repeatedly, handles game logic
 function love.update(dt)
+  gooi.update(dt)
+  if l.name ~= nil then
+    --lbl1:setText("Level Name: "..l.name)
+  end
   Cameras:update(dt)
-  UI:update(dt)
+  --UI:update(dt)
   if EditModeUI.display then
     if love.mouse.isDown(1) then
       if not UI:mouseOn() then
@@ -82,5 +92,17 @@ function love.mousepressed(x, y, button, istouch)
   --tileNum = tileNum.."HELLO FROM MOUSE"
   --EditModeUI:onClick(x, y)
   --PlayerUI:onClick(x, y)
-  UI:onClick(x, y)
+  --UI:onClick(x, y)
+  gooi.pressed()
+end
+
+function love.mousereleased(x, y, button)
+  gooi.released()
+end
+
+function love.textinput(text)
+  if gooi.input then
+    gooi.input = false
+  end
+  gooi.textinput(text)
 end

@@ -74,11 +74,12 @@ function love.gamepadreleased( joystick, button )
 end
 
 function love.keypressed(key)
-  EditModeUI:onKeypress(key)
+  gooi.keypressed(key, scancode, isrepeat)
+  --EditModeUI:onKeypress(key)
   for i = 1, table.getn(controls) do
     if key == controls[i].shoot then
       --shoot(i)
-      
+
     end
     if key == controls[i].jump then
       P:jump()
@@ -110,7 +111,8 @@ function love.keypressed(key)
   end
 end
 
-function love.keyreleased(key)
+function love.keyreleased(key, scancode)
+  gooi.keyreleased(key, scancode)
   for i = 1, table.getn(controls) do
     if key == controls[i].jump and P.ySpeed < -400 then
       P.ySpeed = -400

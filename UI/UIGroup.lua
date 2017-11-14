@@ -48,7 +48,7 @@ function UIGroup:new()
   function  g:update(dt)
     local x = self:getElements()
     for i=1, #x do
-      UIthread:start(x[i]:update(dt))
+      --UIthread:start(x[i]:update(dt))
       --x[i]:update(dt)
     end
   end

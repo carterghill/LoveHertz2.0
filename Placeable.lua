@@ -21,7 +21,7 @@ end
 
 function Placeables:draw()
 
-  if UI:mouseOn() or not EditModeUI.display then
+  if --[[UI:mouseOn() or]] not EditModeUI.display then
     return
   end
 

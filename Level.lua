@@ -75,18 +75,20 @@ function Level:new(t, p, n)
     end
     --tileNum = "\n"..tostring(save.tiles.x)
     --for key,value in pairs(save.tiles) do tileNum = "\n"..tileNum..key..": "..tostring(value) end
-    l.name = save.name
-    l.tiles = {}
-    l.players = {}
+    self.name = save.name
+    self.tiles = {}
+    self.players = {}
 
     --tileNum = "\nTiles Present: ".. #Tiles.set
     Tiles.set = {}
     --tileNum = tileNum.."\nAfter Delete: ".. #Tiles.set
 
     --tileNum = "\nSaved Tiles: "..#save.tiles
+    debug = #save.tiles
     for i=1, #save.tiles do
-      Tiles:place(save.tiles[i].x - (Cameras:current().x or 0)+1, save.tiles[i].y - (Cameras:current().y or 0) +1 )
-      Tiles.set[#Tiles.set].type = save.tiles[i].type
+      Tiles:placeAlways(save.tiles[i].x - (Cameras:current().x or 0)+1, save.tiles[i].y - (Cameras:current().y or 0) +1 )
+      debug = debug..", "..tostring(#Tiles.set)
+      --Tiles.set[#Tiles.set].type = save.tiles[i].type
     end
 
     for i=1, #save.players do

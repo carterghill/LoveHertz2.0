@@ -8,7 +8,7 @@ Tiles = {
 function Tiles:place(x, y)
 
   --tile = Tiles:getTileIndex(x, y)
-  if EditModeUI.display then
+  if EditModeUI.display and not gooi.clicked then
     --table.remove(Tiles.set, tile)
 
     Tiles:remove(x, y)
@@ -20,6 +20,23 @@ function Tiles:place(x, y)
 
     Tiles:setTileType(Tiles.set[#Tiles.set])
   end
+end
+
+function Tiles:placeAlways(x, y)
+
+  --tile = Tiles:getTileIndex(x, y)
+  --if EditModeUI.display and not gooi.clicked then
+    --table.remove(Tiles.set, tile)
+
+    Tiles:remove(x, y)
+
+    t = Tile:new(x, y)
+    table.insert(Tiles.set, t)
+
+
+
+    Tiles:setTileType(Tiles.set[#Tiles.set])
+  --end
 end
 
 function Tiles:getY(i)
