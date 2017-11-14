@@ -12,7 +12,7 @@ function UI:load()
   EditModeUI = EditModeUI:load()
   p = PlayerUI:load()
 
-  UI:add(EditModeUI)
+  --UI:add(EditModeUI)
   UI:add(p)
 
 end
@@ -47,10 +47,6 @@ function UI:update(dt)
 end
 
 function UI:onClick(x, y)
-
-  if EditModeUI.display then
-    EditModeUI:onClick(x, y)
-  end
 
   PlayerUI:onClick(x, y)
 

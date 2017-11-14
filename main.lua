@@ -15,7 +15,7 @@ require "gooi"
 function love.load()
 
 
-
+  slowdowns = 0
   Placeables:newTile("tiles/grass")
   Cameras:new()
   P = Player:create("images/traveler")
@@ -52,7 +52,17 @@ function love.draw()
   end
   --debug = "Level Name: "..l.name.."\n"..love.filesystem.getSaveDirectory().."\nTiles: "..#Tiles.set
   --love.graphics.print(debug.."\n"..tileNum.."FPS: "..love.timer.getFPS())
-  love.graphics.print("FPS: "..love.timer.getFPS())
+  if fps == nil then
+    fps = love.timer.getFPS()
+    prevfps = fps
+  else
+    prevfps = fps
+    fps = love.timer.getFPS()
+  end
+  if fps < prevfps then
+    slowdowns = slowdowns + 1
+  end
+  love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
 
   --health:draw()
   --box:draw()
@@ -60,7 +70,7 @@ function love.draw()
     EditModeUI:draw()
   --end
   --PlayerUI:draw()
-  --UI:draw()
+  UI:draw()
 
 end
 
@@ -71,7 +81,7 @@ function love.update(dt)
     --lbl1:setText("Level Name: "..l.name)
   end
   Cameras:update(dt)
-  --UI:update(dt)
+  UI:update(dt)
   if EditModeUI.display then
     if love.mouse.isDown(1) then
       if not UI:mouseOn() then
@@ -92,7 +102,7 @@ function love.mousepressed(x, y, button, istouch)
   --tileNum = tileNum.."HELLO FROM MOUSE"
   --EditModeUI:onClick(x, y)
   --PlayerUI:onClick(x, y)
-  --UI:onClick(x, y)
+  UI:onClick(x, y)
   gooi.pressed()
 end
 

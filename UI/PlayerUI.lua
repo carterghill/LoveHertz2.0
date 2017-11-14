@@ -7,11 +7,6 @@ function PlayerUI:load()
   PlayerUI = UIGroup:new()
 
   local c = function ()
-    EditModeUI:toggle();
-  end
-  toggle = Element:new(1136, 720-16-64, 128, 64, "Text", "Toggle Edit Mode", c)
-
-  local c = function ()
     l.players.health = l.players.health + 1
     if l.players.health > l.players.maxHealth then
       l.players.health = l.players.maxHealth
@@ -19,7 +14,6 @@ function PlayerUI:load()
   end
   health = Element:new(16, 720-16-32, 200, 32, "Health Bar", "", c)
 
-  PlayerUI:add(toggle)
   PlayerUI:add(health)
 
   return PlayerUI
