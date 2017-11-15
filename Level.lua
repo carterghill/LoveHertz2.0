@@ -48,6 +48,15 @@ function Level:new(t, p, n)
 
     end
 
+    save.decorative = {}
+    for i=1, #Decorative.set do
+      save.decorative[i] = {
+        x = Decorative.set[i].x,
+        y = Decorative.set[i].y,
+        imagePath = Decorative.set[i].imagePath
+      }
+    end
+
     for i=1, #en.enemies do
       table.insert(save.enemies, en.enemies[i]:save())
     end
@@ -83,6 +92,7 @@ function Level:new(t, p, n)
     self.name = save.name
     self.tiles = {}
     self.players = {}
+    Decorative.set = {}
 
     --tileNum = "\nTiles Present: ".. #Tiles.set
     Tiles.set = {}
@@ -95,6 +105,16 @@ function Level:new(t, p, n)
       Tiles:placeAlways(save.tiles[i].x - (Cameras:current().x or 0)+1, save.tiles[i].y - (Cameras:current().y or 0) +1 )
       debug = debug..", "..tostring(#Tiles.set)
       --Tiles.set[#Tiles.set].type = save.tiles[i].type
+    end
+    if save.decorative ~= nil then
+      for i=1, #save.decorative do
+        Decorative.set[i] = {
+          img = love.graphics.newImage(save.decorative[i].imagePath),
+          x = save.decorative[i].x,
+          y = save.decorative[i].y,
+          imagePath = save.decorative[i].imagePath
+        }
+      end
     end
 
     if save.enemies ~= nil then

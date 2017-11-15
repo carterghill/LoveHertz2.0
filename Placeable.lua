@@ -5,11 +5,24 @@ Placeables = {
 
   tiles = {},
   enemies = {},
+  decorative = {},
   index = 1,
   currentSet = "tiles"
 
 
 }
+
+Decorative = {
+  set = {}
+}
+
+function Decorative:draw()
+  for i=1, #Decorative.set do
+    local x = Decorative.set[i].x - Cameras:current().x
+    local y = Decorative.set[i].y - Cameras:current().y
+    love.graphics.draw(Decorative.set[i].img, x, y)
+  end
+end
 
 function Placeables:newTile(folder)
 
@@ -17,6 +30,19 @@ function Placeables:newTile(folder)
     images = loadImagesInFolder(folder),
     folder = folder
   }
+end
+
+function Placeables:onClick(x,y,button)
+
+  if button == 1 and Placeables.currentSet == "decorative" and not gooi.clicked then
+
+    Decorative.set[#Decorative.set+1] = {img = Placeables.decorative.images[Placeables.index],
+          x = x - Placeables.decorative.images[Placeables.index]:getWidth()/2 + Cameras:current().x,
+          y = y - Placeables.decorative.images[Placeables.index]:getHeight()/2 + Cameras:current().y,
+          imagePath = "images/decorative/"..Placeables.decorative.names[Placeables.index]
+    }
+    slowdowns = #Decorative.set
+  end
 end
 
 function Placeables:load()
@@ -28,10 +54,16 @@ function Placeables:load()
     local enemy = Enemy:new(dir[i],"images/enemies/"..dir[i], 1)
     Placeables.enemies[#Placeables.enemies+1] = enemy
   end
+  Placeables.decorative = { images = loadImagesInFolder("images/decorative"),
+                            names = getFilesInFolder("images/decorative")}
 end
 
 function Placeables:getTile()
-  return Placeables[Placeables.currentSet][Placeables.index]
+  if Placeables.currentSet == "decorative" then
+    return Placeables.decorative.images[Placeables.index]
+  else
+    return Placeables[Placeables.currentSet][Placeables.index]
+  end
 end
 
 function Placeables:draw()
@@ -65,7 +97,11 @@ function Placeables:draw()
     local tile = Placeables:getTile()
 
     if tile.images == nil then
-      img = tile.defaultImage
+      if tile.defaultImage == nil then
+        img = tile
+      else
+        img = tile.defaultImage
+      end
       sc = 1
     else
       img = tile.images[1]

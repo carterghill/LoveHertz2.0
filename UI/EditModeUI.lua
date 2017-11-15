@@ -204,6 +204,7 @@ function EditModeUI:load()
           end
           Placeables.index = Placeables.index + 1
         end
+        Placeables.index = 1
     end)
 
   Placeables.index = 1
@@ -234,10 +235,41 @@ function EditModeUI:load()
           end
           Placeables.index = Placeables.index + 1
         end
+        Placeables.index = 1
       end)
   enemies:setGroup("edit_mode")
   tiles:setGroup("edit_mode")
 
+  local decorative = gooi.newButton({text = "Decor", x = (64*4)+(74*2), y = 10, w = 64, h = 64})
+      --:setIcon(imgDir.."coin.png")
+      :setTooltip("Get decorative placeable objects")
+      :onRelease(function()
+        Placeables.index = 1
+        for i=1, #tileButtons do
+          gooi.removeComponent(tileButtons[i])
+        end
+        tileButtons = {}
+        Placeables.currentSet = "decorative"
+        local images = loadImagesInFolder("images/decorative")
+        for i=1, #images do
+          --local num = #tileButtons+1
+          tileButtons[i] = gooi.newButton({text = "", x = (64*4)+(i*72)-72, y = 640, w = 64, h = 64})
+              --:setIcon(imgDir.."coin.png")
+              :setTooltip("previous in the list")
+              :onRelease(function()
+                Placeables.index = i
+              end)
+          tileButtons[i]:setGroup("edit_mode")
+          --if Placeables:getTile() ~= nil then
+            --local img = Placeables:getTile()
+            tileButtons[i]:setBGImage(images[i])
+          --end
+          Placeables.index = Placeables.index + 1
+        end
+        Placeables.index = 1
+        --gooi.newButton({text = #tileButtons, x = (64*4)+(i*72)-72, y = 640, w = 64, h = 64})
+      end)
+  decorative:setGroup("edit_mode")
 
 
 

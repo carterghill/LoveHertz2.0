@@ -60,6 +60,7 @@ tileNum = ""
 function love.draw()
   b:draw()
   Placeables:draw()
+  Decorative:draw()
   if l ~= nil then
     Tiles:draw()
     l.players:draw()
@@ -121,6 +122,7 @@ function love.mousepressed(x, y, button, istouch)
   --PlayerUI:onClick(x, y)
   UI:onClick(x, y)
   gooi.pressed()
+  Placeables:onClick(x,y,button)
 end
 
 function love.mousereleased(x, y, button)
