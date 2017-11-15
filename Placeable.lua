@@ -42,6 +42,15 @@ function Placeables:onClick(x,y,button)
           imagePath = "images/decorative/"..Placeables.decorative.names[Placeables.index]
     }
     slowdowns = #Decorative.set
+  elseif button == 2 and not gooi.clicked then
+    for i=#Decorative.set, 1, -1 do
+      if x < Decorative.set[i].x + Decorative.set[i].img:getWidth() and x > Decorative.set[i].x then
+        if y < Decorative.set[i].y + Decorative.set[i].img:getHeight() and y > Decorative.set[i].y then
+          table.remove(Decorative.set, i)
+          return
+        end
+      end
+    end
   end
 end
 
