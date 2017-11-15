@@ -34,15 +34,26 @@ end
 
 function Placeables:onClick(x,y,button)
 
+  x = x + Cameras:current().x
+  y = y + Cameras:current().y
+
   if button == 1 and Placeables.currentSet == "decorative" and not gooi.clicked then
 
     Decorative.set[#Decorative.set+1] = {img = Placeables.decorative.images[Placeables.index],
-          x = x - Placeables.decorative.images[Placeables.index]:getWidth()/2 + Cameras:current().x,
-          y = y - Placeables.decorative.images[Placeables.index]:getHeight()/2 + Cameras:current().y,
+          x = x - Placeables.decorative.images[Placeables.index]:getWidth()/2,
+          y = y - Placeables.decorative.images[Placeables.index]:getHeight()/2,
           imagePath = "images/decorative/"..Placeables.decorative.names[Placeables.index]
     }
     slowdowns = #Decorative.set
-  elseif button == 2 and not gooi.clicked then
+  elseif button == 2 --[[and not gooi.clicked]] then
+    for i=#en.enemies, 1, -1 do
+      if x < en.enemies[i].x + en.enemies[i].width and x > en.enemies[i].x then
+        if y < en.enemies[i].y + en.enemies[i].width and y > en.enemies[i].y then
+          table.remove(en.enemies, i)
+          return
+        end
+      end
+    end
     for i=#Decorative.set, 1, -1 do
       if x < Decorative.set[i].x + Decorative.set[i].img:getWidth() and x > Decorative.set[i].x then
         if y < Decorative.set[i].y + Decorative.set[i].img:getHeight() and y > Decorative.set[i].y then

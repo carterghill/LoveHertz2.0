@@ -35,7 +35,7 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
         self.right = false
       	self.left = true
       end
-			if math.abs(l.players.x - self.x) > 500 or math.abs(l.players.y - self.y) > 500 then
+			if math.abs(l.players.x - self.x) > 750 or math.abs(l.players.y - self.y) > 750 then
 				self.left = false
 				self.right = false
 			end
