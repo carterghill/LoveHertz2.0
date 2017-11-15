@@ -75,8 +75,8 @@ function Level:new(t, p, n)
 
   function l:load(name)
     if name == nil then
-	     if love.filesystem.exists("save.txt") then
-         save = Tserial.unpack(love.filesystem.read("save.txt"))
+	     if love.filesystem.exists("Levels/default.txt") then
+         save = Tserial.unpack(love.filesystem.read("Levels/default.txt"))
 	     else
 		       return
 	     end
@@ -116,7 +116,7 @@ function Level:new(t, p, n)
         }
       end
     end
-
+    en.enemies = {}
     if save.enemies ~= nil then
       for i=1, #save.enemies do
         if save.enemies[i].name == nil then

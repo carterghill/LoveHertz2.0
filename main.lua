@@ -47,11 +47,11 @@ function love.load()
   --health = UI:new(36, 36, 200, 36, "Health Bar", "", function () l.players.health = l.players.health + 1 end)
 
   --save = Tserial.unpack(love.filesystem.read("save.txt"))
-  if love.filesystem.exists("save.txt") ~= nil then
+  if love.filesystem.exists("Levels/default.txt") ~= nil then
     l:load()
   end
-  txt1:setText(l.name)
   debug = ""
+  Cameras:setPosition(l.players.x, l.players.y)
   --love.keyboard.setKeyRepeat(true)
 end
 tileNum = ""

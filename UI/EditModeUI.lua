@@ -62,7 +62,7 @@ function EditModeUI:load()
               ok = function()
                 local t = txt1:getText()..".txt"
                 if not love.filesystem.exists("My Levels/"..t) then
-                  savedGrid:add(gooi.newButton({text = txt1:getText()}))
+                  --savedGrid:add(gooi.newButton({text = txt1:getText()}))
                 end
                 l:save(t)
               end
@@ -106,11 +106,21 @@ function EditModeUI:load()
       :setTooltip("Next in the list")
       :onRelease(function()
           local x = love.filesystem.getDirectoryItems("My Levels")
+          local y = love.filesystem.getDirectoryItems("Levels")
           local savedLevels = {}
           local current = 1
           for i=1, #x do
             if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
               local t = x[i]:gsub(".txt", "")
+              table.insert(savedLevels, t)
+              if t == txt1:getText() then
+                current = #savedLevels
+              end
+            end
+          end
+          for i=1, #y do
+            if y[i] ~= ".DS_Store" and y[i] ~= ".DS_Store.txt" then
+              local t = y[i]:gsub(".txt", "")
               table.insert(savedLevels, t)
               if t == txt1:getText() then
                 current = #savedLevels
@@ -133,38 +143,50 @@ function EditModeUI:load()
       end)
   nextbtn:setGroup("edit_mode")
 
+  local c = function()
+      local x = love.filesystem.getDirectoryItems("My Levels")
+      local y = love.filesystem.getDirectoryItems("Levels")
+      local savedLevels = {}
+      local current = 1
+      for i=1, #x do
+        if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
+          local t = x[i]:gsub(".txt", "")
+          table.insert(savedLevels, t)
+          if t == txt1:getText() then
+            current = #savedLevels
+          end
+        end
+      end
+      for i=1, #y do
+        if y[i] ~= ".DS_Store" and y[i] ~= ".DS_Store.txt" then
+          local t = y[i]:gsub(".txt", "")
+          table.insert(savedLevels, t)
+          if t == txt1:getText() then
+            current = #savedLevels
+          end
+        end
+      end
+      current = current - 1
+      if current < 1 then
+        current = #savedLevels
+      end
+      local x = txt1.x
+      local y = txt1.y
+      local w = txt1.w
+      local h = txt1.h
+      --txt1.indexCursor = 1
+      gooi.removeComponent(txt1)
+      txt1 = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
+      txt1:setGroup("edit_mode")
+      --txt1:setText(savedLevels[current]:gsub(".txt", ""))
+  end
+
   prevbtn = gooi.newButton({text = "<", x = 990, y = 40, w = 135, h = 26})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("previous in the list")
-      :onRelease(function()
-          local x = love.filesystem.getDirectoryItems("My Levels")
-          local savedLevels = {}
-          local current = 1
-          for i=1, #x do
-            if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
-              local t = x[i]:gsub(".txt", "")
-              table.insert(savedLevels, t)
-              if t == txt1:getText() then
-                current = #savedLevels
-              end
-            end
-          end
-          current = current - 1
-          if current < 1 then
-            current = #savedLevels
-          end
-          local x = txt1.x
-          local y = txt1.y
-          local w = txt1.w
-          local h = txt1.h
-          --txt1.indexCursor = 1
-          gooi.removeComponent(txt1)
-          txt1 = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
-          txt1:setGroup("edit_mode")
-          --txt1:setText(savedLevels[current]:gsub(".txt", ""))
-      end)
+      :onRelease(c)
   prevbtn:setGroup("edit_mode")
-
+  c()
   --[[
 
     TILES AND TYPE SELECTION
