@@ -21,6 +21,7 @@ end
 
 function Placeables:load()
   Placeables:newTile("tiles/default/grass")
+  Placeables:newTile("tiles/default/grass2")
   Placeables:newTile("tiles/one-way/grass")
   local dir = getFoldersInFolder("images/enemies")
   for i=1, #dir do
