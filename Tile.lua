@@ -1,6 +1,6 @@
 Tile = {}
 
-function Tile:new(x, y)
+function Tile:new(x, y, type)
 
   x = (x or love.mouse.getX())
   y = (y or love.mouse.getY())
@@ -34,25 +34,40 @@ function Tile:new(x, y)
   end
 
   t = Placeables:getTile()
-  armages = {}
-  armages["default"] = t.images[1]
-  armages["Center"] = t.images[2]
-  armages["CliffLeft"] = t.images[3]
-  armages["CliffRight"] = t.images[4]
-  armages["TopLeft"] = t.images[5]
-  armages["TopCenter"] = t.images[6]
-  armages["TopRight"] = t.images[7]
+  if #t.images > 5 then
+    armages = {}
+    armages["default"] = t.images[1]
+    armages["Center"] = t.images[2]
+    armages["CliffLeft"] = t.images[3]
+    armages["CliffRight"] = t.images[4]
+    armages["TopLeft"] = t.images[5]
+    armages["TopCenter"] = t.images[6]
+    armages["TopRight"] = t.images[7]
+  else
+    armages = {}
+    armages["default"] = t.images[1]
+    armages["Left"] = t.images[2]
+    armages["Mid"] = t.images[3]
+    armages["Right"] = t.images[4]
+  end
 
   tile = {
     images = armages,
-    type = "default",
+    type = type or "default",
     x = placex,
     y = placey,
     width = 64,
     height = 64,
     scale = 64 / Placeables:getTile().images[1]:getWidth(),
-    folder = t.folder
+    folder = t.folder,
+    index = Placeables.index
   }
+
+  if #t.images <= 5 then
+    tile.objType = "one-way"
+  else
+    tile.objType = "tile"
+  end
 
   return tile
 

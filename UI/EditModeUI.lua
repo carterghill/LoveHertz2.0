@@ -18,8 +18,10 @@ end
 function EditModeUI:toggle()
   if self.display then
     self.display = false
+    gooi.setGroupEnabled("edit_mode", false)
   else
     self.display = true
+    gooi.setGroupEnabled("edit_mode", true)
   end
 end
 
@@ -29,7 +31,7 @@ function EditModeUI:load()
   imgDir = "/imgs/"
   fontDir = "/fonts/"
   style = {
-      font = love.graphics.newFont(fontDir.."Arimo-Bold.ttf", 13),
+      font = love.graphics.newFont(fontDir.."Arimo-Bold.ttf", 16),
       showBorder = true,
       bgColor = {50, 50, 50, 175},
       fgColor = {250, 250, 250, 250},
@@ -50,8 +52,8 @@ function EditModeUI:load()
   -----------------------------------------------
 
   --lbl1 = gooi.newLabel({x = 10, text = "Level Name: "}):left()
-  txt1 = gooi.newText({x = 990, w = 280, h = 22}):setText("")
-  savebtn = gooi.newButton({text = "Save", x = 990, y = 70, w = 135, h = 22})
+  txt1 = gooi.newText({x = 990, w = 280, h = 26}):setText("")
+  savebtn = gooi.newButton({text = "Save", x = 990, y = 70, w = 135, h = 26})
       :setIcon(imgDir.."coin.png")
       :setTooltip("Save the current level")
       :onRelease(function()
@@ -68,7 +70,7 @@ function EditModeUI:load()
       end)
   savebtn:setGroup("edit_mode")
   txt1:setGroup("edit_mode")
-  loadbtn = gooi.newButton({text = "Load", x = 1135, y = 70, w = 135, h = 22})
+  loadbtn = gooi.newButton({text = "Load", x = 1135, y = 70, w = 135, h = 26})
       :setIcon(imgDir.."coin.png")
       :setTooltip("Load the above level")
       :onRelease(function()
@@ -80,7 +82,7 @@ function EditModeUI:load()
           })
       end)
   loadbtn:setGroup("edit_mode")
-  quit = gooi.newButton({text = "Quit Game", x = 1135, y = 688, w = 135, h = 22})
+  quit = gooi.newButton({text = "Quit Game", x = 1135, y = 688, w = 135, h = 26})
       :setIcon(imgDir.."coin.png"):danger()
       :setTooltip("Exit the program")
       :onRelease(function()
@@ -92,14 +94,14 @@ function EditModeUI:load()
           })
       end)
 
-  edittoggle = gooi.newButton({text = "Toggle Edit Mode", x = 990, y = 688, w = 135, h = 22})
+  edittoggle = gooi.newButton({text = "Toggle Edit Mode", x = 990, y = 688, w = 135, h = 26})
       --:setIcon(imgDir.."coin.png"):danger()
       :setTooltip("Turn Edit Mode on or off")
       :onRelease(function()
           EditModeUI:toggle()
       end)
 
-  nextbtn = gooi.newButton({text = ">", x = 1135, y = 40, w = 135, h = 22})
+  nextbtn = gooi.newButton({text = ">", x = 1135, y = 40, w = 135, h = 26})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("Next in the list")
       :onRelease(function()
@@ -131,7 +133,7 @@ function EditModeUI:load()
       end)
   nextbtn:setGroup("edit_mode")
 
-  prevbtn = gooi.newButton({text = "<", x = 990, y = 40, w = 135, h = 22})
+  prevbtn = gooi.newButton({text = "<", x = 990, y = 40, w = 135, h = 26})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("previous in the list")
       :onRelease(function()
@@ -163,65 +165,23 @@ function EditModeUI:load()
       end)
   prevbtn:setGroup("edit_mode")
 
-
-
-  --[[EditModeUI = UIGroup:new()
-
-  c = function ()
-    lvlName.input = true
-    lvlName.active = true
-  end
-  u = function ()
-    if lvlName.input then
-      lvlName.active = true
-    else
-      lvlName.active = false
+  for i=1, #Placeables.tiles do
+    tileButton = gooi.newButton({text = "", x = (64*4)+(i*68)-68, y = 640, w = 64, h = 64})
+        --:setIcon(imgDir.."coin.png")
+        :setTooltip("previous in the list")
+        :onRelease(function()
+          Placeables.index = i
+        end)
+    tileButton:setGroup("edit_mode")
+    if Placeables:getTile() ~= nil then
+      local tile = Placeables:getTile()
+      x = x - tile.images[1]:getWidth()/2
+      y = y - tile.images[1]:getHeight()/2
+      tileButton:setBGImage(tile.images[1])
     end
+    Placeables.index = Placeables.index + 1
   end
-  lvlName = Element:new(1000, 16, 264, 32, "Text", l.name, c, nil)
-  EditModeUI:add(lvlName)
 
-  save = Element:new(1000, 52, 128, 32, "Text", "Save",
-    function ()
-      savedLevels = love.filesystem.getDirectoryItems("My Levels")
-      l:save(lvlName.content..".txt")
-      EditModeUI:turnOffInput()
-      local lvl = lvlName.content..".txt"
-      for i=1, #savedLevels do
-        if lvl == savedLevels[i] then
-          return
-        end
-      end
-      local lvl = savedLevels[#savedLevels]
-      lvl = lvl:gsub(".txt", "")
-      c = function ()
-        lvlName.content = lvl
-        EditModeUI:turnOffInput()
-      end
-      EditModeUI:add(Element:new(1000, 88+(#savedLevels)*26, 264, 26, "Text", lvlName.content, (c), nil, 12))
-    end)
-  EditModeUI:add(save)
-
-  c = function ()
-    l:load(lvlName.content..".txt")
-    EditModeUI:turnOffInput()
-    Cameras:setPosition(l.players.x, l.players.y)
-  end
-  load = Element:new(1136, 52, 128, 32, "Text", "Load", c)
-  EditModeUI:add(load)
-
-  lvls = {}
-  savedLevels = love.filesystem.getDirectoryItems("My Levels")
-  for i=1, #savedLevels do
-    local lvl = savedLevels[i]
-    lvl = lvl:gsub(".txt", "")
-    c = function ()
-      lvlName.content = lvl
-    end
-    EditModeUI:add(Element:new(1000, 88+(i-1)*26, 264, 26, "Text", lvl, c, nil, 12))
-  end
-  --savedLevels = Element:new(1136, 52+32, 128, 32, "Text", "Load", function () l:load(lvlName.content..".txt") end)
-  --EditModeUI:add(savedLevels)--]]
 
   return EditModeUI
 

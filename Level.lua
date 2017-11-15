@@ -40,7 +40,8 @@ function Level:new(t, p, n)
         x = Tiles.set[i].x,
         y = Tiles.set[i].y,
         type = Tiles.set[i].type,
-        folder = Tiles.set[i].folder
+        folder = Tiles.set[i].folder,
+        index = Tiles.set[i].index
       }
       table.insert(save.tiles, t)
 
@@ -86,6 +87,7 @@ function Level:new(t, p, n)
     --tileNum = "\nSaved Tiles: "..#save.tiles
     debug = #save.tiles
     for i=1, #save.tiles do
+      Placeables.index = save.tiles[i].index
       Tiles:placeAlways(save.tiles[i].x - (Cameras:current().x or 0)+1, save.tiles[i].y - (Cameras:current().y or 0) +1 )
       debug = debug..", "..tostring(#Tiles.set)
       --Tiles.set[#Tiles.set].type = save.tiles[i].type

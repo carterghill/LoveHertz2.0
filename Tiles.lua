@@ -70,7 +70,7 @@ end
 
 function Tiles:setTileType(tile)
 
-  if tile ~= nil then
+  if tile ~= nil and tile.objType == "tile" then
     up = Tiles:get(tile.x+2, tile.y-2)
     down = Tiles:get(tile.x+2, tile.y+66)
     left = Tiles:get(tile.x-2, tile.y+2)
@@ -128,12 +128,28 @@ function Tiles:setTileType(tile)
     else
       tile.type = "default"
     end
+  elseif tile ~= nil and tile.objType == "one-way" then
+
+    left = Tiles:get(tile.x-2, tile.y+2)
+    right = Tiles:get(tile.x+66, tile.y+2)
+
+    if left ~= nil and right ~= nil then
+      tile.type = "Mid"
+      Tiles:setTileType2(right, left)
+    elseif left ~= nil then
+      tile.type = "Right"
+      Tiles:setTileType2(left)
+    elseif right ~= nil then
+      tile.type = "Left"
+      Tiles:setTileType2(right)
+    end
+
   end
 end
 
 function Tiles:setTileType2(tile, tile2, tile3, tile4)
 
-  if tile ~= nil then
+  if tile ~= nil and tile.objType == "tile" then
     up = Tiles:get(tile.x+2, tile.y-2)
     down = Tiles:get(tile.x+2, tile.y+66)
     left = Tiles:get(tile.x-2, tile.y+2)
@@ -170,6 +186,19 @@ function Tiles:setTileType2(tile, tile2, tile3, tile4)
     else
       tile.type = "default"
     end
+  elseif tile ~= nil and tile.objType == "one-way" then
+
+    left = Tiles:get(tile.x-2, tile.y+2)
+    right = Tiles:get(tile.x+66, tile.y+2)
+
+    if left ~= nil and right ~= nil then
+      tile.type = "Mid"
+    elseif left ~= nil then
+      tile.type = "Right"
+    elseif right ~= nil then
+      tile.type = "Left"
+    end
+
   end
   if tile4 ~= nil then
     Tiles:setTileType2(tile2, tile3, tile4)

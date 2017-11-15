@@ -29,45 +29,60 @@ function collision( ent, dt )
 
   for i=1, #Tiles.set do
 
-    if ent.xSpeed > 0 and ent.x + ent.width + ent.xSpeed*dt > Tiles.set[i].x then
-      if ent.y+ent.height > Tiles:getY(i) and ent.y < Tiles:getY(i) + Tiles.set[i].height then
-        if ent.x < Tiles.set[i].x + Tiles.set[i].width/2 then
-          ent.x = Tiles.set[i].x - ent.width
-          ent.xSpeed = 0
-          ent.rightCol = true
-        end
-      end
-		end
+    if Tiles.set[i].objType == "tile" then
 
-    if ent.xSpeed < 0 and ent.x + ent.xSpeed*dt < Tiles.set[i].x + Tiles.set[i].width then
-      if ent.y+ent.height > Tiles:getY(i) and ent.y < Tiles:getY(i) + Tiles.set[i].height then
-        if ent.x >= Tiles.set[i].x + Tiles.set[i].width/2 then
-          ent.x = Tiles.set[i].x + Tiles.set[i].width
-          ent.xSpeed = 0
-          ent.leftCol = true
+      if ent.xSpeed > 0 and ent.x + ent.width + ent.xSpeed*dt > Tiles.set[i].x then
+        if ent.y+ent.height > Tiles:getY(i) and ent.y < Tiles:getY(i) + Tiles.set[i].height then
+          if ent.x < Tiles.set[i].x + Tiles.set[i].width/2 then
+            ent.x = Tiles.set[i].x - ent.width
+            ent.xSpeed = 0
+            ent.rightCol = true
+          end
         end
-      end
-		end
+  		end
 
-    if ent.ySpeed > 0 and ent.y + ent.height + ent.ySpeed*dt+2 > Tiles:getY(i) then
-      if ent.x+ent.width > Tiles.set[i].x and ent.x < Tiles.set[i].x + Tiles.set[i].width then
-        if ent.y + ent.height < Tiles:getY(i) + Tiles.set[i].height/2 then
-          ent.y = Tiles:getY(i) - ent.height
-          ent.ySpeed = 0
-          ent.grounded = true
+      if ent.xSpeed < 0 and ent.x + ent.xSpeed*dt < Tiles.set[i].x + Tiles.set[i].width then
+        if ent.y+ent.height > Tiles:getY(i) and ent.y < Tiles:getY(i) + Tiles.set[i].height then
+          if ent.x >= Tiles.set[i].x + Tiles.set[i].width/2 then
+            ent.x = Tiles.set[i].x + Tiles.set[i].width
+            ent.xSpeed = 0
+            ent.leftCol = true
+          end
         end
-      end
-		end
+  		end
 
-    if ent.ySpeed < 0 and ent.y + ent.ySpeed*dt < Tiles:getY(i) + Tiles.set[i].height then
-      if ent.x+ent.width > Tiles.set[i].x and ent.x < Tiles.set[i].x + Tiles.set[i].width then
-        if ent.y > Tiles:getY(i) + Tiles.set[i].height/2 then
-          ent.y = Tiles:getY(i) + Tiles.set[i].height
-          ent.ySpeed = 0
-          ent.upCol = true
+      if ent.ySpeed > 0 and ent.y + ent.height + ent.ySpeed*dt+2 > Tiles:getY(i) then
+        if ent.x+ent.width > Tiles.set[i].x and ent.x < Tiles.set[i].x + Tiles.set[i].width then
+          if ent.y + ent.height < Tiles:getY(i) + Tiles.set[i].height/2 then
+            ent.y = Tiles:getY(i) - ent.height
+            ent.ySpeed = 0
+            ent.grounded = true
+          end
         end
-      end
-		end
+  		end
+
+      if ent.ySpeed < 0 and ent.y + ent.ySpeed*dt < Tiles:getY(i) + Tiles.set[i].height then
+        if ent.x+ent.width > Tiles.set[i].x and ent.x < Tiles.set[i].x + Tiles.set[i].width then
+          if ent.y > Tiles:getY(i) + Tiles.set[i].height/2 then
+            ent.y = Tiles:getY(i) + Tiles.set[i].height
+            ent.ySpeed = 0
+            ent.upCol = true
+          end
+        end
+  		end
+    elseif Tiles.set[i].objType == "one-way" then
+
+      if ent.ySpeed > 0 and ent.y + ent.height + ent.ySpeed*dt+2 > Tiles:getY(i) then
+        if ent.x+ent.width > Tiles.set[i].x and ent.x < Tiles.set[i].x + Tiles.set[i].width then
+          if ent.y + ent.height < Tiles:getY(i) + Tiles.set[i].height/2 then
+            ent.y = Tiles:getY(i) - ent.height
+            ent.ySpeed = 0
+            ent.grounded = true
+          end
+        end
+  		end
+
+    end
 	end
 end
 

@@ -15,6 +15,11 @@ function Placeables:newTile(folder)
   }
 end
 
+function Placeables:load()
+  Placeables:newTile("tiles/default/grass")
+  Placeables:newTile("tiles/one-way/grass")
+end
+
 function Placeables:getTile()
   return Placeables.tiles[Placeables.index]
 end
