@@ -165,22 +165,80 @@ function EditModeUI:load()
       end)
   prevbtn:setGroup("edit_mode")
 
-  for i=1, #Placeables.tiles do
-    tileButton = gooi.newButton({text = "", x = (64*4)+(i*68)-68, y = 640, w = 64, h = 64})
-        --:setIcon(imgDir.."coin.png")
-        :setTooltip("previous in the list")
-        :onRelease(function()
-          Placeables.index = i
-        end)
-    tileButton:setGroup("edit_mode")
-    if Placeables:getTile() ~= nil then
-      local tile = Placeables:getTile()
-      x = x - tile.images[1]:getWidth()/2
-      y = y - tile.images[1]:getHeight()/2
-      tileButton:setBGImage(tile.images[1])
-    end
-    Placeables.index = Placeables.index + 1
-  end
+  --[[
+
+    TILES AND TYPE SELECTION
+
+  ]]
+
+  tileButtons = {}
+  local tiles = gooi.newButton({text = "Tiles", x = (64*4)+(74), y = 10, w = 64, h = 64})
+      --:setIcon(imgDir.."coin.png")
+      :setTooltip("previous in the list")
+      :onRelease(function()
+        Placeables.index = 1
+        for i=1, #tileButtons do
+          gooi.removeComponent(tileButtons[i])
+        end
+        tileButtons = {}
+        Placeables.currentSet = "tiles"
+        for i=1, #Placeables.tiles do
+          local num = #tileButtons+1
+          tileButtons[num] = gooi.newButton({text = "", x = (64*4)+(i*68)-68, y = 640, w = 64, h = 64})
+              --:setIcon(imgDir.."coin.png")
+              :setTooltip("previous in the list")
+              :onRelease(function()
+                Placeables.index = i
+              end)
+          tileButtons[num]:setGroup("edit_mode")
+
+          if Placeables.tiles[i] ~= nil then
+            local tile = Placeables.tiles[i]
+            local img = tile.images[1]
+            if img == nil then
+              img = tile.defaultImage
+            end
+            x = x - img:getWidth()/2
+            y = y - img:getHeight()/2
+            tileButtons[num]:setBGImage(tile.images[1])
+          end
+          Placeables.index = Placeables.index + 1
+        end
+    end)
+
+  Placeables.index = 1
+
+  local enemies = gooi.newButton({text = "Enemies", x = (64*4), y = 10, w = 64, h = 64})
+      --:setIcon(imgDir.."coin.png")
+      :setTooltip("previous in the list")
+      :onRelease(function()
+        Placeables.index = 1
+        for i=1, #tileButtons do
+          gooi.removeComponent(tileButtons[i])
+        end
+        tileButtons = {}
+        Placeables.currentSet = "enemies"
+        for i=1, #Placeables.enemies do
+          local num = #tileButtons+1
+          tileButtons[num] = gooi.newButton({text = "", x = (64*4)+(i*68)-68, y = 640, w = 64, h = 64})
+              --:setIcon(imgDir.."coin.png")
+              :setTooltip("previous in the list")
+              :onRelease(function()
+                Placeables.index = i
+              end)
+          tileButtons[num]:setGroup("edit_mode")
+          if Placeables:getTile() ~= nil then
+            local tile = Placeables:getTile()
+            local img = tile.defaultImage
+            tileButtons[num]:setBGImage(img)
+          end
+          Placeables.index = Placeables.index + 1
+        end
+      end)
+  enemies:setGroup("edit_mode")
+  tiles:setGroup("edit_mode")
+
+
 
 
   return EditModeUI

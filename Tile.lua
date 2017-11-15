@@ -34,6 +34,9 @@ function Tile:new(x, y, type)
   end
 
   t = Placeables:getTile()
+  if t == nil then
+    return
+  end
   if #t.images > 5 then
     armages = {}
     armages["default"] = t.images[1]

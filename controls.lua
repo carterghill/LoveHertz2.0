@@ -78,7 +78,7 @@ function love.keypressed(key)
   --EditModeUI:onKeypress(key)
   for i = 1, table.getn(controls) do
     if key == controls[i].shoot then
-      --shoot(i)
+      P:shoot()
 
     end
     if key == controls[i].jump then

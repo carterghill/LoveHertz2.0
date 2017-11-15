@@ -23,6 +23,7 @@ function Level:new(t, p, n)
     save = {
       name = name or "Untitled",
       tiles = {},
+      enemies = {},
       players = {},
       startx = l.x,
       starty = l.y,
@@ -47,6 +48,9 @@ function Level:new(t, p, n)
 
     end
 
+    for i=1, #en.enemies do
+      table.insert(save.enemies, en.enemies[i]:save())
+    end
 
     for i=1, #l.players do
       save.players[i] = "images/traveler"
@@ -83,7 +87,7 @@ function Level:new(t, p, n)
     --tileNum = "\nTiles Present: ".. #Tiles.set
     Tiles.set = {}
     --tileNum = tileNum.."\nAfter Delete: ".. #Tiles.set
-
+    Placeables.currentSet = "tiles"
     --tileNum = "\nSaved Tiles: "..#save.tiles
     debug = #save.tiles
     for i=1, #save.tiles do
@@ -91,6 +95,12 @@ function Level:new(t, p, n)
       Tiles:placeAlways(save.tiles[i].x - (Cameras:current().x or 0)+1, save.tiles[i].y - (Cameras:current().y or 0) +1 )
       debug = debug..", "..tostring(#Tiles.set)
       --Tiles.set[#Tiles.set].type = save.tiles[i].type
+    end
+
+    if save.enemies ~= nil then
+      for i=1, #save.enemies do
+        en:loadSave(save.enemies[i])
+      end
     end
 
     for i=1, #save.players do

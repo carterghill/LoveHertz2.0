@@ -1,9 +1,13 @@
 require("UI/UI")
+require("entities/Enemy")
 
 Placeables = {
 
   tiles = {},
-  index = 1
+  enemies = {},
+  index = 1,
+  currentSet = "tiles"
+
 
 }
 
@@ -18,10 +22,14 @@ end
 function Placeables:load()
   Placeables:newTile("tiles/default/grass")
   Placeables:newTile("tiles/one-way/grass")
+  local enemy = Enemy:new("images/enemies/Frank", 1)
+
+  Placeables.enemies[#Placeables.enemies+1] = enemy
+
 end
 
 function Placeables:getTile()
-  return Placeables.tiles[Placeables.index]
+  return Placeables[Placeables.currentSet][Placeables.index]
 end
 
 function Placeables:draw()
@@ -52,10 +60,18 @@ function Placeables:draw()
     --      - placeableStatic[placeableStaticNum].img:getHeight()/2)
   --end
   if Placeables:getTile() ~= nil then
-    tile = Placeables:getTile()
-    x = x - tile.images[1]:getWidth()/2
-    y = y - tile.images[1]:getHeight()/2
-    love.graphics.draw(tile.images[1], x, y, 0, 64/tile.images[1]:getWidth())
+    local tile = Placeables:getTile()
+
+    if tile.images == nil then
+      img = tile.defaultImage
+      sc = 1
+    else
+      img = tile.images[1]
+      sc = 64/img:getWidth()
+    end
+    x = x - img:getWidth()/2
+    y = y - img:getHeight()/2
+    love.graphics.draw(img, x, y, 0, sc)
   end
 
   love.graphics.setColor( 255, 255, 255, 255 )

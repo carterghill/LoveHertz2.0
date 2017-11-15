@@ -1,38 +1,70 @@
 require('collision')
+require('entities/Entity')
 
 Enemy = {}
 
 function Enemy:new(folder, scale, ai, mousex, mousey)
 
-	e = Entity:new()
+	local x = mousex or love.mouse.getX()
+	local y = mousey or love.mouse.getY()
+
+  cam = Cameras:current()
+  if cam ~= nil then
+    x = x + cam.x
+    y = y + cam.y
+  end
+
+	e = Entity:new(x, y)
 
 	e.objType = "Enemy"
 	e.folder = folder
 	e.scale = scale or 1
 	e.maxHealth = 15
 	e.currentAnim = "default"
-	e.defaultImage = loadImagesInFolder(folder.."/idle")[2]
+	e.defaultImage = loadImagesInFolder(folder.."/idle")[1]
+	e.folder = folder
+	e.accel = 300
+	e.runSpeed = 100
+	e.flickerTime = 0.25
+	e.ai = ai or function (self)
+    if l ~= nil then
+      if l.players.x + l.players.width/2 > self.x + self.width/2 then
+        self.right = true
+        self.left = false
+      else
+        self.right = false
+      	self.left = true
+      end
+    end
+  end
+
+	function e:save()
+		return {x = self.x, y = self.y, folder = self.folder, scale = self.scale}
+	end
 
 	local directories = getFoldersInFolder(folder)
 	for i=1, #directories do
 		e.animations[directories[i]] = createAnimation(folder.."/"..directories[i])
 	end
 	--Player[num].img = love.graphics.newImage(Player[num].imagePath)
-	e.width = 64--Player[num].img:getWidth()
+	e.width = 128--Player[num].img:getWidth()
 	e.height = 128--Player[num].img:getHeight()
+
+	e.x = e.x - e.width/2
+	e.y = e.y - e.height/2
 
 	function e:animate(scale, x, y)
 		if self.animations[self.currentAnim] ~= nil then
 			if scale < 0 then
-		  	self.animations[self.currentAnim]:play((x or self.x)+96*globalScale, y or self.y, 3.14159, 2*globalScale, 2*scale)
+		  	self.animations[self.currentAnim]:play((x or self.x)*globalScale, y or self.y, 3.14159, scale, scale)
 			else
-				self.animations[self.currentAnim]:play((x or self.x)-32*globalScale, y or self.y, 0, 2*globalScale, 2*scale)
+				self.animations[self.currentAnim]:play((x or self.x)-32*globalScale, y or self.y, 0, scale, scale)
 			end
 		else
 			if scale < 0 then
-		  	love.graphics.draw(self.defaultImage, (x or self.x)+96*globalScale, y or self.y, 3.14159, 2*globalScale, 2*scale)
+		  	love.graphics.draw(self.defaultImage, (x or self.x)*globalScale, y or self.y, 3.14159, scale, scale)
 			else
-				love.graphics.draw(self.defaultImage, (x or self.x)-32*globalScale, y or self.y, 0, 2*globalScale, 2*scale)
+				love.graphics.draw(self.defaultImage, (x or self.x)*globalScale, y or self.y, 0, scale, scale)
 			end
 		end
 	end
@@ -52,11 +84,34 @@ function Enemy:new(folder, scale, ai, mousex, mousey)
 
 	end
 
+	function e:damage(damage)
+    --if self.damageTimer == 0 then
+		local d = damage or 1
+      self.health = self.health - d
+      self.damageTimer = 0.0001
+      --self.ySpeed = -1000
+      self.damaged = true
+      if self.facing == "Right" then
+        --self.xSpeed = -500
+      else
+        --self.xSpeed = 500
+      end
+  --  end
+  end
+
 	function e:update(dt)
 
-		if ai ~= nil then
-			ai()
-		end
+		self:ai()
+
+		if l ~= nil then
+      if l.players.x + l.players.width/2 > e.x + e.width/2 then
+        e.right = true
+        e.left = false
+      else
+        e.right = false
+      	e.left = true
+      end
+    end
 
 		if self.right and self.left then
 			if self.xSpeed > 0 then
@@ -86,7 +141,7 @@ function Enemy:new(folder, scale, ai, mousex, mousey)
 			end
 
 	    self:fall(dt)
-	    self:onDamage(dt)
+	    self:updateDamage(dt)
 
 	    if (self.rightCol or self.leftCol) and self.ySpeed > 0 then
 	      self.ySpeed = self.ySpeed*0.85

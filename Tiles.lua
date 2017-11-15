@@ -7,18 +7,36 @@ Tiles = {
 
 function Tiles:place(x, y)
 
+  x = x or love.mouse.getX()
+  y = y or love.mouse.getY()
   --tile = Tiles:getTileIndex(x, y)
   if EditModeUI.display and not gooi.clicked then
     --table.remove(Tiles.set, tile)
 
-    Tiles:remove(x, y)
+    if Placeables.currentSet == "tiles" then
+      Tiles:remove(x, y)
 
-    t = Tile:new(x, y)
-    table.insert(Tiles.set, t)
+      t = Tile:new(x, y)
+      table.insert(Tiles.set, t)
 
 
 
-    Tiles:setTileType(Tiles.set[#Tiles.set])
+      Tiles:setTileType(Tiles.set[#Tiles.set])
+    elseif Placeables.currentSet == "enemies" then
+      local enemy = Placeables:getTile()
+      enemy.x = x - enemy.width/2
+      enemy.y = y - enemy.height/2
+      local col = false
+      local e = Enemy:new(enemy.folder)
+      for i=1, #en.enemies do
+        if simpleCollision(e, en.enemies[i]) then
+          col = true
+        end
+      end
+      if not col then
+        en:add(e)
+      end
+    end
   end
 end
 

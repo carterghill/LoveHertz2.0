@@ -9,12 +9,26 @@ require("UI/EditModeUI")
 require("UI/PlayerUI")
 require("UI/UI")
 require("Background")
+require("entities/Enemy")
+require("entities/Enemies")
 require "gooi"
 
 -- This one is called right at the start
 function love.load()
-
-
+  local c = function ()
+    if l ~= nil then
+      if l.players.x > e.x then
+        e.right = true
+        e.left = false
+      else
+        e.right = false
+        e.left = true
+      end
+    end
+  end
+  --e = Enemy:new("images/enemies/Frank", 1, c, 100, -100)
+  en = Enemies:new()
+  --en:add(e)
   slowdowns = 0
   Placeables:load()
   Cameras:new()
@@ -50,6 +64,7 @@ function love.draw()
     Tiles:draw()
     l.players:draw()
   end
+  en:draw()
   --debug = "Level Name: "..l.name.."\n"..love.filesystem.getSaveDirectory().."\nTiles: "..#Tiles.set
   --love.graphics.print(debug.."\n"..tileNum.."FPS: "..love.timer.getFPS())
   if fps == nil then
@@ -94,8 +109,10 @@ function love.update(dt)
   else
     if l ~=nil then
       l.players:update(dt)
+      en:update(dt)
     end
   end
+
 end
 
 function love.mousepressed(x, y, button, istouch)

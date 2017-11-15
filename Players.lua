@@ -16,6 +16,8 @@ function Player:create(folder, scale)
 	P.maxHealth = 15
 	P.currentAnim = "default"
 	P.defaultImage = loadImagesInFolder(folder.."/idle")[2]
+	P.bulletImage = love.graphics.newImage("images/characters/bullet.png")
+	P.bullets = {}
 
 	directories = getFoldersInFolder(folder)
   for i=1, #directories do
@@ -31,30 +33,84 @@ function Player:create(folder, scale)
 	end
 
 	function P:animate(scale, x, y)
-		if self.animations[P.currentAnim] ~= nil then
+		if self.animations[self.currentAnim] ~= nil then
 			if scale < 0 then
-		  	self.animations[P.currentAnim]:play((x or P.x)+96*globalScale, y or P.y, 3.14159, 2*globalScale, 2*scale)
+		  	self.animations[self.currentAnim]:play((x or self.x)+96*globalScale, y or self.y, 3.14159, 2*globalScale, 2*scale)
 			else
-				self.animations[P.currentAnim]:play((x or P.x)-32*globalScale, y or P.y, 0, 2*globalScale, 2*scale)
+				self.animations[self.currentAnim]:play((x or self.x)-32*globalScale, y or self.y, 0, 2*globalScale, 2*scale)
 			end
 		else
 			if scale < 0 then
-		  	love.graphics.draw(self.defaultImage, (x or P.x)+96*globalScale, y or P.y, 3.14159, 2*globalScale, 2*scale)
+		  	love.graphics.draw(self.defaultImage, (x or self.x)+96*globalScale, y or self.y, 3.14159, 2*globalScale, 2*scale)
 			else
-				love.graphics.draw(self.defaultImage, (x or P.x)-32*globalScale, y or P.y, 0, 2*globalScale, 2*scale)
+				love.graphics.draw(self.defaultImage, (x or self.x)-32*globalScale, y or self.y, 0, 2*globalScale, 2*scale)
 			end
 		end
 	end
 
+	function P:shoot()
+	  local num = table.getn(self.bullets)+1
+		p = self
+		self.bullets[num] = {
+			img = nil,
+	    imagePath = "images/characters/bullet.png",
+			id = num,
+			x = p.x,
+			y = p.y+36,
+			width = 0,
+			height = 0,
+			xSpeed = 0,
+			ySpeed = 0
+		}
+
+		--self.bullets[num].img = love.graphics.newImage("images/characters/bullet.png")
+		--self.bullets[num].width = self.bullets[num].img:getWidth()
+		--self.bullets[num].height = self.bullets[num].img:getHeight()
+
+	  if self.facing == "Right" then
+	    self.bullets[num].xSpeed = 1000 + self.xSpeed/7
+	    self.bullets[num].x = self.x + self.width
+	  else
+	    self.bullets[num].xSpeed = -1000 + self.xSpeed/7
+	    self.bullets[num].x = self.x - self.bullets[num].width
+	  end
+	end
+
+
+	function P:bulletUpdate(dt)
+	  count = 1
+	  while count <= table.getn(self.bullets) do
+	    bullet = self.bullets[count]
+	    bullet.x = bullet.x + bullet.xSpeed*dt
+	    i = 1
+	    while i <= table.getn(en.enemies) do
+	      if simpleCollision(bullet, en.enemies[i]) then
+	        table.remove(self.bullets, count)
+	        en.enemies[i]:damage(1)
+	      end
+	      i = i + 1
+	    end
+	    if math.abs(bullet.x - self.x) > 3000 then
+	      table.remove(self.bullets, count)
+	    end
+	    count = count + 1
+	  end
+	end
+
 	function P:draw()
 
-	  love.graphics.print(tostring(P.health), P:getx(), P:gety()-20)
-	  love.graphics.setColor(255,255,255,P.alpha)
+		for i=1, #self.bullets do
+			love.graphics.draw(self.bulletImage, self.bullets[i].x - Cameras:current().x, self.bullets[i].y - Cameras:current().y)
+			--slowdowns = tostring(self.bullets[1].img)
+		end
 
-		if P.facing == "Right" then
-			P:animate(P.scale*globalScale, (P:getx())*globalScale, P:gety()*globalScale)
+	  love.graphics.print(tostring(self.health), self:getx(), self:gety()-20)
+	  love.graphics.setColor(255,255,255,self.alpha)
+
+		if self.facing == "Right" then
+			self:animate(self.scale*globalScale, (self:getx())*globalScale, self:gety()*globalScale)
 		elseif player.facing == "Left" then
-			P:animate(0 - P.scale*globalScale, (P:getx()*globalScale), P:gety()*globalScale)
+			self:animate(0 - self.scale*globalScale, (self:getx()*globalScale), self:gety()*globalScale)
 		end
 
 	  love.graphics.setColor(255,255,255,255)
@@ -63,7 +119,9 @@ function Player:create(folder, scale)
 
 	function P:update(dt)
 
-		player = P
+		player = self
+		--player:shoot()
+		player:bulletUpdate(dt)
 
 	  if count == 2 then
 	    print("player 2 jump")
@@ -84,7 +142,7 @@ function Player:create(folder, scale)
 			player.right = false
 	    player:moveLeft(dt)
 			player.facing = "Left"
-		elseif player.right then
+		elseif player.right and not player.damaged then
 			player.left = false
 	    player:moveRight(dt)
 			player.facing = "Right"
@@ -100,13 +158,18 @@ function Player:create(folder, scale)
 			end
 
 	    player:fall(dt)
-	    player:onDamage(dt)
+	    player:updateDamage(dt)
 
 	    if (player.rightCol or player.leftCol) and player.ySpeed > 0 then
 	      player.ySpeed = player.ySpeed*0.85
 	    end
 
 			collision(player,dt)
+			for i=1, #en.enemies do
+				if simpleCollision(player, en.enemies[i]) then
+					player:damage(1)
+				end
+			end
 
 			if player.ySpeed > -0.05 and player.ySpeed < 0.05 then --and self.ySpeed > 0 then
 	      if math.abs(player.xSpeed) > 5 then
