@@ -27,7 +27,7 @@ function Tiles:place(x, y)
       enemy.x = x - enemy.width/2
       enemy.y = y - enemy.height/2
       local col = false
-      local e = Enemy:new(enemy.folder)
+      local e = Enemy:new(enemy.name, enemy.folder)
       for i=1, #en.enemies do
         if simpleCollision(e, en.enemies[i]) then
           col = true

@@ -17,7 +17,7 @@ function Enemies:new()
     local scale = obj.scale
     local mousex = obj.x
     local mousey = obj.y
-    local enemy = Enemy:new(folder, scale, nil, mousex, mousey)
+    local enemy = Enemy:new(name, folder, scale, nil, mousex, mousey)
     enemy.x = mousex
     enemy.y = mousey
     self.enemies[#self.enemies+1] = enemy

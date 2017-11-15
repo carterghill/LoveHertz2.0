@@ -22,10 +22,11 @@ end
 function Placeables:load()
   Placeables:newTile("tiles/default/grass")
   Placeables:newTile("tiles/one-way/grass")
-  local enemy = Enemy:new("images/enemies/Frank", 1)
-
-  Placeables.enemies[#Placeables.enemies+1] = enemy
-
+  local dir = getFoldersInFolder("images/enemies")
+  for i=1, #dir do
+    local enemy = Enemy:new(dir[i],"images/enemies/"..dir[i], 1)
+    Placeables.enemies[#Placeables.enemies+1] = enemy
+  end
 end
 
 function Placeables:getTile()

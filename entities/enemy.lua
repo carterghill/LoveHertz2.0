@@ -3,7 +3,7 @@ require('entities/Entity')
 
 Enemy = {}
 
-function Enemy:new(folder, scale, ai, mousex, mousey)
+function Enemy:new(name, folder, scale, ai, mousex, mousey)
 
 	local x = mousex or love.mouse.getX()
 	local y = mousey or love.mouse.getY()
@@ -48,7 +48,7 @@ function Enemy:new(folder, scale, ai, mousex, mousey)
 	end
 	--Player[num].img = love.graphics.newImage(Player[num].imagePath)
 	e.width = 128--Player[num].img:getWidth()
-	e.height = 128--Player[num].img:getHeight()
+	e.height = 127--Player[num].img:getHeight()
 
 	e.x = e.x - e.width/2
 	e.y = e.y - e.height/2
