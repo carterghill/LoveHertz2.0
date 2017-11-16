@@ -26,7 +26,7 @@ function Entity:new(x, y)
 		grounded = false,
 		jumped = false,
     facing = "Right",
-    jumpForce = 1200,
+    jumpForce = 1275,
     damageTimer = 0,
     health = 15,
     damaged = false,
@@ -92,16 +92,16 @@ function Entity:new(x, y)
   function ent:jump()
     --print("jumped = "..tostring(self.jumped).."\ngrounded = "..tostring(self.grounded))
     if grounded(self) then
-      self.ySpeed = -1275
+      self.ySpeed = -self.jumpForce
       self.y = self.y
       self.jumped = true
       --self.jumped = true
     elseif self.rightCol then
-      self.ySpeed = -1275
+      self.ySpeed = -self.jumpForce
       self.xSpeed = -self.runSpeed*1.5
       --self.jumped = true
     elseif self.leftCol then
-      self.ySpeed = -1275
+      self.ySpeed = -self.jumpForce
       self.xSpeed = self.runSpeed*1.5
       --self.jumped = true
     end

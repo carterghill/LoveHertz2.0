@@ -16,6 +16,7 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
 
 	e = Entity:new(x, y)
 
+	e.name = name
 	e.objType = "Enemy"
 	e.folder = folder
 	e.scale = scale or 1
@@ -26,21 +27,8 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
 	e.accel = 300
 	e.runSpeed = 100
 	e.flickerTime = 0.25
-	e.ai = ai or function (self)
-    if l ~= nil then
-      if l.players.x + l.players.width/2 > self.x + self.width/2 then
-        self.right = true
-        self.left = false
-      else
-        self.right = false
-      	self.left = true
-      end
-			if math.abs(l.players.x - self.x) > 750 or math.abs(l.players.y - self.y) > 750 then
-				self.left = false
-				self.right = false
-			end
-    end
-  end
+	e.ai = ai
+
 
 	function e:save()
 		return {x = self.x, y = self.y, folder = self.folder, scale = self.scale}
@@ -105,7 +93,9 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
 
 	function e:update(dt)
 
-		self:ai()
+		if self.ai ~= nil then
+			self:ai(dt)
+		end
 
 		--[[if l ~= nil then
       if l.players.x + l.players.width/2 > e.x + e.width/2 then
@@ -158,6 +148,64 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
 			self.x = self.x + self.xSpeed*dt
 
 	end
+
+	if e.ai == nil then
+
+		if e.name == nil then
+			local str = split(e.folder, "/")
+			e.name = str[#str]
+		end
+
+
+		if e.name == "Paul" then
+			e.ai = function (self, dt)
+
+				if self.jumpTimer == nil then
+					self.jumpTimer = 3
+				end
+				self.jumpTimer = self.jumpTimer - dt
+
+				if l ~= nil then
+					if math.abs(l.players.x - self.x) > 750 or math.abs(l.players.y - self.y) > 750 then
+						self.left = false
+						self.right = false
+					else
+						if self.jumpTimer <= 0 then
+							self:jump()
+							self.jumpTimer = 3
+							if l.players.x + l.players.width/2 > self.x + self.width/2 then
+								self.xSpeed = 400
+							else
+								self.xSpeed = -400
+							end
+						elseif self.xSpeed ~= 0 and grounded(self) then
+							self.xSpeed = 0
+						end
+					end
+				end
+			end
+		end
+
+
+		if e.name == "Frank" then
+			e.ai = function (self, dt)
+		    if l ~= nil then
+		      if l.players.x + l.players.width/2 > self.x + self.width/2 then
+		        self.right = true
+		        self.left = false
+		      else
+		        self.right = false
+		      	self.left = true
+		      end
+					if math.abs(l.players.x - self.x) > 750 or math.abs(l.players.y - self.y) > 750 then
+						self.left = false
+						self.right = false
+					end
+		    end
+			end
+		end
+
+  end
 
 	return e
 

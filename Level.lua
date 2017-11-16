@@ -120,7 +120,7 @@ function Level:new(t, p, n)
     if save.enemies ~= nil then
       for i=1, #save.enemies do
         if save.enemies[i].name == nil then
-          save.enemies[i].name = "Frank"
+          --save.enemies[i].name = "Frank"
         end
         en:loadSave(save.enemies[i])
       end
