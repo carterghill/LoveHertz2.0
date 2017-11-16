@@ -34,7 +34,7 @@ function Enemies:new()
     for i=1, #self.enemies do
       self.enemies[i]:update(dt)
       if self.enemies[i].health <= 0 then
-        items:spawnChance(self.enemies[i].x+self.enemies[i].width/2, self.enemies[i].x, 1)
+        items:spawnChance(self.enemies[i].x+self.enemies[i].width/2, self.enemies[i].y, 1)
         table.remove(self.enemies, i)
         return
       end

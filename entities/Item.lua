@@ -10,7 +10,7 @@ function Item:new(x, y, path, action)
   i.action = action
   i.active = true
   i.grounded = false
-  i.gravity = 750
+  i.gravity = 1000
   i.scale = 0.75
   --i.jumpForce = 5000
 
@@ -35,7 +35,7 @@ function Item:new(x, y, path, action)
       self:action()
     end
     --else
-      l.players.health = l.players.health + 1
+      l.players:addHealth(1)
     --end
     self.active = false
   end

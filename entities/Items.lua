@@ -26,10 +26,10 @@ function Items:new()
       end
     end
 
-    local x = love.math.random(min, max)
-    if x == max then
+    local num = love.math.random(min, max)
+    if num == max then
       local thing = Item:new(x, y, "images/items/healthpack.png")
-      thing.ySpeed = -200
+      thing.ySpeed = -300
       self:add(thing)
     end
 

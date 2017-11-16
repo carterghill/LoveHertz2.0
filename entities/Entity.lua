@@ -115,9 +115,19 @@ function Entity:new(x, y)
     return self.y - Cameras:current().y
   end
 
+  function ent:addHealth(health)
+    local h = health or 1
+    self.health = self.health + h
+    if self.health > self.maxHealth then
+      self.health = self.maxHealth
+    elseif self.health < 0 then
+      self.health = 0
+    end
+  end
+
   function ent:damage(damage)
     if self.damageTimer == 0 then
-      self.health = self.health - damage or 1
+      self:addHealth(-damage or -1)
       self.damageTimer = 0.0001
       self.ySpeed = -1000
       self.damaged = true
