@@ -10,11 +10,15 @@ function Item:new(x, y, path, action)
   i.action = action
   i.active = true
   i.grounded = false
+  i.gravity = 750
+  i.scale = 0.75
+  --i.jumpForce = 5000
 
   if isImage(path) then
     i.img = love.graphics.newImage(path)
-    i.width = i.img:getWidth()
-    i.height = i.img:getHeight()
+    i.width = i.img:getWidth()*i.scale
+    i.height = i.img:getHeight()*i.scale
+    i.x = i.x - i.width/2
   end
 
   function i:draw()

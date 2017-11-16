@@ -12,6 +12,7 @@ require("Background")
 require("entities/Enemy")
 require("entities/Enemies")
 require("entities/Item")
+require("entities/Items")
 require "gooi"
 
 -- This one is called right at the start
@@ -41,6 +42,8 @@ function love.load()
   --Tiles:place(-200, 100)
   l = Level:new(Tiles, P)
   item = Item:new(300, -100, "images/items/healthpack.png")
+  items = Items:new()
+  items:add(item)
   --EditModeUI:load()
   --PlayerUI:load()
   UI:load()
@@ -67,7 +70,7 @@ function love.draw()
     Tiles:draw()
     l.players:draw()
   end
-  item:draw()
+  items:draw()
   en:draw()
   --debug = "Level Name: "..l.name.."\n"..love.filesystem.getSaveDirectory().."\nTiles: "..#Tiles.set
   --love.graphics.print(debug.."\n"..tileNum.."FPS: "..love.timer.getFPS())
@@ -98,7 +101,8 @@ end
 
 -- This one is also being called repeatedly, handles game logic
 function love.update(dt)
-  item:update(dt)
+  items:update(dt)
+  --items:spawnChance(300, -100, 100)
   --item.x = l.players.x + 200
   --item.y = l.players.y
   gooi.update(dt)
