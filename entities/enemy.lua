@@ -107,7 +107,7 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
 
 		self:ai()
 
-		if l ~= nil then
+		--[[if l ~= nil then
       if l.players.x + l.players.width/2 > e.x + e.width/2 then
         e.right = true
         e.left = false
@@ -115,7 +115,7 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
         e.right = false
       	e.left = true
       end
-    end
+    end]]
 
 		if self.right and self.left then
 			if self.xSpeed > 0 then
