@@ -92,16 +92,16 @@ function Entity:new(x, y)
   function ent:jump()
     --print("jumped = "..tostring(self.jumped).."\ngrounded = "..tostring(self.grounded))
     if grounded(self) then
-      self.ySpeed = -1200
+      self.ySpeed = -1275
       self.y = self.y
       self.jumped = true
       --self.jumped = true
     elseif self.rightCol then
-      self.ySpeed = -1200
+      self.ySpeed = -1275
       self.xSpeed = -self.runSpeed*1.5
       --self.jumped = true
     elseif self.leftCol then
-      self.ySpeed = -1200
+      self.ySpeed = -1275
       self.xSpeed = self.runSpeed*1.5
       --self.jumped = true
     end
@@ -151,7 +151,7 @@ function Entity:new(x, y)
         end
       end
         --self.ySpeed = -800
-      if not grounded(self) then
+      if not grounded(self) and self.objType ~= "Enemy" then
         if self.damaged == true then
           if self.xSpeed < 0 then
             self.xSpeed = -300
