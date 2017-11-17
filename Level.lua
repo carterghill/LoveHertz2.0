@@ -131,6 +131,7 @@ function Level:new(t, p, n)
     end
     l.players.x = save.x
     l.players.y = save.y
+    Cameras:setPosition(l.players.x, l.players.y)
   end
 
   return l
