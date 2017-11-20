@@ -111,6 +111,8 @@ end
 
 function love.mousereleased(x, y, button)
   gooi.released()
+  Cameras:current().xSpeed = 0
+  Cameras:current().ySpeed = 0
 end
 
 function love.textinput(text)

@@ -87,18 +87,16 @@ function Level:new(t, p, n)
         return
       end
     end
-    --tileNum = "\n"..tostring(save.tiles.x)
-    --for key,value in pairs(save.tiles) do tileNum = "\n"..tileNum..key..": "..tostring(value) end
+
     self.name = save.name
     self.tiles = {}
     self.players = {}
     Decorative.set = {}
 
-    --tileNum = "\nTiles Present: ".. #Tiles.set
     Tiles.set = {}
-    --tileNum = tileNum.."\nAfter Delete: ".. #Tiles.set
+
     Placeables.currentSet = "tiles"
-    --tileNum = "\nSaved Tiles: "..#save.tiles
+
     debug = #save.tiles
     for i=1, #save.tiles do
       Placeables.index = save.tiles[i].index
