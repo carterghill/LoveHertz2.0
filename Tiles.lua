@@ -7,9 +7,9 @@ Tiles = {
 
 function Tiles:place(x, y)
 
-  x = x or love.mouse.getX()
-  y = y or love.mouse.getY()
-  --tile = Tiles:getTileIndex(x, y)
+  local x = (x or love.mouse.getX())
+  local y = (y or love.mouse.getY())
+
   if EditModeUI.display and not gooi.clicked then
     --table.remove(Tiles.set, tile)
 
@@ -46,6 +46,9 @@ function Tiles:placeAlways(x, y)
   --if EditModeUI.display and not gooi.clicked then
     --table.remove(Tiles.set, tile)
 
+    x = x*globalScale
+    y = y*globalScale
+
     Tiles:remove(x, y)
 
     t = Tile:new(x, y)
@@ -63,8 +66,8 @@ end
 
 function Tiles:remove(x, y)
 
-  x = (x or love.mouse.getX())
-  y = (y or love.mouse.getY())
+  x = (x or love.mouse.getX())/globalScale
+  y = (y or love.mouse.getY())/globalScale
 
   cam = Cameras:current()
   if cam ~= nil then
@@ -247,6 +250,8 @@ end
 
 function Tiles:draw()
 
+  local s = globalScale
+
   for i=1, #Tiles.set do
     tile = Tiles.set[i]
 
@@ -259,7 +264,7 @@ function Tiles:draw()
       y = y - cam.y
     end
 
-    love.graphics.draw(tile.images[tile.type], x*globalScale, y*globalScale, 0, tile.scale*globalScale)
+    love.graphics.draw(tile.images[tile.type], x*s, y*s, 0, tile.scale*s)
   end
 
 end

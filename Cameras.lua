@@ -41,12 +41,13 @@ function Cameras:update(dt)
        Cameras[cameraNum].y = Cameras[cameraNum].y - 600*dt
      end
 	else
-    if P ~= nil then
+
 			Cameras:moveTo(P, 0.2, dt)
-		end
-	  Cameras[cameraNum].x = Cameras[cameraNum].x + Cameras[cameraNum].xSpeed*dt
-	  Cameras[cameraNum].y = Cameras[cameraNum].y + Cameras[cameraNum].ySpeed*dt
+		
+
 	end
+	Cameras[cameraNum].x = Cameras[cameraNum].x + Cameras[cameraNum].xSpeed*dt
+	Cameras[cameraNum].y = Cameras[cameraNum].y + Cameras[cameraNum].ySpeed*dt
 end
 
 function Cameras:current()
@@ -64,7 +65,8 @@ end
 
 -- moveTo: Moves the camera to the object in the alloted time
 function Cameras:moveTo(object, time, dt)
-	Cameras[cameraNum].xSpeed = ((object.x*globalScale + object.xSpeed/3 + object.width/2 - love.graphics.getWidth( )/2) - Cameras[cameraNum].x*globalScale)/time
-	Cameras[cameraNum].ySpeed = ((object.y*globalScale + object.ySpeed/10 + object.height/2 - love.graphics.getHeight( )/2) - Cameras[cameraNum].y*globalScale)/time
-
+	if object ~= nil then
+		Cameras[cameraNum].xSpeed = ((object.x*globalScale + object.xSpeed/3 + object.width/2 - love.graphics.getWidth( )/2) - Cameras[cameraNum].x*globalScale)/time
+		Cameras[cameraNum].ySpeed = ((object.y*globalScale + object.ySpeed/10 + object.height/2 - love.graphics.getHeight( )/2) - Cameras[cameraNum].y*globalScale)/time
+	end
 end

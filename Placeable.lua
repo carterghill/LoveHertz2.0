@@ -17,10 +17,11 @@ Decorative = {
 }
 
 function Decorative:draw()
+  local s = globalScale
   for i=1, #Decorative.set do
     local x = Decorative.set[i].x - Cameras:current().x
     local y = Decorative.set[i].y - Cameras:current().y
-    love.graphics.draw(Decorative.set[i].img, x, y)
+    love.graphics.draw(Decorative.set[i].img, x*s, y*s, 0, s)
   end
 end
 
@@ -34,8 +35,8 @@ end
 
 function Placeables:onClick(x,y,button)
 
-  x = x + Cameras:current().x
-  y = y + Cameras:current().y
+  x = x/globalScale + Cameras:current().x
+  y = y/globalScale + Cameras:current().y
 
   if button == 1 and Placeables.currentSet == "decorative" and not gooi.clicked then
 
@@ -127,9 +128,9 @@ function Placeables:draw()
       img = tile.images[1]
       sc = 64/img:getWidth()
     end
-    x = x - img:getWidth()/2
-    y = y - img:getHeight()/2
-    love.graphics.draw(img, x, y, 0, sc)
+    x = x - img:getWidth()/2*globalScale
+    y = y - img:getHeight()/2*globalScale
+    love.graphics.draw(img, x, y, 0, sc*globalScale)
   end
 
   love.graphics.setColor( 255, 255, 255, 255 )

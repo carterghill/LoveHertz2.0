@@ -48,22 +48,24 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
 	function e:animate(scale, x, y)
 		if self.animations[self.currentAnim] ~= nil then
 			if scale < 0 then
-		  	self.animations[self.currentAnim]:play((x or self.x)*globalScale, y or self.y, 3.14159, scale, scale)
+		  	self.animations[self.currentAnim]:play((x or self.x), y or self.y, 3.14159, scale, scale)
 			else
-				self.animations[self.currentAnim]:play((x or self.x)-32*globalScale, y or self.y, 0, scale, scale)
+				self.animations[self.currentAnim]:play((x or self.x)-32, y or self.y, 0, scale, scale)
 			end
 		else
 			if scale < 0 then
-		  	love.graphics.draw(self.defaultImage, (x or self.x)*globalScale, y or self.y, 3.14159, scale, scale)
+		  	love.graphics.draw(self.defaultImage, (x or self.x), y or self.y, 3.14159, scale, scale)
 			else
-				love.graphics.draw(self.defaultImage, (x or self.x)*globalScale, y or self.y, 0, scale, scale)
+				love.graphics.draw(self.defaultImage, (x or self.x), y or self.y, 0, scale, scale)
 			end
 		end
 	end
 
 	function e:draw()
 
-	  love.graphics.print(tostring(self.health), self:getx(), self:gety()-20)
+		local s = globalScale
+
+	  love.graphics.print(tostring(self.health), self:getx()*s, self:gety()*s-20)
 	  love.graphics.setColor(255,255,255,self.alpha)
 
 		if self.facing == "Right" then

@@ -99,12 +99,14 @@ function Player:create(folder, scale)
 
 	function P:draw()
 
+		local s = globalScale
+
 		for i=1, #self.bullets do
-			love.graphics.draw(self.bulletImage, self.bullets[i].x - Cameras:current().x, self.bullets[i].y - Cameras:current().y)
+			love.graphics.draw(self.bulletImage, (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 0, s)
 			--slowdowns = tostring(self.bullets[1].img)
 		end
 
-	  love.graphics.print(tostring(self.health), self:getx(), self:gety()-20)
+	  love.graphics.print(tostring(self.health), self:getx()*s, self:gety()*s-20)
 	  love.graphics.setColor(255,255,255,self.alpha)
 
 		if self.facing == "Right" then

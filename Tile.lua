@@ -2,8 +2,8 @@ Tile = {}
 
 function Tile:new(x, y, type)
 
-  x = (x or love.mouse.getX())
-  y = (y or love.mouse.getY())
+  x = (x or love.mouse.getX())/globalScale
+  y = (y or love.mouse.getY())/globalScale
 
   cam = Cameras:current()
   if cam ~= nil then
@@ -11,8 +11,8 @@ function Tile:new(x, y, type)
     y = y + cam.y
   end
 
-  x = x*globalScale
-  y = y*globalScale
+  --x = x*globalScale
+  --y = y*globalScale
 
   dx = x % 64
   dy = y % 64

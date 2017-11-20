@@ -17,6 +17,7 @@ require "gooi"
 
 -- This one is called right at the start
 function love.load()
+  globalScale = love.graphics.getWidth()/1280
   local c = function ()
     if l ~= nil then
       if l.players.x > e.x then
@@ -69,10 +70,13 @@ function love.draw()
   end
   love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
   if l ~= nil then
-    love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")", 0, 26)
+    love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
+    "("..Cameras:current().x..", "..Cameras:current().y..")", 0, 30)
   end
+
   EditModeUI:draw()
   UI:draw()
+
 end
 
 -- This one is also being called repeatedly, handles game logic
