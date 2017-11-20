@@ -5,6 +5,7 @@ rightButton = {}
 leftButton = {}
 jumpButton = {}
 shootButton = {}
+joystick = {}
 
 function PlayerUI:load()
 
@@ -34,6 +35,7 @@ function PlayerUI:load()
       borderColor = {0, 0, 0, 250},
       borderStyle = "rough"
   }
+  local oldStyle = component.style
   gooi.setStyle(style)
 
   leftButton = gooi.newButton({text = "<", x = 16*s, y = 576*s, w = 128*s, h = 128*s})
@@ -49,17 +51,6 @@ function PlayerUI:load()
 
   rightButton = gooi.newButton({text = ">", x = 160*s, y = 576*s, w = 128*s, h = 128*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("")
-      :onRelease(function()
-        l.players.right = false
-      end)
-      :onPress(function()
-        l.players.right = true
-      end)
-  rightButton:setGroup("player")--]]
-
-  rightButton = gooi.newButton({text = ">", x = 160*s, y = 576*s, w = 128*s, h = 128*s})
-      --:setIcon(imgDir.."coin.png")
       --:setTooltip("")
       :onRelease(function()
         l.players.right = false
@@ -71,7 +62,7 @@ function PlayerUI:load()
 
   jumpButton = gooi.newButton({text = "Jump", x = 810*s, y = 576*s, w = 128*s, h = 128*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("")
+      --:setTooltip("")
       :onPress(function()
         l.players:jump()
       end)
@@ -82,11 +73,13 @@ function PlayerUI:load()
 
   shootButton = gooi.newButton({text = "Shoot", x = 954*s, y = 528*s, w = 310*s, h = 128*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("")
+      --:setTooltip("")
       :onPress(function()
         l.players:shoot()
       end)
   shootButton:setGroup("player")--]]
+
+  joystick = gooi.newJoy({ x = 16*s, y = 432*s, size = 128*s, deadZone = 0.2, group = "player"})
 
 
   function PlayerUI:update(dt)
@@ -94,18 +87,26 @@ function PlayerUI:load()
     health.x = l.players.x - Cameras:current().x-11
     health.y = l.players.y - Cameras:current().y-16
 
-    if l.players.left and rightButton:overIt(love.mouse.getPosition())
+    --[[if l.players.left and rightButton:overIt(love.mouse.getPosition())
     and not jumpButton:overIt(love.mouse.getPosition())
     and not shootButton:overIt(love.mouse.getPosition())then
-      gooi.pressed()
+      --gooi.pressed()
     end
     if l.players.right and leftButton:overIt(love.mouse.getPosition()) then
-      gooi.pressed()
+      --gooi.pressed()
+    end--]]
+
+    if joystick:xValue() > 0 then
+      player.right = true
+      player.left = false
+    elseif joystick:xValue() < 0 then
+      player.left = true
+      player.right = false
     end
 
   end
 
-
+  gooi.setStyle(oldStyle)
   return PlayerUI
 
 end

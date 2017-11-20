@@ -69,9 +69,10 @@ function love.draw()
     slowdowns = slowdowns + 1
   end
   love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
+  lol = ""
   if l ~= nil then
     love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
-    "("..Cameras:current().x..", "..Cameras:current().y..")", 0, 30)
+    "("..Cameras:current().x..", "..Cameras:current().y..")\n"..lol, 0, 30)
   end
 
   EditModeUI:draw()
@@ -107,6 +108,10 @@ function love.mousepressed(x, y, button, istouch)
   UI:onClick(x, y)
   gooi.pressed()
   Placeables:onClick(x,y,button)
+  if istouch then
+    lol = lol.."touch\n"
+    love.window.setFullscreen( true )
+  end
 end
 
 function love.mousereleased(x, y, button)

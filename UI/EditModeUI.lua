@@ -19,9 +19,11 @@ function EditModeUI:toggle()
   if self.display then
     self.display = false
     gooi.setGroupEnabled("edit_mode", false)
+    gooi.setGroupEnabled("player", true)
   else
     self.display = true
     gooi.setGroupEnabled("edit_mode", true)
+    gooi.setGroupEnabled("player", false)
   end
 end
 
