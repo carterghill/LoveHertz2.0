@@ -297,7 +297,7 @@ function EditModeUI:load()
 
 
 
-  local style = {
+  local style2 = {
     bgColor = {0,0,0,10},
     fgColor = {0,0,0,10}, -- Foreground color
     tooltipFont = love.graphics.newFont(love.window.toPixels(11)), -- tooltips are smaller than the main font
@@ -310,7 +310,7 @@ function EditModeUI:load()
     font = love.graphics.newFont(love.window.toPixels(13))
   }
 
-  gooi.setStyle(style)
+  gooi.setStyle(style2)
   -- Add on-screen camera controls if on mobile
   --if love.system.getOS() == "Android" then
     local camLeft = gooi.newButton({text = "", x = 0, y = 0, w = 16*s, h = 720*s})
@@ -356,6 +356,7 @@ function EditModeUI:load()
 
 
   --end
+  gooi.setStyle(style)
 
   return EditModeUI
 
@@ -364,6 +365,7 @@ end
 function EditModeUI:draw()
   if self.display then
     gooi.draw("edit_mode")
+  else
+    gooi.draw("player")
   end
-  gooi.draw()
 end

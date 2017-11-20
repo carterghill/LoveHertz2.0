@@ -76,7 +76,7 @@ function love.draw()
 
   EditModeUI:draw()
   UI:draw()
-
+  gooi.draw()
 end
 
 -- This one is also being called repeatedly, handles game logic
@@ -111,8 +111,13 @@ end
 
 function love.mousereleased(x, y, button)
   gooi.released()
-  Cameras:current().xSpeed = 0
-  Cameras:current().ySpeed = 0
+  if not jumpButton:overIt(love.mouse.getPosition())
+  and not shootButton:overIt(love.mouse.getPosition()) then
+    Cameras:current().xSpeed = 0
+    Cameras:current().ySpeed = 0
+    l.players.left = false
+    l.players.right = false
+  end
 end
 
 function love.textinput(text)

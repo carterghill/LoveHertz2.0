@@ -107,6 +107,12 @@ function Entity:new(x, y)
     end
   end
 
+  function ent:endJump()
+    if self.ySpeed < -400 then
+      self.ySpeed = -400
+    end
+  end
+
   function ent:getx()
     return self.x - Cameras:current().x
   end
