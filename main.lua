@@ -104,6 +104,10 @@ function love.update(dt)
 
 end
 
+function love.touchpressed( id, x, y, dx, dy, pressure )
+  gooi.pressed(id, xt, yt)
+end
+
 function love.mousepressed(x, y, button, istouch)
   UI:onClick(x, y)
   gooi.pressed()
