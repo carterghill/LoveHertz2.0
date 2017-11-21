@@ -72,7 +72,7 @@ function love.draw()
   lol = ""
   if l ~= nil then
     love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
-    "("..Cameras:current().x..", "..Cameras:current().y..")\n"..lol, 0, 30)
+    "("..Cameras:current().x..", "..Cameras:current().y..")\n"..love.system.getOS().."\n"..lol, 0, 30)
   end
 
   EditModeUI:draw()
@@ -106,6 +106,10 @@ end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
   gooi.pressed(id, xt, yt)
+end
+
+function love.touchreleased( id, x, y, dx, dy, pressure )
+  gooi.released(id, xt, yt)
 end
 
 function love.mousepressed(x, y, button, istouch)
