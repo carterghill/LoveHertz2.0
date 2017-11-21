@@ -79,7 +79,7 @@ function PlayerUI:load()
       end)
   shootButton:setGroup("player")--]]
 
-  joystick = gooi.newJoy({ x = 16*s, y = 432*s, size = 128*s, deadZone = 0.2, group = "player"})
+  --joystick = gooi.newJoy({ x = 16*s, y = 432*s, size = 128*s, deadZone = 0.2, group = "player"})
 
 
   function PlayerUI:update(dt)
@@ -87,25 +87,13 @@ function PlayerUI:load()
     health.x = l.players.x - Cameras:current().x-11
     health.y = l.players.y - Cameras:current().y-16
 
-    --[[if l.players.left and rightButton:overIt(love.mouse.getPosition())
+    if l.players.left and rightButton:overIt(love.mouse.getPosition())
     and not jumpButton:overIt(love.mouse.getPosition())
     and not shootButton:overIt(love.mouse.getPosition())then
-      --gooi.pressed()
+      gooi.pressed()
     end
     if l.players.right and leftButton:overIt(love.mouse.getPosition()) then
-      --gooi.pressed()
-    end--]]
-
-    if joystick:xValue() > 0 then
-      joystick.on = true
-      player.right = true
-      player.left = false
-    elseif joystick:xValue() < 0 then
-      joystick.on = true
-      player.left = true
-      player.right = false
-    else
-      joystick.on = false
+      gooi.pressed()
     end
 
   end

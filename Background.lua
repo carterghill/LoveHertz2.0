@@ -40,16 +40,17 @@ function Background:new(folder)
     for i=1, #self.images do
       love.graphics.setColor(255-((i-1)*200),255-((i-1)*200),255-((i-1)*200),255)
       local cam = Cameras:current()
-      local s = globalScale*((720/self.images[i]:getHeight()))
+      local h = love.graphics.getHeight()
+      local s = globalScale*((h/self.images[i]:getHeight()))
       if cam ~=nil then
         if i ~= 1 then
           local ratio = self.images[i]:getWidth()/self.images[i]:getHeight()
           local x = (-cam.x)%self.images[i]:getWidth()*s
           local x2 = x - self.images[i]:getWidth()*s
           love.graphics.draw(self.images[i], x, 0, 0, s)
-          love.graphics.draw(self.images[i], x2, 0, 0, globalScale*((720/self.images[i]:getHeight())))
+          love.graphics.draw(self.images[i], x2, 0, 0, s)
         else
-          love.graphics.draw(self.images[i], 0, 0, 0, globalScale*((720/self.images[i]:getHeight())))
+          love.graphics.draw(self.images[i], 0, 0, 0, s)
         end
       end
       love.graphics.setColor(255,255,255,255)
