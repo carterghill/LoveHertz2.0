@@ -110,7 +110,7 @@ end
 
 function love.mousepressed(x, y, button, istouch)
   UI:onClick(x, y)
-  if not istouch then
+  if love.system.getOS() ~= "Android" then
     gooi.pressed()
   end
   Placeables:onClick(x,y,button)
@@ -121,7 +121,7 @@ function love.mousepressed(x, y, button, istouch)
 end
 
 function love.mousereleased(x, y, button, istouch)
-  if not istouch then
+  if love.system.getOS() ~= "Android" then
     gooi.released()
   end
   if not jumpButton:overIt(love.mouse.getPosition())
