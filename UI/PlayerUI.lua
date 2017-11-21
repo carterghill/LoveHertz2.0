@@ -97,11 +97,15 @@ function PlayerUI:load()
     end--]]
 
     if joystick:xValue() > 0 then
+      joystick.on = true
       player.right = true
       player.left = false
     elseif joystick:xValue() < 0 then
+      joystick.on = true
       player.left = true
       player.right = false
+    else
+      joystick.on = false
     end
 
   end

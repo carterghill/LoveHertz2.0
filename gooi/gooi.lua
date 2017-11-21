@@ -593,7 +593,7 @@ function gooi.newText(params)
     f.timerCanRepeat = 0
     f.timerCursorBlink = 0
     f.showingCursor = true
-    
+
     function f:lettersWidth()
         local l = 0
         for i = 1, #self.letters do
@@ -1190,11 +1190,12 @@ function gooi.newJoy(params)
     end
     function s:move(direction)
         if (self.pressed or self.touch) and self.stickPressed then
+            print("hi")
             local daX, daY = love.mouse.getPosition()
             daX = daX / gooi.sx
             daY = daY / gooi.sy
             if self.touch then
-                daX, daY = self.touch.x, self.touch.y
+                --daX, daY = self.touch.x, self.touch.y
             end
             if self:butting() then
                 local dX = self:theX() - daX - self.dx
@@ -1225,7 +1226,7 @@ function gooi.newJoy(params)
         daX = daX / gooi.sx
         daY = daY / gooi.sy
         if self.touch then
-            daX, daY = self.touch.x, self.touch.y
+            --daX, daY = self.touch.x, self.touch.y
         end
         hyp = math.sqrt(
             math.pow(self:theX() - daX - self.dx, 2) +

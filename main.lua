@@ -97,11 +97,11 @@ function love.update(dt)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
-  gooi.pressed(nil, xt, yt)
+  gooi.pressed(id, x, y)
 end
 
 function love.touchreleased( id, x, y, dx, dy, pressure )
-  gooi.released(nil, xt, yt)
+  gooi.released(id, x, y)
 end
 
 function love.mousepressed(x, y, button, istouch)
