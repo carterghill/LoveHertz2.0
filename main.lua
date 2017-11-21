@@ -17,18 +17,10 @@ require "gooi"
 
 -- This one is called right at the start
 function love.load()
-  globalScale = love.graphics.getWidth()/1280
-  local c = function ()
-    if l ~= nil then
-      if l.players.x > e.x then
-        e.right = true
-        e.left = false
-      else
-        e.right = false
-        e.left = true
-      end
-    end
+  if love.system.getOS() == "Android" then
+    love.window.setFullscreen( true )
   end
+  globalScale = love.graphics.getWidth()/1280
   en = Enemies:new()
   slowdowns = 0
   Placeables:load()
@@ -105,11 +97,11 @@ function love.update(dt)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
-  gooi.pressed(id, xt, yt)
+  gooi.pressed(nil, xt, yt)
 end
 
 function love.touchreleased( id, x, y, dx, dy, pressure )
-  gooi.released(id, xt, yt)
+  gooi.released(nil, xt, yt)
 end
 
 function love.mousepressed(x, y, button, istouch)
@@ -120,7 +112,7 @@ function love.mousepressed(x, y, button, istouch)
   Placeables:onClick(x,y,button)
   if istouch then
     lol = lol.."touch\n"
-    love.window.setFullscreen( true )
+
   end
 end
 
