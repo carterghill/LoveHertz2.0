@@ -110,7 +110,9 @@ end
 
 function love.mousepressed(x, y, button, istouch)
   UI:onClick(x, y)
-  gooi.pressed()
+  if not istouch then
+    gooi.pressed()
+  end
   Placeables:onClick(x,y,button)
   if istouch then
     lol = lol.."touch\n"
@@ -118,8 +120,10 @@ function love.mousepressed(x, y, button, istouch)
   end
 end
 
-function love.mousereleased(x, y, button)
-  gooi.released()
+function love.mousereleased(x, y, button, istouch)
+  if not istouch then
+    gooi.released()
+  end
   if not jumpButton:overIt(love.mouse.getPosition())
   and not shootButton:overIt(love.mouse.getPosition()) then
     Cameras:current().xSpeed = 0
