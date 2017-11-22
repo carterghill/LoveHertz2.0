@@ -127,7 +127,7 @@ function EditModeUI:load()
       end)
   EditModeUI:add(edittoggle)
 
-  nextbtn = gooi.newButton({text = ">", x = w-151, y = 88*s, w = 135*s, h = 48*s})
+  nextbtn = gooi.newButton({text = ">", x = w-151*s, y = 88*s, w = 135*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("Next in the list")
       :onRelease(function()

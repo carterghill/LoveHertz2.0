@@ -196,7 +196,7 @@ function Player:create(folder, scale)
 
 			player.y = player.y + player.ySpeed*dt
 			player.x = player.x + player.xSpeed*dt
-			PlayerUI.healthBar.y = player.y - 16
+			PlayerUI.healthBar.y = player.y - 18
 			PlayerUI.healthBar.x = player.x - 11
 
 	end

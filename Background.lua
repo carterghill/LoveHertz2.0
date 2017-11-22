@@ -41,7 +41,7 @@ function Background:new(folder)
       love.graphics.setColor(255-((i-1)*200),255-((i-1)*200),255-((i-1)*200),255)
       local cam = Cameras:current()
       local h = love.graphics.getHeight()
-      local s = globalScale*((h/self.images[i]:getHeight()))
+      local s = ((h/self.images[i]:getHeight()))--/globalScale
       if cam ~=nil then
         if i ~= 1 then
           local ratio = self.images[i]:getWidth()/self.images[i]:getHeight()

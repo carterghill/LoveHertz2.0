@@ -40,7 +40,7 @@ function PlayerUI:load()
     end
   end
 
-  self.healthBar = Element:new(l.players.x-11*s, l.players.y-16*s, 86*s, 16*s, "Health Bar", "", c)
+  self.healthBar = Element:new(l.players.x-11*s, l.players.y-18*s, 86, 16, "Health Bar", "", c)
 
   --PlayerUI:add(healthBar)
 

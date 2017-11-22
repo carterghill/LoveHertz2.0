@@ -80,17 +80,17 @@ function Element:new(x, y, width, height, type, content, click, update, fontSize
       width_per_unit = self.width/l.players.maxHealth
 
       love.graphics.setColor(0, 150, 0, 125)
-      love.graphics.rectangle("fill", self.x*globalScale - Cameras:current().x, self.y*globalScale - Cameras:current().y, self.width*globalScale, self.height*globalScale, 5*globalScale, 5*globalScale)
+      love.graphics.rectangle("fill", (self.x - Cameras:current().x)*globalScale, (self.y - Cameras:current().y)*globalScale, self.width*globalScale, self.height*globalScale, 5*globalScale, 5*globalScale)
       love.graphics.setColor(255, 255, 255, 255)
 
       if l.players.health ~= 0 then
         love.graphics.setColor(0, 255, 0, 255)
-        love.graphics.rectangle("fill", self.x*globalScale - Cameras:current().x, self.y*globalScale - Cameras:current().y, (width_per_unit * l.players.health)*globalScale, self.height*globalScale, 5*globalScale, 5*globalScale)
+        love.graphics.rectangle("fill", (self.x - Cameras:current().x)*globalScale, (self.y - Cameras:current().y)*globalScale, (width_per_unit * l.players.health)*globalScale, self.height*globalScale, 5*globalScale, 5*globalScale)
         love.graphics.setColor(255, 255, 255, 255)
       end
 
       love.graphics.setColor(0,0,0, 255)
-      love.graphics.rectangle("line", self.x*globalScale - Cameras:current().x, self.y*globalScale - Cameras:current().y, self.width*globalScale, self.height*globalScale, 5*globalScale, 5*globalScale)
+      love.graphics.rectangle("line", (self.x - Cameras:current().x)*globalScale, (self.y - Cameras:current().y)*globalScale, self.width*globalScale, self.height*globalScale, 5*globalScale, 5*globalScale)
       love.graphics.setColor(255, 255, 255, 255)
 
     end

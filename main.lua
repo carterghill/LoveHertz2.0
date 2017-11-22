@@ -40,17 +40,7 @@ tileNum = ""
 
 -- This function is being called repeatedly and draws things to the screen
 function love.draw()
-  --if love.system.getOS() == "Android" and love.graphics.getWidth() then
-  width, height, flags = love.window.getMode( )
-  if not flags.fullscreen then
-    --love.window.setMode( 1920, 1080, {fullscreen = true} )
-    love.window.setFullscreen(true)
-    globalScale = love.graphics.getWidth()/1280
-    --txt1.x = txt1.x + 200
-    EditModeUI:empty()
-    EditModeUI:load()
-    PlayerUI:reset()
-  end
+
   b:draw()
   Placeables:draw()
   Decorative:draw()
