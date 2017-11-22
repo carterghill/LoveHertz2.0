@@ -17,9 +17,8 @@ require "gooi"
 
 -- This one is called right at the start
 function love.load()
-  if love.system.getOS() == "Android" then
-    love.window.setFullscreen( true )
-  end
+
+  love.filesystem.setIdentity( "beatboy" )
   globalScale = love.graphics.getWidth()/1280
   en = Enemies:new()
   slowdowns = 0
@@ -28,11 +27,11 @@ function love.load()
   P = Player:create("images/traveler")
   l = Level:new(Tiles, P)
   items = Items:new()
-  UI:load()
   b = Background:new("images/backgrounds/city")
   if love.filesystem.exists("Levels/default.txt") ~= nil then
     l:load()
   end
+  UI:load()
   debug = ""
   Cameras:setPosition(l.players.x, l.players.y)
   --love.keyboard.setKeyRepeat(true)
@@ -41,6 +40,17 @@ tileNum = ""
 
 -- This function is being called repeatedly and draws things to the screen
 function love.draw()
+  --if love.system.getOS() == "Android" and love.graphics.getWidth() then
+  width, height, flags = love.window.getMode( )
+  if not flags.fullscreen then
+    --love.window.setMode( 1920, 1080, {fullscreen = true} )
+    love.window.setFullscreen(true)
+    globalScale = love.graphics.getWidth()/1280
+    --txt1.x = txt1.x + 200
+    EditModeUI:empty()
+    EditModeUI:load()
+    PlayerUI:reset()
+  end
   b:draw()
   Placeables:draw()
   Decorative:draw()

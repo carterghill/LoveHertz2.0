@@ -167,6 +167,7 @@ function Player:create(folder, scale)
 	    end
 
 			collision(player,dt)
+
 			for i=1, #en.enemies do
 				if simpleCollision(player, en.enemies[i]) then
 					player:damage(1)
@@ -195,6 +196,8 @@ function Player:create(folder, scale)
 
 			player.y = player.y + player.ySpeed*dt
 			player.x = player.x + player.xSpeed*dt
+			PlayerUI.healthBar.y = player.y - 16
+			PlayerUI.healthBar.x = player.x - 11
 
 	end
 

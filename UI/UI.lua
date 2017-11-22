@@ -48,7 +48,7 @@ end
 
 function UI:onClick(x, y)
 
-  PlayerUI:onClick(x, y)
+  PlayerUI.healthBar:onClick(x, y)
 
 end
 
@@ -67,7 +67,7 @@ end
 function UI:mouseOn()
 
   x, y = love.mouse.getPosition()
-  if --[[(EditModeUI.display and EditModeUI:onPoint(x, y)) or]] PlayerUI:onPoint(x, y) then
+  if --[[(EditModeUI.display and EditModeUI:onPoint(x, y)) or]] PlayerUI.healthBar:onPoint(x, y) then
     return true
   end
 

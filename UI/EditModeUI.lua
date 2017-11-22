@@ -2,7 +2,8 @@ require("UI/UIGroup")
 require "gooi"
 
 EditModeUI = {
-  display = true
+  display = true,
+  elements = {}
 }
 
 
@@ -27,9 +28,26 @@ function EditModeUI:toggle()
   end
 end
 
+function EditModeUI:add(e)
+  self.elements[#self.elements+1] = e
+end
+
+function EditModeUI:empty()
+  for i=1, #self.elements do
+    gooi.removeComponent(self.elements[i])
+  end
+  for i=1, #tileButtons do
+    gooi.removeComponent(tileButtons[i])
+  end
+  tileButtons = {}
+  self.elements = {}
+end
+
 function EditModeUI:load()
 
   local s = globalScale
+  local w = love.graphics.getWidth()
+  local h = love.graphics.getHeight()
 
   imgDir = "/imgs/"
   fontDir = "/fonts/"
@@ -55,8 +73,9 @@ function EditModeUI:load()
   -----------------------------------------------
 
   --lbl1 = gooi.newLabel({x = 10, text = "Level Name: "}):left()
-  txt1 = gooi.newText({y = 32, x = 984*s, w = 280*s, h = 40*s}):setText("")
-  savebtn = gooi.newButton({text = "Save", x = 984*s, y = 112*s, w = 135*s, h = 32*s})
+  txt1 = gooi.newText({y = 16*s, x = w-296*s, w = 280*s, h = 64*s}):setText("")
+  EditModeUI:add(txt1)
+  savebtn = gooi.newButton({text = "Save", x = w-296*s, y = 144*s, w = 135*s, h = 48*s})
       :setIcon(imgDir.."coin.png")
       :setTooltip("Save the current level")
       :onRelease(function()
@@ -72,8 +91,9 @@ function EditModeUI:load()
           })
       end)
   savebtn:setGroup("edit_mode")
+  EditModeUI:add(savebtn)
   txt1:setGroup("edit_mode")
-  loadbtn = gooi.newButton({text = "Load", x = 1129*s, y = 112*s, w = 135*s, h = 32*s})
+  loadbtn = gooi.newButton({text = "Load", x = w-151*s, y = 144*s, w = 135*s, h = 48*s})
       :setIcon(imgDir.."coin.png")
       :setTooltip("Load the above level")
       :onRelease(function()
@@ -85,7 +105,8 @@ function EditModeUI:load()
           })
       end)
   loadbtn:setGroup("edit_mode")
-  quit = gooi.newButton({text = "Quit Game", x = 1114*s, y = 672*s, w = 150*s, h = 32*s})
+  EditModeUI:add(loadbtn)
+  quit = gooi.newButton({text = "Quit Game", x = 16*s, y = 16*s, w = 150*s, h = 48*s})
       :setIcon():danger()
       :setTooltip("Exit the program")
       :onRelease(function()
@@ -96,15 +117,17 @@ function EditModeUI:load()
               end
           })
       end)
+  EditModeUI:add(quit)
 
-  edittoggle = gooi.newButton({text = "Toggle Edit", x = 954*s, y = 672*s, w = 150*s, h = 32*s})
+  edittoggle = gooi.newButton({text = "Toggle Edit", x = 16*s, y = 80*s, w = 150*s, h = 48*s})
       --:setIcon(imgDir.."coin.png"):danger()
       :setTooltip("Turn Edit Mode on or off")
       :onRelease(function()
           EditModeUI:toggle()
       end)
+  EditModeUI:add(edittoggle)
 
-  nextbtn = gooi.newButton({text = ">", x = 1129*s, y = 72*s, w = 135*s, h = 32*s})
+  nextbtn = gooi.newButton({text = ">", x = w-151, y = 88*s, w = 135*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("Next in the list")
       :onRelease(function()
@@ -145,6 +168,7 @@ function EditModeUI:load()
           --txt1:setText(savedLevels[current]:gsub(".txt", ""))
       end)
   nextbtn:setGroup("edit_mode")
+  EditModeUI:add(nextbtn)
 
   local c = function()
       local x = love.filesystem.getDirectoryItems("My Levels")
@@ -184,11 +208,12 @@ function EditModeUI:load()
       --txt1:setText(savedLevels[current]:gsub(".txt", ""))
   end
 
-  prevbtn = gooi.newButton({text = "<", x = 984*s, y = 72*s, w = 135*s, h = 32*s})
+  prevbtn = gooi.newButton({text = "<", x = w-296*s, y = 88*s, w = 135*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("previous in the list")
       :onRelease(c)
   prevbtn:setGroup("edit_mode")
+  EditModeUI:add(prevbtn)
   --c()
   --[[
 
@@ -197,7 +222,7 @@ function EditModeUI:load()
   ]]
 
   tileButtons = {}
-  local tiles = gooi.newButton({text = "Tiles", x = ((80*1)+(90))*s, y = 32*s, w = 80*s, h = 80*s})
+  local tiles = gooi.newButton({text = "Tiles", x = ((112*1)+(90))*s, y = 32*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("previous in the list")
       :onRelease(function()
@@ -209,7 +234,7 @@ function EditModeUI:load()
         Placeables.currentSet = "tiles"
         for i=1, #Placeables.tiles do
           local num = #tileButtons+1
-          tileButtons[num] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = 608*s, w = 80*s, h = 80*s})
+          tileButtons[num] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
               :setTooltip("previous in the list")
               :onRelease(function()
@@ -234,7 +259,7 @@ function EditModeUI:load()
 
   Placeables.index = 1
 
-  local enemies = gooi.newButton({text = "Bad\nGuys", x = ((80)+(90*2))*s, y = 32*s, w = 80*s, h = 80*s})
+  local enemies = gooi.newButton({text = "Bad\nGuys", x = ((112)+(90*2))*s, y = 32*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("previous in the list")
       :onRelease(function()
@@ -246,7 +271,7 @@ function EditModeUI:load()
         Placeables.currentSet = "enemies"
         for i=1, #Placeables.enemies do
           local num = #tileButtons+1
-          tileButtons[num] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = 608*s, w = 80*s, h = 80*s})
+          tileButtons[num] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
               :setTooltip("previous in the list")
               :onRelease(function()
@@ -264,8 +289,10 @@ function EditModeUI:load()
       end)
   enemies:setGroup("edit_mode")
   tiles:setGroup("edit_mode")
+  EditModeUI:add(enemies)
+  EditModeUI:add(tiles)
 
-  local decorative = gooi.newButton({text = "Decor", x = ((80)+(90*3))*s, y = 32*s, w = 80*s, h = 80*s})
+  local decorative = gooi.newButton({text = "Decor", x = ((112)+(90*3))*s, y = 32*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("Get decorative placeable objects")
       :onRelease(function()
@@ -278,7 +305,7 @@ function EditModeUI:load()
         local images = loadImagesInFolder("images/decorative")
         for i=1, #images do
           --local num = #tileButtons+1
-          tileButtons[i] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = 608*s, w = 80*s, h = 80*s})
+          tileButtons[i] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
               :setTooltip("previous in the list")
               :onRelease(function()
@@ -295,6 +322,7 @@ function EditModeUI:load()
         --gooi.newButton({text = #tileButtons, x = (64*4)+(i*72)-72, y = 640, w = 64, h = 64})
       end)
   decorative:setGroup("edit_mode")
+  EditModeUI:add(decorative)
 
 
 
@@ -315,7 +343,7 @@ function EditModeUI:load()
   gooi.setStyle(style2)
   -- Add on-screen camera controls if on mobile
   --if love.system.getOS() == "Android" then
-    local camLeft = gooi.newButton({text = "", x = 0, y = 0, w = 16*s, h = 720*s})
+    local camLeft = gooi.newButton({text = "", x = 0, y = 0, w = 32*s, h = h})
         :onPress(function ()
           Cameras:current().xSpeed = -500
         end)
@@ -326,7 +354,7 @@ function EditModeUI:load()
     camLeft:setGroup("edit_mode")
     --camLeft:setStyle(style)
 
-    local camRight = gooi.newButton({text = "", x = 1264*s, y = 0, w = 16*s, h = 720*s})
+    local camRight = gooi.newButton({text = "", x = w-32*s, y = 0, w = 32*s, h = h})
         :onPress(function ()
           Cameras:current().xSpeed = 500
         end)
@@ -336,7 +364,7 @@ function EditModeUI:load()
         end)
     camRight:setGroup("edit_mode")
 
-    local camUp = gooi.newButton({text = "", x = 0, y = 0, w = 1280*s, h = 16*s})
+    local camUp = gooi.newButton({text = "", x = 0, y = 0, w = w, h = 32*s})
         :onPress(function ()
           Cameras:current().ySpeed = -500
         end)
@@ -346,7 +374,7 @@ function EditModeUI:load()
         end)
     camUp:setGroup("edit_mode")
 
-    local camDown = gooi.newButton({text = "", x = 0, y = 704*s, w = 1280*s, h = 16*s})
+    local camDown = gooi.newButton({text = "", x = 0, y = h-32*s, w = w, h = 32*s})
         :onPress(function ()
           Cameras:current().ySpeed = 500
         end)

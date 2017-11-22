@@ -1,17 +1,37 @@
 require("UI/UIGroup")
 
-PlayerUI = {}
+PlayerUI = {
+  display = true,
+  healthBar = {},
+  elements = {}
+}
 rightButton = {}
 leftButton = {}
 jumpButton = {}
 shootButton = {}
 joystick = {}
 
+function PlayerUI:add(e)
+  self.elements[#self.elements+1] = e
+end
+
+function PlayerUI:empty()
+  for i=1, #self.elements do
+    gooi.removeComponent(self.elements[i])
+  end
+  self.elements = {}
+end
+
+function PlayerUI:reset()
+  self:empty()
+  self:load()
+end
+
 function PlayerUI:load()
 
   local s = globalScale
-
-  PlayerUI = UIGroup:new()
+  local w = love.graphics.getWidth()
+  local h = love.graphics.getHeight()
 
   local c = function ()
     l.players.health = l.players.health + 1
@@ -20,12 +40,9 @@ function PlayerUI:load()
     end
   end
 
-  health = Element:new(0, 0, 86, 16, "Health Bar", "", c, function ()
-    health.x = l.players.x
-    health.y = l.players.y
-  end)
+  self.healthBar = Element:new(l.players.x-11*s, l.players.y-16*s, 86*s, 16*s, "Health Bar", "", c)
 
-  PlayerUI:add(health)
+  --PlayerUI:add(healthBar)
 
   local style = {
       font = love.graphics.newFont(fontDir.."Arimo-Bold.ttf", 36*s),
@@ -38,7 +55,7 @@ function PlayerUI:load()
   local oldStyle = component.style
   gooi.setStyle(style)
 
-  leftButton = gooi.newButton({text = "<", x = 16*s, y = 576*s, w = 128*s, h = 128*s})
+  leftButton = gooi.newButton({text = "<", x = 16*s, y = h-176*s, w = 160*s, h = 160*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("")
       :onRelease(function()
@@ -48,8 +65,9 @@ function PlayerUI:load()
         l.players.left = true
       end)
   leftButton:setGroup("player")--]]
+  PlayerUI:add(leftButton)
 
-  rightButton = gooi.newButton({text = ">", x = 160*s, y = 576*s, w = 128*s, h = 128*s})
+  rightButton = gooi.newButton({text = ">", x = 192*s, y = h-176*s, w = 160*s, h = 160*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("")
       :onRelease(function()
@@ -59,8 +77,9 @@ function PlayerUI:load()
         l.players.right = true
       end)
   rightButton:setGroup("player")--]]
+  PlayerUI:add(rightButton)
 
-  jumpButton = gooi.newButton({text = "Jump", x = 810*s, y = 576*s, w = 128*s, h = 128*s})
+  jumpButton = gooi.newButton({text = "Jump", x = w-502*s, y = h-176*s, w = 160*s, h = 160*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("")
       :onPress(function()
@@ -70,22 +89,24 @@ function PlayerUI:load()
         l.players:endJump()
       end)
   jumpButton:setGroup("player")--]]
+  PlayerUI:add(jumpButton)
 
-  shootButton = gooi.newButton({text = "Shoot", x = 954*s, y = 528*s, w = 310*s, h = 128*s})
+  shootButton = gooi.newButton({text = "Shoot", x = w-326*s, y = h-176*s, w = 310*s, h = 160*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("")
       :onPress(function()
         l.players:shoot()
       end)
   shootButton:setGroup("player")--]]
+  PlayerUI:add(shootButton)
 
   --joystick = gooi.newJoy({ x = 16*s, y = 432*s, size = 128*s, deadZone = 0.2, group = "player"})
 
 
   function PlayerUI:update(dt)
 
-    health.x = l.players.x - Cameras:current().x-11
-    health.y = l.players.y - Cameras:current().y-16
+    --health.x = l.players.x - Cameras:current().x-11
+    --health.y = l.players.y - Cameras:current().y-16
 
     if l.players.left and rightButton:overIt(love.mouse.getPosition())
     and not jumpButton:overIt(love.mouse.getPosition())
@@ -95,6 +116,12 @@ function PlayerUI:load()
     if l.players.right and leftButton:overIt(love.mouse.getPosition()) then
       gooi.pressed()
     end
+
+  end
+
+  function PlayerUI:draw()
+
+    self.healthBar:draw()
 
   end
 
