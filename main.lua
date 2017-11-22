@@ -14,6 +14,7 @@ require("entities/Enemies")
 require("entities/Item")
 require("entities/Items")
 require "gooi"
+lol = ""
 
 -- This one is called right at the start
 function love.load()
@@ -61,7 +62,6 @@ function love.draw()
     slowdowns = slowdowns + 1
   end
   love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
-  lol = ""
   if l ~= nil then
     love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
     "("..Cameras:current().x..", "..Cameras:current().y..")\n"..love.system.getOS().."\n"..lol, 0, 30)
@@ -79,13 +79,15 @@ function love.update(dt)
   Cameras:update(dt)
   UI:update(dt)
   if EditModeUI.display then
-    if love.mouse.isDown(1) then
+    if love.mouse.isDown(1) and not EditModeUI.delete then
       if not UI:mouseOn() then
         Tiles:place()
       end
     end
-    if love.mouse.isDown(2) then
-      Tiles:remove()
+    if love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.delete) then
+      if not UI:mouseOn() then
+        Tiles:remove()
+      end
     end
   else
     if l ~=nil then
@@ -110,10 +112,6 @@ function love.mousepressed(x, y, button, istouch)
     gooi.pressed()
   end
   Placeables:onClick(x,y,button)
-  if istouch then
-    lol = lol.."touch\n"
-
-  end
 end
 
 function love.mousereleased(x, y, button, istouch)

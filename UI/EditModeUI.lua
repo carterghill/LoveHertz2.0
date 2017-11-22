@@ -3,7 +3,8 @@ require "gooi"
 
 EditModeUI = {
   display = true,
-  elements = {}
+  elements = {},
+  delete = false
 }
 
 
@@ -13,6 +14,14 @@ function love.textinput(t)
       if x[i].input then
         x[i].content = x[i].content .. t
       end
+  end
+end
+
+function EditModeUI:toggleMode()
+  if self.delete then
+    self.delete = false
+  else
+    self.delete = true
   end
 end
 
@@ -132,21 +141,11 @@ function EditModeUI:load()
       :setTooltip("Next in the list")
       :onRelease(function()
           local x = love.filesystem.getDirectoryItems("My Levels")
-          local y = love.filesystem.getDirectoryItems("Levels")
           local savedLevels = {}
           local current = 1
           for i=1, #x do
             if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
               local t = x[i]:gsub(".txt", "")
-              table.insert(savedLevels, t)
-              if t == txt1:getText() then
-                current = #savedLevels
-              end
-            end
-          end
-          for i=1, #y do
-            if y[i] ~= ".DS_Store" and y[i] ~= ".DS_Store.txt" then
-              local t = y[i]:gsub(".txt", "")
               table.insert(savedLevels, t)
               if t == txt1:getText() then
                 current = #savedLevels
@@ -214,12 +213,19 @@ function EditModeUI:load()
       :onRelease(c)
   prevbtn:setGroup("edit_mode")
   EditModeUI:add(prevbtn)
+
+
   --c()
   --[[
 
     TILES AND TYPE SELECTION
 
   ]]
+
+  local deleteButton = gooi.newButton({text = "Delete\nMode", x = w-392*s, y = 32*s, w = 80*s, h = 80*s})
+      --:setIcon(imgDir.."coin.png")
+      :setTooltip("previous in the list")
+      :onRelease(EditModeUI:toggleMode())
 
   tileButtons = {}
   local tiles = gooi.newButton({text = "Tiles", x = ((112*1)+(90))*s, y = 32*s, w = 80*s, h = 80*s})

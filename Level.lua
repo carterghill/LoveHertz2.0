@@ -61,7 +61,7 @@ function Level:new(t, p, n)
     for i=1, #en.enemies do
       table.insert(save.enemies, en.enemies[i]:save())
     end
-
+    love.filesystem.write( "test2.txt", "hi" )
     for i=1, #l.players do
       save.players[i] = "images/traveler"
     end
@@ -72,7 +72,7 @@ function Level:new(t, p, n)
       love.filesystem.createDirectory("My Levels")
       love.filesystem.write( "My Levels/"..save.name, Tserial.pack(save, {}, false) )
     end
-    table.save(save, "My Levels/"..name)
+    --table.save(save, "My Levels/"..name)
   end
 
   function l:load(name)
@@ -85,7 +85,6 @@ function Level:new(t, p, n)
     else
       if love.filesystem.exists("My Levels/"..name) then
         save = Tserial.unpack(love.filesystem.read("My Levels/"..name))
-        save = table.load("My Levels/"..name)
       else
         return
       end

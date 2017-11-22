@@ -66,6 +66,10 @@ end
 
 function Tiles:remove(x, y)
 
+  if gooi.clicked then
+    return
+  end
+
   x = (x or love.mouse.getX())/globalScale
   y = (y or love.mouse.getY())/globalScale
 
