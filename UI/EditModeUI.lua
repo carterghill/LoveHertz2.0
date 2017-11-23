@@ -235,18 +235,21 @@ function EditModeUI:load()
       gooi.removeComponent(deleteButton)
       deleteButton = gooi.newButton({text = "Delete\n(off)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
           :onRelease(f)
-
+          :setTooltip("Turn delete mode on")
+      deleteButton:setGroup("edit_mode")
     else
       EditModeUI.delete = true
       gooi.removeComponent(deleteButton)
       deleteButton = gooi.newButton({text = "Delete\n(on)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
           :onRelease(f)
+          :setTooltip("Turn delete mode off")
+      deleteButton:setGroup("edit_mode")
     end
   end
 
   deleteButton = gooi.newButton({text = "Delete\n(off)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("Turn Delete on or off")
+      :setTooltip("Turn delete mode on")
       :onRelease(f)
   deleteButton:setGroup("edit_mode")
   EditModeUI:add(deleteButton)
@@ -382,7 +385,7 @@ function EditModeUI:load()
           Cameras:current().ySpeed = 0
         end)
     camLeft:setGroup("edit_mode")
-    --camLeft:setStyle(style)
+    EditModeUI:add(camLeft)
 
     local camRight = gooi.newButton({text = "", x = w-32*s, y = 0, w = 32*s, h = h})
         :onPress(function ()
@@ -393,6 +396,7 @@ function EditModeUI:load()
           Cameras:current().ySpeed = 0
         end)
     camRight:setGroup("edit_mode")
+    EditModeUI:add(camRight)
 
     local camUp = gooi.newButton({text = "", x = 0, y = 0, w = w, h = 32*s})
         :onPress(function ()
@@ -403,6 +407,7 @@ function EditModeUI:load()
           Cameras:current().xSpeed = 0
         end)
     camUp:setGroup("edit_mode")
+    EditModeUI:add(camUp)
 
     local camDown = gooi.newButton({text = "", x = 0, y = h-32*s, w = w, h = 32*s})
         :onPress(function ()
@@ -413,6 +418,7 @@ function EditModeUI:load()
           Cameras:current().xSpeed = 0
         end)
     camDown:setGroup("edit_mode")
+    EditModeUI:add(camDown)
 
 
   --end
