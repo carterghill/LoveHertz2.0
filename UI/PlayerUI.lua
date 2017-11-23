@@ -77,6 +77,7 @@ function PlayerUI:load()
         l.players.right = true
       end)
   rightButton:setGroup("player")--]]
+  --rightButton.touch.id
   PlayerUI:add(rightButton)
 
   jumpButton = gooi.newButton({text = "Jump", x = w-502*s, y = h-176*s, w = 160*s, h = 160*s})
@@ -102,20 +103,38 @@ function PlayerUI:load()
 
   --joystick = gooi.newJoy({ x = 16*s, y = 432*s, size = 128*s, deadZone = 0.2, group = "player"})
 
+  function PlayerUI:touchmoved(id, x, y, dx, dy)
+    if rightButton.touch then
+      if rightButton.touch.id == id then
+        if leftButton:overIt(x, y) then
+          gooi.released(id, x-dx, y-dy)
+          gooi.pressed(id, x, y)
+        end
+      end
+    end
+    if leftButton.touch then
+      if leftButton.touch.id == id then
+        if rightButton:overIt(x, y) then
+          gooi.released(id, x-dx, y-dy)
+          gooi.pressed(id, x, y)
+        end
+      end
+    end
+  end
 
   function PlayerUI:update(dt)
 
     --health.x = l.players.x - Cameras:current().x-11
     --health.y = l.players.y - Cameras:current().y-16
 
-    if l.players.left and rightButton:overIt(love.mouse.getPosition())
+    --[[if l.players.left and rightButton:overIt(love.mouse.getPosition())
     and not jumpButton:overIt(love.mouse.getPosition())
     and not shootButton:overIt(love.mouse.getPosition())then
       gooi.pressed()
     end
     if l.players.right and leftButton:overIt(love.mouse.getPosition()) then
       gooi.pressed()
-    end
+    end--]]
 
   end
 

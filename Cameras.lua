@@ -27,7 +27,7 @@ end
 
 function Cameras:update(dt)
 	--display = false
-	if EditModeUI.display and not gooi.input then
+	if EditModeUI.display then
 	   if love.keyboard.isDown('d') then
 	     Cameras[cameraNum].x = Cameras[cameraNum].x + 600*dt
 	   end
@@ -43,7 +43,7 @@ function Cameras:update(dt)
 	else
 
 			Cameras:moveTo(P, 0.2, dt)
-		
+
 
 	end
 	Cameras[cameraNum].x = Cameras[cameraNum].x + Cameras[cameraNum].xSpeed*dt

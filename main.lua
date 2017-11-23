@@ -106,6 +106,12 @@ function love.touchreleased( id, x, y, dx, dy, pressure )
   gooi.released(id, x, y)
 end
 
+function love.touchmoved( id, x, y, dx, dy, pressure )
+  if not EditModeUI.display then
+    PlayerUI:touchmoved(id, x, y, dx, dy)
+  end
+end
+
 function love.mousepressed(x, y, button, istouch)
   UI:onClick(x, y)
   if love.system.getOS() ~= "Android" then

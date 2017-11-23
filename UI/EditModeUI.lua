@@ -7,15 +7,7 @@ EditModeUI = {
   delete = false
 }
 
-
-function love.textinput(t)
-  local x = EditModeUI:getElements()
-  for i=1, #x do
-      if x[i].input then
-        x[i].content = x[i].content .. t
-      end
-  end
-end
+deleteButton = {}
 
 function EditModeUI:toggleMode()
   if self.delete then
@@ -32,6 +24,7 @@ function EditModeUI:toggle()
     gooi.setGroupEnabled("player", true)
   else
     self.display = true
+    self.delete = false
     gooi.setGroupEnabled("edit_mode", true)
     gooi.setGroupEnabled("player", false)
   end
@@ -39,6 +32,17 @@ end
 
 function EditModeUI:add(e)
   self.elements[#self.elements+1] = e
+end
+
+function EditModeUI:overIt(x, y)
+  local x = x or love.mouse.getX()
+  local y = y or love.mouse.getY()
+  for i=1, #self.elements do
+    if self.elements[i]:overIt(x, y) then
+      return true
+    end
+  end
+  return false
 end
 
 function EditModeUI:empty()
@@ -162,6 +166,9 @@ function EditModeUI:load()
           local h = txt1.h
           --txt1.indexCursor = 1
           gooi.removeComponent(txt1)
+          if savedLevels[current] == nil then
+            return
+          end
           txt1 = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
           txt1:setGroup("edit_mode")
           --txt1:setText(savedLevels[current]:gsub(".txt", ""))
@@ -222,10 +229,27 @@ function EditModeUI:load()
 
   ]]
 
-  local deleteButton = gooi.newButton({text = "Delete\nMode", x = w-392*s, y = 32*s, w = 80*s, h = 80*s})
+  f = function ()
+    if EditModeUI.delete then
+      EditModeUI.delete = false
+      gooi.removeComponent(deleteButton)
+      deleteButton = gooi.newButton({text = "Delete\n(off)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
+          :onRelease(f)
+
+    else
+      EditModeUI.delete = true
+      gooi.removeComponent(deleteButton)
+      deleteButton = gooi.newButton({text = "Delete\n(on)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
+          :onRelease(f)
+    end
+  end
+
+  deleteButton = gooi.newButton({text = "Delete\n(off)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("previous in the list")
-      :onRelease(EditModeUI:toggleMode())
+      :setTooltip("Turn Delete on or off")
+      :onRelease(f)
+  deleteButton:setGroup("edit_mode")
+  EditModeUI:add(deleteButton)
 
   tileButtons = {}
   local tiles = gooi.newButton({text = "Tiles", x = ((112*1)+(90))*s, y = 32*s, w = 80*s, h = 80*s})

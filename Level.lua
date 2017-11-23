@@ -66,6 +66,7 @@ function Level:new(t, p, n)
       save.players[i] = "images/traveler"
     end
     save.players[1] = "images/traveler"
+    love.filesystem.createDirectory("My Levels")
     if love.filesystem.isDirectory("My Levels") then
       love.filesystem.write( "My Levels/"..save.name, Tserial.pack(save, {}, false) )
     else

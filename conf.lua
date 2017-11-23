@@ -2,7 +2,7 @@ function love.conf(t)
     t.identity = nil                   -- The name of the save directory (string)
     t.version = "0.10.1"                -- The LÖVE version this game was made for (string)
     t.console = true                  -- Attach a console (boolean, Windows only)
-    t.externalstorage = true 
+    t.externalstorage = true
 
     t.window.title = "My Game"        -- The window title (string)
     t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
@@ -18,7 +18,7 @@ function love.conf(t)
     t.window.vsync = true              -- Enable vertical sync (boolean)
     t.window.fsaa = 1                  -- The number of samples to use with multi-sampled antialiasing (number)
     t.window.display = 1               -- Index of the monitor to show the window in (number)
-    t.window.highdpi = false           -- Enable high-dpi mode for the window on a Retina display (boolean)
+    t.window.highdpi = true           -- Enable high-dpi mode for the window on a Retina display (boolean)
     t.window.srgb = true             -- Enable sRGB gamma correction when drawing to the screen (boolean)
     t.window.x = nil                   -- The x-coordinate of the window's position in the specified display (number)
     t.window.y = nil                   -- The y-coordinate of the window's position in the specified display (number)

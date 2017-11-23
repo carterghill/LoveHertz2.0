@@ -10,7 +10,7 @@ function Tiles:place(x, y)
   local x = (x or love.mouse.getX())
   local y = (y or love.mouse.getY())
 
-  if EditModeUI.display and not gooi.clicked then
+  if EditModeUI.display and not EditModeUI:overIt(x, y) then
     --table.remove(Tiles.set, tile)
 
     if Placeables.currentSet == "tiles" then
@@ -66,7 +66,7 @@ end
 
 function Tiles:remove(x, y)
 
-  if gooi.clicked then
+  if EditModeUI:overIt(x, y) then
     return
   end
 

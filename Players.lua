@@ -106,7 +106,7 @@ function Player:create(folder, scale)
 			--slowdowns = tostring(self.bullets[1].img)
 		end
 
-	  love.graphics.print(tostring(self.health), self:getx()*s, self:gety()*s-20)
+	  --love.graphics.print(tostring(self.health), self:getx()*s, self:gety()*s-20)
 	  love.graphics.setColor(255,255,255,self.alpha)
 
 		if self.facing == "Right" then
