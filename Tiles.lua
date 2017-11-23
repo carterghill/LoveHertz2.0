@@ -46,8 +46,8 @@ function Tiles:placeAlways(x, y)
   --if EditModeUI.display and not gooi.clicked then
     --table.remove(Tiles.set, tile)
 
-    x = x*globalScale
-    y = y*globalScale
+    x = x*getZoom()
+    y = y*getZoom()
 
     Tiles:remove(x, y)
 
@@ -70,8 +70,8 @@ function Tiles:remove(x, y)
     return
   end
 
-  x = (x or love.mouse.getX())/globalScale
-  y = (y or love.mouse.getY())/globalScale
+  x = (x or love.mouse.getX())/getZoom()
+  y = (y or love.mouse.getY())/getZoom()
 
   cam = Cameras:current()
   if cam ~= nil then
@@ -254,7 +254,7 @@ end
 
 function Tiles:draw()
 
-  local s = globalScale
+  local s = getZoom(globalScale)
 
   for i=1, #Tiles.set do
     tile = Tiles.set[i]

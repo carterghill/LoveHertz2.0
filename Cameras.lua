@@ -2,6 +2,7 @@ Cameras = {}
 cameraNum = 0
 cameraColliders = {}
 globalScale = 1
+zoom = 1
 
 function Cameras:new()
 	local num = table.getn(Cameras)+1
@@ -17,6 +18,10 @@ function Cameras:new()
 	if cameraNum == 0 then
 		cameraNum = 1
 	end
+end
+
+function getZoom()
+	return zoom * globalScale
 end
 
 function Cameras:setPosition(x, y)
@@ -66,7 +71,7 @@ end
 -- moveTo: Moves the camera to the object in the alloted time
 function Cameras:moveTo(object, time, dt)
 	if object ~= nil then
-		Cameras[cameraNum].xSpeed = ((object.x*globalScale + object.xSpeed/3 + object.width/2 - love.graphics.getWidth( )/2) - Cameras[cameraNum].x*globalScale)/time
-		Cameras[cameraNum].ySpeed = ((object.y*globalScale + object.ySpeed/10 + object.height/2 - love.graphics.getHeight( )/2) - Cameras[cameraNum].y*globalScale)/time
+		Cameras[cameraNum].xSpeed = (((object.x + object.xSpeed/3 + object.width/2)*getZoom() - love.graphics.getWidth( )/2) - Cameras[cameraNum].x*getZoom())/time
+		Cameras[cameraNum].ySpeed = (((object.y + object.ySpeed/10 + object.height/2)*getZoom() - love.graphics.getHeight( )/2) - Cameras[cameraNum].y*getZoom())/time
 	end
 end

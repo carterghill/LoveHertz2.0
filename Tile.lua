@@ -2,8 +2,8 @@ Tile = {}
 
 function Tile:new(x, y, type)
 
-  x = (x or love.mouse.getX())/globalScale
-  y = (y or love.mouse.getY())/globalScale
+  x = (x or love.mouse.getX())/getZoom()
+  y = (y or love.mouse.getY())/getZoom()
 
   cam = Cameras:current()
   if cam ~= nil then

@@ -7,6 +7,7 @@ bullets = {}
 
 function Player:create(folder, scale)
 	local num = table.getn(Player)+1
+	local s = getZoom(globalScale)
 
 	P = Entity:new()
 
@@ -35,15 +36,15 @@ function Player:create(folder, scale)
 	function P:animate(scale, x, y)
 		if self.animations[self.currentAnim] ~= nil then
 			if scale < 0 then
-		  	self.animations[self.currentAnim]:play((x or self.x)+96*globalScale, y or self.y, 3.14159, 2*globalScale, 2*scale)
+		  	self.animations[self.currentAnim]:play((x or self.x)-96*scale, y or self.y, 0, 2*scale, -2*scale)
 			else
-				self.animations[self.currentAnim]:play((x or self.x)-32*globalScale, y or self.y, 0, 2*globalScale, 2*scale)
+				self.animations[self.currentAnim]:play((x or self.x)-32*scale, y or self.y, 0, 2*scale, 2*scale)
 			end
 		else
 			if scale < 0 then
-		  	love.graphics.draw(self.defaultImage, (x or self.x)+96*globalScale, y or self.y, 3.14159, 2*globalScale, 2*scale)
+		  	love.graphics.draw(self.defaultImage, (x or self.x)+96*s, y or self.y, 3.14159, 2*scale, 2*scale)
 			else
-				love.graphics.draw(self.defaultImage, (x or self.x)-32*globalScale, y or self.y, 0, 2*globalScale, 2*scale)
+				love.graphics.draw(self.defaultImage, (x or self.x)-32*s, y or self.y, 0, 2*scale, 2*scale)
 			end
 		end
 	end
@@ -99,10 +100,10 @@ function Player:create(folder, scale)
 
 	function P:draw()
 
-		local s = globalScale
+		local s = getZoom(globalScale)
 
 		for i=1, #self.bullets do
-			love.graphics.draw(self.bulletImage, (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 0, s)
+			love.graphics.draw(self.bulletImage, (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 0, s, s)
 			--slowdowns = tostring(self.bullets[1].img)
 		end
 
@@ -110,9 +111,9 @@ function Player:create(folder, scale)
 	  love.graphics.setColor(255,255,255,self.alpha)
 
 		if self.facing == "Right" then
-			self:animate(self.scale*globalScale, (self:getx())*globalScale, self:gety()*globalScale)
+			self:animate(self.scale*s, (self:getx())*s, self:gety()*s)
 		elseif player.facing == "Left" then
-			self:animate(0 - self.scale*globalScale, (self:getx()*globalScale), self:gety()*globalScale)
+			self:animate(0 - self.scale*s, (self:getx()*s), self:gety()*s)
 		end
 
 	  love.graphics.setColor(255,255,255,255)

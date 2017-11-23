@@ -8,6 +8,7 @@ EditModeUI = {
 }
 
 deleteButton = {}
+zoomSlider = {}
 
 function EditModeUI:toggleMode()
   if self.delete then
@@ -221,6 +222,16 @@ function EditModeUI:load()
   prevbtn:setGroup("edit_mode")
   EditModeUI:add(prevbtn)
 
+  zoomSlider = gooi.newSlider({
+    value = 0.5,
+    x = w-296*s,
+    y = h-60*s,
+    w = 280*s,
+    h = 44*s,
+    group = "grp1"
+  })
+  zoomSlider:setGroup("edit_mode")
+  EditModeUI:add(zoomSlider)
 
   --c()
   --[[

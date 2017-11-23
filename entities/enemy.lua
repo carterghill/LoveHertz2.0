@@ -5,8 +5,8 @@ Enemy = {}
 
 function Enemy:new(name, folder, scale, ai, mousex, mousey)
 
-	local x = (mousex or love.mouse.getX())/globalScale
-	local y = (mousey or love.mouse.getY())/globalScale
+	local x = (mousex or love.mouse.getX())/getZoom(globalScale)
+	local y = (mousey or love.mouse.getY())/getZoom(globalScale)
 
   cam = Cameras:current()
   if cam ~= nil then
@@ -63,15 +63,15 @@ function Enemy:new(name, folder, scale, ai, mousex, mousey)
 
 	function e:draw()
 
-		local s = globalScale
+		local s = getZoom()
 
 	  love.graphics.print(tostring(self.health), self:getx()*s, self:gety()*s-20)
 	  love.graphics.setColor(255,255,255,self.alpha)
 
 		if self.facing == "Right" then
-			self:animate(self.scale*globalScale, (self:getx())*globalScale, self:gety()*globalScale)
+			self:animate(self.scale*s, (self:getx())*s, self:gety()*s)
 		elseif self.facing == "Left" then
-			self:animate(0 - self.scale*globalScale, (self:getx()*globalScale), self:gety()*globalScale)
+			self:animate(0 - self.scale*s, (self:getx()*s), self:gety()*s)
 		end
 
 	  love.graphics.setColor(255,255,255,255)

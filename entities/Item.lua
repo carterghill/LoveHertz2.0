@@ -23,7 +23,7 @@ function Item:new(x, y, path, action)
 
   function i:draw()
     if self.active then
-      local s = globalScale
+      local s = getZoom()
       local x = self.x - Cameras:current().x
       local y = self.y - Cameras:current().y
       love.graphics.draw(self.img, x*s, y*s, 0, self.scale*s)
