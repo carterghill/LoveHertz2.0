@@ -80,7 +80,7 @@ function PlayerUI:load()
   --rightButton.touch.id
   PlayerUI:add(rightButton)
 
-  jumpButton = gooi.newButton({text = "Jump", x = w-502*s, y = h-176*s, w = 160*s, h = 160*s})
+  jumpButton = gooi.newButton({text = "Jump", x = w-276*s, y = h-176*s, w = 260*s, h = 160*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("")
       :onPress(function()
@@ -92,7 +92,7 @@ function PlayerUI:load()
   jumpButton:setGroup("player")--]]
   PlayerUI:add(jumpButton)
 
-  shootButton = gooi.newButton({text = "Shoot", x = w-326*s, y = h-176*s, w = 310*s, h = 160*s})
+  shootButton = gooi.newButton({text = "Shoot", x = w-452*s, y = h-176*s, w = 160*s, h = 160*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("")
       :onPress(function()
@@ -115,6 +115,22 @@ function PlayerUI:load()
     if leftButton.touch then
       if leftButton.touch.id == id then
         if rightButton:overIt(x, y) then
+          gooi.released(id, x-dx, y-dy)
+          gooi.pressed(id, x, y)
+        end
+      end
+    end
+    if jumpButton.touch then
+      if jumpButton.touch.id == id then
+        if shootButton:overIt(x, y) then
+          gooi.released(id, x-dx, y-dy)
+          gooi.pressed(id, x, y)
+        end
+      end
+    end
+    if shootButton.touch then
+      if shootButton.touch.id == id then
+        if jumpButton:overIt(x, y) then
           gooi.released(id, x-dx, y-dy)
           gooi.pressed(id, x, y)
         end

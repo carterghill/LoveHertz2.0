@@ -5,8 +5,8 @@ Enemy = {}
 
 function Enemy:new(name, folder, scale, ai, mousex, mousey)
 
-	local x = mousex or love.mouse.getX()
-	local y = mousey or love.mouse.getY()
+	local x = (mousex or love.mouse.getX())/globalScale
+	local y = (mousey or love.mouse.getY())/globalScale
 
   cam = Cameras:current()
   if cam ~= nil then
