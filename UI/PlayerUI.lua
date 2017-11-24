@@ -9,7 +9,7 @@ rightButton = {}
 leftButton = {}
 jumpButton = {}
 shootButton = {}
-joystick = {}
+--joystick = {}
 
 function PlayerUI:add(e)
   self.elements[#self.elements+1] = e
@@ -42,6 +42,14 @@ function PlayerUI:load()
 
   self.healthBar = Element:new(l.players.x-11*getZoom(), l.players.y-18*getZoom(), 86, 16, "Health Bar", "", c)
 
+  self.display = false
+  local pause = gooi.newButton({y = 16*s, x = w-296*s, w = 280*s, h = 128*s, group="player"})
+    :setText("Pause")
+    :onRelease(function ()
+      pauseGame()
+      --gooi.newButton({y = 16*s, x = w-296*s, w = 280*s, h = 128*s, text = "Unpause"})
+          --:onRelease(pauseGame())
+    end)
   --PlayerUI:add(healthBar)
 
   local style = {
@@ -161,6 +169,9 @@ function PlayerUI:load()
   function PlayerUI:draw()
 
     self.healthBar:draw()
+    if self.display then
+      gooi.draw("player")
+    end
 
   end
 

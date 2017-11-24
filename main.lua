@@ -15,6 +15,7 @@ require("entities/Item")
 require("entities/Items")
 require "gooi"
 lol = ""
+paused = false
 
 -- This one is called right at the start
 function love.load()
@@ -42,62 +43,70 @@ tileNum = ""
 -- This function is being called repeatedly and draws things to the screen
 function love.draw()
 
-  b:draw()
-  Placeables:draw()
-  Decorative:draw()
-  if l ~= nil then
-    Tiles:draw()
-    l.players:draw()
-  end
-  items:draw()
-  en:draw()
-  if fps == nil then
-    fps = love.timer.getFPS()
-    prevfps = fps
-  else
-    prevfps = fps
-    fps = love.timer.getFPS()
-  end
-  if fps < prevfps then
-    slowdowns = slowdowns + 1
-  end
-  love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
-  if l ~= nil then
-    love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
-    "("..Cameras:current().x..", "..Cameras:current().y..")\n"..love.system.getOS().."\n"..lol, 0, 30)
-  end
+  if not paused then
+    b:draw()
+    Placeables:draw()
+    Decorative:draw()
+    if l ~= nil then
+      Tiles:draw()
+      l.players:draw()
+    end
+    items:draw()
+    en:draw()
+    if fps == nil then
+      fps = love.timer.getFPS()
+      prevfps = fps
+    else
+      prevfps = fps
+      fps = love.timer.getFPS()
+    end
+    if fps < prevfps then
+      slowdowns = slowdowns + 1
+    end
+    love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
+    if l ~= nil then
+      love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
+      "("..Cameras:current().x..", "..Cameras:current().y..")\n"..love.system.getOS().."\n"..lol, 0, 30)
+    end
 
-  EditModeUI:draw()
-  UI:draw()
+    EditModeUI:draw()
+    UI:draw()
+  else
+    love.graphics.setColor(155, 155, 155, 155)
+    love.graphics.draw(pauseImg)
+    love.graphics.setColor(255, 255, 255, 255)
+  end
   gooi.draw()
 
 end
 
 -- This one is also being called repeatedly, handles game logic
 function love.update(dt)
-  
-  items:update(dt)
+
   gooi.update(dt)
-  Cameras:update(dt)
-  UI:update(dt)
-  if EditModeUI.display then
-    if love.mouse.isDown(1) and not EditModeUI.delete then
-      if not UI:mouseOn() then
-        Tiles:place()
+
+  if not paused then
+    items:update(dt)
+    Cameras:update(dt)
+    UI:update(dt)
+    if EditModeUI.display then
+      if love.mouse.isDown(1) and not EditModeUI.delete then
+        if not UI:mouseOn() then
+          Tiles:place()
+        end
       end
-    end
-    if love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.delete) then
-      if not UI:mouseOn() then
-        Tiles:remove()
+      if love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.delete) then
+        if not UI:mouseOn() then
+          Tiles:remove()
+        end
       end
-    end
-  else
-    if l ~=nil then
-      l.players:update(dt)
-      en:update(dt)
+    else
+      if l ~=nil then
+        l.players:update(dt)
+        en:update(dt)
+      end
     end
   end
-
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
@@ -140,4 +149,28 @@ function love.textinput(text)
     gooi.input = false
   end
   gooi.textinput(text)
+end
+
+function pauseGame()
+  if paused then
+    paused = false
+    if PlayerUI.display then
+      gooi.setGroupEnabled("player", true)
+    elseif EditModeUI.display then
+      gooi.setGroupEnabled("edit_mode", true)
+    end
+  else
+    paused = true
+    gooi.setGroupEnabled("edit_mode", false)
+    gooi.setGroupEnabled("player", false)
+    local screenshot = love.graphics.newScreenshot();
+    screenshot:encode('png', 'pause.png');
+    pauseImg = love.graphics.newImage('pause.png')
+    gooi.alert({
+        text = "Game is Paused",
+        ok = function()
+            pauseGame()
+        end
+    })
+  end
 end

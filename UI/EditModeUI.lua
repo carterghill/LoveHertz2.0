@@ -9,6 +9,7 @@ EditModeUI = {
 
 deleteButton = {}
 zoomSlider = {}
+joystick = {}
 
 function EditModeUI:toggleMode()
   if self.delete then
@@ -21,11 +22,13 @@ end
 function EditModeUI:toggle()
   if self.display then
     self.display = false
+    PlayerUI.display = true
     gooi.setGroupEnabled("edit_mode", false)
     gooi.setGroupEnabled("player", true)
   else
     self.display = true
     self.delete = false
+    PlayerUI.display = false
     gooi.setGroupEnabled("edit_mode", true)
     gooi.setGroupEnabled("player", false)
   end
@@ -384,56 +387,9 @@ function EditModeUI:load()
     font = love.graphics.newFont(love.window.toPixels(13))
   }
 
-  gooi.setStyle(style2)
-  -- Add on-screen camera controls if on mobile
-  --if love.system.getOS() == "Android" then
-    local camLeft = gooi.newButton({text = "", x = 0, y = 0, w = 32*s, h = h})
-        :onPress(function ()
-          Cameras:current().xSpeed = -500
-        end)
-        :onRelease(function ()
-          Cameras:current().xSpeed = 0
-          Cameras:current().ySpeed = 0
-        end)
-    camLeft:setGroup("edit_mode")
-    EditModeUI:add(camLeft)
 
-    local camRight = gooi.newButton({text = "", x = w-32*s, y = 0, w = 32*s, h = h})
-        :onPress(function ()
-          Cameras:current().xSpeed = 500
-        end)
-        :onRelease(function ()
-          Cameras:current().xSpeed = 0
-          Cameras:current().ySpeed = 0
-        end)
-    camRight:setGroup("edit_mode")
-    EditModeUI:add(camRight)
-
-    local camUp = gooi.newButton({text = "", x = 0, y = 0, w = w, h = 32*s})
-        :onPress(function ()
-          Cameras:current().ySpeed = -500
-        end)
-        :onRelease(function ()
-          Cameras:current().ySpeed = 0
-          Cameras:current().xSpeed = 0
-        end)
-    camUp:setGroup("edit_mode")
-    EditModeUI:add(camUp)
-
-    local camDown = gooi.newButton({text = "", x = 0, y = h-32*s, w = w, h = 32*s})
-        :onPress(function ()
-          Cameras:current().ySpeed = 500
-        end)
-        :onRelease(function ()
-          Cameras:current().ySpeed = 0
-          Cameras:current().xSpeed = 0
-        end)
-    camDown:setGroup("edit_mode")
-    EditModeUI:add(camDown)
-
-
-  --end
-  gooi.setStyle(style)
+  joystick = gooi.newJoy({ x = 16*s, y = 432*s, size = 256*s, deadZone = 0.1, group = "edit_mode"})
+  EditModeUI:add(joystick)
 
   return EditModeUI
 
@@ -442,7 +398,9 @@ end
 function EditModeUI:draw()
   if self.display then
     gooi.draw("edit_mode")
+    Cameras:current().xSpeed = 750 * joystick:xValue()
+    Cameras:current().ySpeed = 750 * joystick:yValue()
   else
-    gooi.draw("player")
+
   end
 end
