@@ -1,6 +1,7 @@
 require('collision')
 require('entities/Entity')
 require("Animation")
+require("entities/ChargeEffect")
 
 Player = {}
 bullets = {}
@@ -19,6 +20,8 @@ function Player:create(folder, scale)
 	P.defaultImage = loadImagesInFolder(folder.."/idle")[2]
 	P.bulletImage = love.graphics.newImage("images/characters/bullet.png")
 	P.bullets = {}
+	P.charge = ChargeEffect:new(P.x, P.y, 128, 128)
+	P.charge:stop()
 
 	directories = getFoldersInFolder(folder)
   for i=1, #directories do
@@ -100,7 +103,7 @@ function Player:create(folder, scale)
 
 	function P:draw()
 
-		local s = getZoom(globalScale)
+		local s = getZoom()
 
 		for i=1, #self.bullets do
 			love.graphics.draw(self.bulletImage, (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 0, s, s)
@@ -117,6 +120,8 @@ function Player:create(folder, scale)
 		end
 
 	  love.graphics.setColor(255,255,255,255)
+
+		self.charge:draw()
 
 	end
 
@@ -195,8 +200,15 @@ function Player:create(folder, scale)
 	      end
 	    end
 
+
+
 			player.y = player.y + player.ySpeed*dt
 			player.x = player.x + player.xSpeed*dt
+			player.charge.x = player.x + player.width/2
+			player.charge.y = player.y + player.height/2
+			player.charge.dx = player.xSpeed
+			player.charge.dy = player.ySpeed
+			player.charge:update(dt)
 			PlayerUI.healthBar.y = player.y - 18
 			PlayerUI.healthBar.x = player.x - 11
 

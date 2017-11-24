@@ -70,10 +70,12 @@ function love.draw()
   EditModeUI:draw()
   UI:draw()
   gooi.draw()
+
 end
 
 -- This one is also being called repeatedly, handles game logic
 function love.update(dt)
+  
   items:update(dt)
   gooi.update(dt)
   Cameras:update(dt)
