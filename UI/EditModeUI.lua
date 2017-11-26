@@ -381,6 +381,7 @@ function EditModeUI:load()
 end
 
 function EditModeUI:draw()
+
   if self.display then
     gooi.draw("edit_mode")
     Cameras:current().xSpeed = 750 * joystick:xValue()
@@ -388,4 +389,5 @@ function EditModeUI:draw()
   else
 
   end
+  
 end

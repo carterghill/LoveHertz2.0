@@ -120,6 +120,10 @@ end
 function love.touchmoved( id, x, y, dx, dy, pressure )
   if not EditModeUI.display then
     PlayerUI:touchmoved(id, x, y, dx, dy)
+  else
+    if zoomSlider:overIt(x, y) and zoomSlider:overIt(dx, dy) then
+      gooi.pressed(id, x, y)
+    end
   end
 end
 
@@ -152,6 +156,7 @@ function love.textinput(text)
 end
 
 function pauseGame()
+
   if paused then
     paused = false
     if PlayerUI.display then
@@ -173,4 +178,5 @@ function pauseGame()
         end
     })
   end
+
 end
