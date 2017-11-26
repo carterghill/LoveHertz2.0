@@ -38,7 +38,7 @@ function Placeables:onClick(x,y,button)
   x = x/getZoom(globalScale) + Cameras:current().x
   y = y/getZoom(globalScale) + Cameras:current().y
 
-  if button == 1 and Placeables.currentSet == "decorative" and not EditModeUI:overIt(x, y) and not EditModeUI.delete then
+  if button == 1 and Placeables.currentSet == "decorative" and not EditModeUI:overIt(x, y) and not EditModeUI.delete and not UI:clicked() then
 
     Decorative.set[#Decorative.set+1] = {img = Placeables.decorative.images[Placeables.index],
           x = x - Placeables.decorative.images[Placeables.index]:getWidth()/2,
@@ -128,9 +128,9 @@ function Placeables:draw()
       img = tile.images[1]
       sc = 64/img:getWidth()
     end
-    x = x - img:getWidth()/2*getZoom(globalScale)
-    y = y - img:getHeight()/2*getZoom(globalScale)
-    love.graphics.draw(img, x, y, 0, sc*getZoom(globalScale))
+    x = x - img:getWidth()/2*getZoom()
+    y = y - img:getHeight()/2*getZoom()
+    love.graphics.draw(img, x, y, 0, sc*getZoom())
   end
 
   love.graphics.setColor( 255, 255, 255, 255 )

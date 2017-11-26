@@ -46,6 +46,14 @@ function UI:updateAll(dt)
 
 end
 
+function UI:clicked()
+  if gooi.clicked or joystick:xValue() ~= 0 or joystick:yValue() ~= 0 then
+    return true
+  else
+    return false
+  end
+end
+
 function UI:update(dt)
   UIthread:start(UI:updateAll(dt))
   --UI:updateAll(dt)

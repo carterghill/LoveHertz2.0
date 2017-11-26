@@ -371,24 +371,9 @@ function EditModeUI:load()
   decorative:setGroup("edit_mode")
   EditModeUI:add(decorative)
 
+  --local y_thing = h-500
 
-
-
-  local style2 = {
-    bgColor = {0,0,0,10},
-    fgColor = {0,0,0,10}, -- Foreground color
-    tooltipFont = love.graphics.newFont(love.window.toPixels(11)), -- tooltips are smaller than the main font
-    radius = love.window.toPixels(3), -- radius for the outer shapes of components
-    innerRadius = love.window.toPixels(3), -- For the inner ones
-    showBorder = false, -- border for components
-    borderColor = component.colors.blue,
-    borderWidth = love.window.toPixels(2), -- in pixels
-    borderStyle = "smooth", -- or "rough"
-    font = love.graphics.newFont(love.window.toPixels(13))
-  }
-
-
-  joystick = gooi.newJoy({ x = 16*s, y = 432*s, size = 256*s, deadZone = 0.1, group = "edit_mode"})
+  joystick = gooi.newJoy({ x = 16*s, y = h-(272*s), size = 256*s, deadZone = 0.1, group = "edit_mode"})
   EditModeUI:add(joystick)
 
   return EditModeUI
