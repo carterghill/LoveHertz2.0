@@ -122,6 +122,7 @@ function love.touchmoved( id, x, y, dx, dy, pressure )
     PlayerUI:touchmoved(id, x, y, dx, dy)
   else
     if zoomSlider:overIt(x, y) and zoomSlider:overIt(dx, dy) then
+      gooi.released(id, x-dx, y-dy)
       gooi.pressed(id, x, y)
     end
   end

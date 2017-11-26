@@ -108,6 +108,9 @@ function PlayerUI:load()
         l.players.charge:start()
       end)
       :onRelease(function ()
+        if l.players.charge.timer > 0.5 then
+          l.players:shoot(l.players.charge.timer)
+        end
         l.players.charge:stop()
       end)
   shootButton:setGroup("player")--]]

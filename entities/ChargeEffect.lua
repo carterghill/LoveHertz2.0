@@ -14,15 +14,15 @@ function ChargeEffect:new(x, y, w, h)
     started = false
   }
 
-  local img = love.graphics.newImage("images/characters/bullet.png")
+  local img = love.graphics.newImage("images/characters/charge.png")
   ef.system = love.graphics.newParticleSystem(img, 24)
   ef.system:setParticleLifetime(0.25)
-  ef.system:setEmissionRate(15)
+  ef.system:setEmissionRate(20)
 	ef.system:setSizeVariation(1)
   ef.system:setLinearDamping(10)
   --ef.system:setSpeed(1000)
 	--ef.system:setLinearAcceleration(0, 0, 20, 20) -- Random movement in all directions.
-	ef.system:setColors(255, 255, 255, 255, 255, 255, 255, 0) -- Fade to transparency.
+	ef.system:setColors(200, 200, 255, 255, 150, 150, 255, 0) -- Fade to transparency.
   --ef.system:setPosition(ef.x, ef.y)
 
   function ef:draw()
@@ -49,7 +49,7 @@ function ChargeEffect:new(x, y, w, h)
     if self.started then
       self.timer = self.timer + dt
     end
-    if self.timer > 0.25 and self.stage == 0 then
+    if self.timer > 0.5 and self.stage == 0 then
       self.system:start()
     --elseif self.timer > 2*self.stage then
       --self.timer = 0

@@ -18,7 +18,9 @@ function Player:create(folder, scale)
 	P.maxHealth = 15
 	P.currentAnim = "default"
 	P.defaultImage = loadImagesInFolder(folder.."/idle")[2]
-	P.bulletImage = love.graphics.newImage("images/characters/bullet.png")
+	P.bulletImage = {}
+	P.bulletImage[1] = love.graphics.newImage("images/characters/bullet.png")
+	P.bulletImage[2] = love.graphics.newImage("images/characters/bullet2.png")
 	P.bullets = {}
 	P.charge = ChargeEffect:new(P.x, P.y, 128, 128)
 	P.charge:stop()
@@ -52,9 +54,10 @@ function Player:create(folder, scale)
 		end
 	end
 
-	function P:shoot()
+	function P:shoot(time)
 	  local num = table.getn(self.bullets)+1
 		p = self
+		local t = time or 0
 		self.bullets[num] = {
 			img = nil,
 	    imagePath = "images/characters/bullet.png",
@@ -64,9 +67,13 @@ function Player:create(folder, scale)
 			width = 0,
 			height = 0,
 			xSpeed = 0,
-			ySpeed = 0
+			ySpeed = 0,
+			damage = 1
 		}
-
+		if t > 1 then
+			self.bullets[num].imagePath = "images/characters/bullet2.png"
+			self.bullets[num].damage = 2
+		end
 		--self.bullets[num].img = love.graphics.newImage("images/characters/bullet.png")
 		--self.bullets[num].width = self.bullets[num].img:getWidth()
 		--self.bullets[num].height = self.bullets[num].img:getHeight()
@@ -90,7 +97,7 @@ function Player:create(folder, scale)
 	    while i <= table.getn(en.enemies) do
 	      if simpleCollision(bullet, en.enemies[i]) then
 	        table.remove(self.bullets, count)
-	        en.enemies[i]:damage(1)
+	        en.enemies[i]:damage(bullet.damage)
 	      end
 	      i = i + 1
 	    end
@@ -106,7 +113,11 @@ function Player:create(folder, scale)
 		local s = getZoom()
 
 		for i=1, #self.bullets do
-			love.graphics.draw(self.bulletImage, (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 0, s, s)
+			if self.facing == "Right" then
+				love.graphics.draw(self.bulletImage[self.bullets[i].damage], (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 0, s, s)
+			else
+				love.graphics.draw(self.bulletImage[self.bullets[i].damage], (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 3.14159, s, -s)
+			end
 			--slowdowns = tostring(self.bullets[1].img)
 		end
 

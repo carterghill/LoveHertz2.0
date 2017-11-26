@@ -393,10 +393,10 @@ function gooi.newSlider(params)
         end
 
         if self.touch then
-            thePos = self.touch.x
+            --[[thePos = self.touch.x
             if self.mode == "v" then
                 thePos = self.touch.y
-            end
+            end-]]
         end
 
         self.displacement = (thePos - (self.x + self.h / 2))
