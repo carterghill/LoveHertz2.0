@@ -70,7 +70,7 @@ function Player:create(folder, scale)
 			ySpeed = 0,
 			damage = 1
 		}
-		if t > 1 then
+		if t > 0.5 then
 			self.bullets[num].imagePath = "images/characters/bullet2.png"
 			self.bullets[num].damage = 2
 		end
@@ -81,9 +81,11 @@ function Player:create(folder, scale)
 	  if self.facing == "Right" then
 	    self.bullets[num].xSpeed = 1000 + self.xSpeed/7
 	    self.bullets[num].x = self.x + self.width
+			self.bullets[num].facing = "Right"
 	  else
 	    self.bullets[num].xSpeed = -1000 + self.xSpeed/7
 	    self.bullets[num].x = self.x - self.bullets[num].width
+			self.bullets[num].facing = "Left"
 	  end
 	end
 
@@ -113,10 +115,10 @@ function Player:create(folder, scale)
 		local s = getZoom()
 
 		for i=1, #self.bullets do
-			if self.facing == "Right" then
+			if self.bullets[i].facing == "Right" then
 				love.graphics.draw(self.bulletImage[self.bullets[i].damage], (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 0, s, s)
 			else
-				love.graphics.draw(self.bulletImage[self.bullets[i].damage], (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 3.14159, s, -s)
+				love.graphics.draw(self.bulletImage[self.bullets[i].damage], (self.bullets[i].x - Cameras:current().x)*s, (self.bullets[i].y - Cameras:current().y)*s, 3.14159, s, s, 0, self.bulletImage[self.bullets[i].damage]:getHeight())
 			end
 			--slowdowns = tostring(self.bullets[1].img)
 		end

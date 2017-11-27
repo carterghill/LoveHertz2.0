@@ -5,6 +5,7 @@ PlayerUI = {
   healthBar = {},
   elements = {}
 }
+
 rightButton = {}
 leftButton = {}
 jumpButton = {}
