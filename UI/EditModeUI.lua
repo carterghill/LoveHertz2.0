@@ -91,7 +91,7 @@ function EditModeUI:load()
 
   --lbl1 = gooi.newLabel({x = 10, text = "Level Name: "}):left()
   txt1 = gooi.newText({y = 16*s, x = w-296*s, w = 280*s, h = 64*s}):setText("")
-  EditModeUI:add(txt1)
+  --EditModeUI:add(txt1)
   savebtn = gooi.newButton({text = "Save", x = w-296*s, y = 144*s, w = 135*s, h = 48*s})
       :setIcon(imgDir.."coin.png")
       :setTooltip("Save the current level")
@@ -389,5 +389,5 @@ function EditModeUI:draw()
   else
 
   end
-  
+
 end

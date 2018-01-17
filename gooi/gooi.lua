@@ -22,6 +22,7 @@ gooi.delayCursorBlink = 0.4
 gooi.delayCanRepeat = 0.45
 gooi.clicked = false
 gooi.input = false
+gooi.onInput = false
 
 function gooi.desktopMode()
     gooi.desktop = true
@@ -2279,6 +2280,19 @@ function gooi.keypressed(key, scancode, isrepeat)
             f:setToRepeat(key)
         end
     end
+end
+
+function gooi.onInput()
+
+  local fields = gooi.getByType("text")
+  for i = 1, #fields do
+      local f = fields[i]
+      if f == gooi.focused then
+          return true
+      end
+  end
+  return false
+
 end
 
 function gooi.keyreleased(key, scancode)

@@ -76,36 +76,38 @@ end
 function love.keypressed(key)
   gooi.keypressed(key, scancode, isrepeat)
   --EditModeUI:onKeypress(key)
-  for i = 1, table.getn(controls) do
-    if key == controls[i].shoot then
-      P:shoot()
-
-    end
-    if key == controls[i].jump then
-      P:jump()
-    end
-    if key == controls[i].up then
-      P.up = true
-    end
-    if key == controls[i].down then
-      P.down = true
-    end
-    if key == controls[i].left then
-      P.left = true
-    end
-    if key == controls[i].right then
-      P.right = true
-    end
-  end
-  if key == "escape" then
-    love.event.quit()
-  end
-
-  if not inSequence and key == controls[1].jump then
+  if not gooi.onInput() then
     for i = 1, table.getn(controls) do
+      if key == controls[i].shoot then
+        P:shoot()
+
+      end
       if key == controls[i].jump then
-        --jump(Players:get(i), dt)
-        --jump(getPlayer(2), dt)
+        P:jump()
+      end
+      if key == controls[i].up then
+        P.up = true
+      end
+      if key == controls[i].down then
+        P.down = true
+      end
+      if key == controls[i].left then
+        P.left = true
+      end
+      if key == controls[i].right then
+        P.right = true
+      end
+    end
+    if key == "escape" then
+      love.event.quit()
+    end
+
+    if not inSequence and key == controls[1].jump then
+      for i = 1, table.getn(controls) do
+        if key == controls[i].jump then
+          --jump(Players:get(i), dt)
+          --jump(getPlayer(2), dt)
+        end
       end
     end
   end

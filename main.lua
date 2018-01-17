@@ -37,6 +37,8 @@ function love.load()
   debug = ""
   Cameras:setPosition(l.players.x, l.players.y)
   --love.keyboard.setKeyRepeat(true)
+  gooi.setGroupEnabled("edit_mode", true)
+  gooi.setGroupEnabled("player", false)
 end
 tileNum = ""
 
