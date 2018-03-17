@@ -13,6 +13,7 @@ require("entities/Enemy")
 require("entities/Enemies")
 require("entities/Item")
 require("entities/Items")
+require('Debug')
 require "gooi"
 lol = ""
 paused = false
@@ -39,6 +40,7 @@ function love.load()
   --love.keyboard.setKeyRepeat(true)
   gooi.setGroupEnabled("edit_mode", true)
   gooi.setGroupEnabled("player", false)
+  Debug:load()
 end
 tileNum = ""
 
@@ -79,6 +81,7 @@ function love.draw()
     love.graphics.setColor(255, 255, 255, 255)
   end
   gooi.draw()
+  Debug:draw()
 
 end
 
