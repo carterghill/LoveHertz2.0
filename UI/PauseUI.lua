@@ -1,11 +1,15 @@
 require "gooi"
 
 PauseUI = {
-  index = 1,
-  elements = {},
-  img = love.graphics.newImage('images/PauseBackground.png'),
-  paused = false
+    index = 1,
+    elements = {},
+    img = love.graphics.newImage('images/PauseBackground.png'),
+    paused = false
 }
+
+function PauseUI:load()
+    
+end
 
 function PauseUI:draw()
 
@@ -17,10 +21,10 @@ function PauseUI:draw()
 
     if self.paused then
         love.graphics.setColor(0, 0, 0, 100)
-        love.graphics.rectangle("fill", 0,0,love.graphics.getWidth(), love.graphics.getHeight())
+        love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
         love.graphics.setColor(255, 255, 255, 255)
         love.graphics.draw(self.img, sw*0.33, sh*0.05, 0, scale_x, scale_y)
         gooi.draw('pause')
     end
-    
+
 end
