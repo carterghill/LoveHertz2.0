@@ -7,12 +7,8 @@ function Debug:load()
     self.visible = true
     self.x = love.graphics.getWidth()*0.75
     self.y = love.graphics.getHeight()*0.75
-    self.logs[#self.logs+1] = "hi"
-    self.logs[#self.logs+1] = "hi2"
 
-    for i=1, 20 do
-        self.logs[#self.logs+1] = tostring(i)
-    end
+    self.logs[#self.logs+1] = "Debug console initialized!"
 
 end
 
@@ -33,7 +29,11 @@ function Debug:draw()
 
         for i=1, lines do
             local y = lines - i
-            love.graphics.print(self.logs[i], self.x+6, (h*0.75)+(y*12)+4)
+            if #self.logs > i then
+                love.graphics.print(self.logs[i], self.x+6, (h*0.75)+(y*12))
+            else
+                break
+            end
         end
 
     end

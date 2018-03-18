@@ -22,9 +22,11 @@ end
 function EditModeUI:toggle()
   if self.display then
     self.display = false
-    PlayerUI.display = true
+    if love.system.getOS() == "Android" or PlayerUI.touch then
+       PlayerUI.display = true
+       gooi.setGroupEnabled("player", true)
+    end
     gooi.setGroupEnabled("edit_mode", false)
-    gooi.setGroupEnabled("player", true)
   else
     self.display = true
     self.delete = false

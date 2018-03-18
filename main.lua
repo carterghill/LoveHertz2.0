@@ -34,7 +34,12 @@ function love.load()
   if love.filesystem.exists("Levels/default.txt") ~= nil then
     l:load()
   end
+
   UI:load()
+  if not love.system.getOS() == "Android" then
+    PlayerUI.display = false
+    gooi.setGroupEnabled("player", false)
+  end
   debug = ""
   Cameras:setPosition(l.players.x, l.players.y)
   --love.keyboard.setKeyRepeat(true)
@@ -47,42 +52,43 @@ tileNum = ""
 -- This function is being called repeatedly and draws things to the screen
 function love.draw()
 
-  if not paused then
     b:draw()
     Placeables:draw()
     Decorative:draw()
     if l ~= nil then
-      Tiles:draw()
-      l.players:draw()
+        Tiles:draw()
+        l.players:draw()
     end
     items:draw()
     en:draw()
     if fps == nil then
-      fps = love.timer.getFPS()
-      prevfps = fps
+        fps = love.timer.getFPS()
+        prevfps = fps
     else
-      prevfps = fps
-      fps = love.timer.getFPS()
+        prevfps = fps
+        fps = love.timer.getFPS()
     end
     if fps < prevfps then
-      slowdowns = slowdowns + 1
-      Debug:log("Slow down detected!")
+        slowdowns = slowdowns + 1
+        Debug:log("Slow down detected!")
     end
     love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
     if l ~= nil then
-      love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
-      "("..Cameras:current().x..", "..Cameras:current().y..")\n"..love.system.getOS().."\n"..lol, 0, 30)
+        love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
+        "("..Cameras:current().x..", "..Cameras:current().y..")\n"..love.system.getOS().."\n"..lol, 0, 30)
     end
 
     EditModeUI:draw()
     UI:draw()
-  else
-    love.graphics.setColor(155, 155, 155, 155)
-    love.graphics.draw(pauseImg)
-    love.graphics.setColor(255, 255, 255, 255)
-  end
-  gooi.draw()
-  Debug:draw()
+
+    if paused then
+        love.graphics.setColor(0, 0, 0, 100)
+        --love.graphics.draw(pauseImg)
+        love.graphics.rectangle("fill", 0,0,love.graphics.getWidth(), love.graphics.getHeight())
+        love.graphics.setColor(255, 255, 255, 255)
+    end
+    gooi.draw()
+    Debug:draw()
 
 end
 
@@ -116,7 +122,12 @@ function love.update(dt)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
-  gooi.pressed(id, x, y)
+    PlayerUI.touch = true
+    if not EditModeUI.display then
+        EditModeUI:toggle()
+        EditModeUI:toggle()
+    end
+    gooi.pressed(id, x, y)
 end
 
 function love.touchreleased( id, x, y, dx, dy, pressure )
@@ -175,9 +186,9 @@ function pauseGame()
     paused = true
     gooi.setGroupEnabled("edit_mode", false)
     gooi.setGroupEnabled("player", false)
-    local screenshot = love.graphics.newScreenshot();
-    screenshot:encode('png', 'pause.png');
-    pauseImg = love.graphics.newImage('pause.png')
+    --local screenshot = love.graphics.newScreenshot();
+    --screenshot:encode('png', 'pause.png');
+    --pauseImg = love.graphics.newImage('pause.png')
     gooi.alert({
         text = "Game is Paused",
         ok = function()
