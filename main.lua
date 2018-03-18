@@ -66,6 +66,7 @@ function love.draw()
     end
     if fps < prevfps then
       slowdowns = slowdowns + 1
+      Debug:log("Slow down detected!")
     end
     love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
     if l ~= nil then

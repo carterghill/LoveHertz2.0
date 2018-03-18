@@ -5,6 +5,8 @@ function Debug:load()
     -- Logs will be a list of strings to output by the debug
     self.logs = {}
     self.visible = true
+    self.x = love.graphics.getWidth()*0.75
+    self.y = love.graphics.getHeight()*0.75
     self.logs[#self.logs+1] = "hi"
     self.logs[#self.logs+1] = "hi2"
 
@@ -22,18 +24,23 @@ function Debug:draw()
     if self.visible then
 
         -- Draw a grey, semi-tanslucent rectangle in the bottom right
-        love.graphics.setColor(100, 100, 100, 100)
-        love.graphics.rectangle("fill", w*0.75, h*0.75, w*0.24, h*0.24)
+        love.graphics.setColor(0, 0, 0, 125)
+        love.graphics.rectangle("fill", self.x, self.y, w*0.24, h*0.24)
         love.graphics.setColor(255, 255, 255, 255)
 
-        for i=1, #self.logs do
-            if h-(i*12) > h*0.75 then
-                love.graphics.print(self.logs[i], w*0.76, h*0.98 - (i*12))
-            else
-                break
-            end
+        -- Get number of lines to be drawn by height of the console
+        lines = ((h-self.y)/12)-1
+
+        for i=1, lines do
+            local y = lines - i
+            love.graphics.print(self.logs[i], self.x+6, (h*0.75)+(y*12)+4)
         end
 
     end
 
+end
+
+-- Store string s in the logs
+function Debug:log(s)
+    table.insert(self.logs, 1, s)
 end
