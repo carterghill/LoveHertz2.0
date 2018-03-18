@@ -29,6 +29,8 @@ function UI:draw()
     end
   end
 
+  PlayerUI.healthBar:draw()
+
 end
 
 function UI:updateAll(dt)

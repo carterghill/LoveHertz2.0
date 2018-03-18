@@ -8,6 +8,7 @@ require("UI/Element")
 require("UI/EditModeUI")
 require("UI/PlayerUI")
 require("UI/UI")
+require("UI/PauseUI")
 require("Background")
 require("entities/Enemy")
 require("entities/Enemies")
@@ -21,33 +22,30 @@ paused = false
 -- This one is called right at the start
 function love.load()
 
-  love.filesystem.setIdentity( "beatboy" )
-  globalScale = love.graphics.getWidth()/1280
-  en = Enemies:new()
-  slowdowns = 0
-  Placeables:load()
-  Cameras:new()
-  P = Player:create("images/traveler")
-  l = Level:new(Tiles, P)
-  items = Items:new()
-  b = Background:new("images/backgrounds/city")
-  if love.filesystem.exists("Levels/default.txt") ~= nil then
-    l:load()
-  end
+    love.filesystem.setIdentity( "beatboy" )
+    globalScale = love.graphics.getWidth()/1280
+    en = Enemies:new()
+    slowdowns = 0
+    Placeables:load()
+    Cameras:new()
+    P = Player:create("images/traveler")
+    l = Level:new(Tiles, P)
+    items = Items:new()
+    b = Background:new("images/backgrounds/city")
 
-  UI:load()
-  if not love.system.getOS() == "Android" then
-    PlayerUI.display = false
-    gooi.setGroupEnabled("player", false)
-  end
-  debug = ""
-  Cameras:setPosition(l.players.x, l.players.y)
-  --love.keyboard.setKeyRepeat(true)
-  gooi.setGroupEnabled("edit_mode", true)
-  gooi.setGroupEnabled("player", false)
-  Debug:load()
+    if love.filesystem.exists("Levels/default.txt") ~= nil then
+        l:load()
+    end
+
+    UI:load()
+
+    if not love.system.getOS() == "Android" then
+        PlayerUI.display = false
+        gooi.setGroupEnabled("player", false)
+    end
+    Cameras:setPosition(l.players.x, l.players.y)
+    Debug:load()
 end
-tileNum = ""
 
 -- This function is being called repeatedly and draws things to the screen
 function love.draw()
@@ -59,34 +57,14 @@ function love.draw()
         Tiles:draw()
         l.players:draw()
     end
+
     items:draw()
     en:draw()
-    if fps == nil then
-        fps = love.timer.getFPS()
-        prevfps = fps
-    else
-        prevfps = fps
-        fps = love.timer.getFPS()
-    end
-    if fps < prevfps then
-        slowdowns = slowdowns + 1
-        Debug:log("Slow down detected!")
-    end
-    love.graphics.print("FPS: "..fps.."\nSlowdowns: "..slowdowns)
-    if l ~= nil then
-        love.graphics.print("Player: ("..l.players.x..", "..l.players.y..")\n"..
-        "("..Cameras:current().x..", "..Cameras:current().y..")\n"..love.system.getOS().."\n"..lol, 0, 30)
-    end
 
     EditModeUI:draw()
     UI:draw()
+    PauseUI:draw()
 
-    if paused then
-        love.graphics.setColor(0, 0, 0, 100)
-        --love.graphics.draw(pauseImg)
-        love.graphics.rectangle("fill", 0,0,love.graphics.getWidth(), love.graphics.getHeight())
-        love.graphics.setColor(255, 255, 255, 255)
-    end
     gooi.draw()
     Debug:draw()
 
@@ -97,7 +75,7 @@ function love.update(dt)
 
   gooi.update(dt)
 
-  if not paused then
+  if not PauseUI.paused then
     items:update(dt)
     Cameras:update(dt)
     UI:update(dt)
@@ -131,70 +109,67 @@ function love.touchpressed( id, x, y, dx, dy, pressure )
 end
 
 function love.touchreleased( id, x, y, dx, dy, pressure )
-  gooi.released(id, x, y)
+    gooi.released(id, x, y)
 end
 
 function love.touchmoved( id, x, y, dx, dy, pressure )
-  if not EditModeUI.display then
-    PlayerUI:touchmoved(id, x, y, dx, dy)
-  else
-    if zoomSlider:overIt(x, y) and zoomSlider:overIt(dx, dy) then
-      gooi.released(id, x-dx, y-dy)
-      gooi.pressed(id, x, y)
+    if not EditModeUI.display then
+        PlayerUI:touchmoved(id, x, y, dx, dy)
+    else
+        if zoomSlider:overIt(x, y) and zoomSlider:overIt(dx, dy) then
+            gooi.released(id, x-dx, y-dy)
+            gooi.pressed(id, x, y)
+        end
     end
-  end
 end
 
 function love.mousepressed(x, y, button, istouch)
-  UI:onClick(x, y)
-  if love.system.getOS() ~= "Android" then
-    gooi.pressed()
-  end
-  Placeables:onClick(x,y,button)
+    UI:onClick(x, y)
+    if love.system.getOS() ~= "Android" then
+        gooi.pressed()
+    end
+    Placeables:onClick(x,y,button)
 end
 
 function love.mousereleased(x, y, button, istouch)
-  if love.system.getOS() ~= "Android" then
-    gooi.released()
-  end
-  if not jumpButton:overIt(love.mouse.getPosition())
-  and not shootButton:overIt(love.mouse.getPosition()) then
-    Cameras:current().xSpeed = 0
-    Cameras:current().ySpeed = 0
-    l.players.left = false
-    l.players.right = false
-  end
+    if love.system.getOS() ~= "Android" then
+        gooi.released()
+    end
+    if not jumpButton:overIt(love.mouse.getPosition())
+    and not shootButton:overIt(love.mouse.getPosition()) then
+        Cameras:current().xSpeed = 0
+        Cameras:current().ySpeed = 0
+        l.players.left = false
+        l.players.right = false
+    end
 end
 
 function love.textinput(text)
-  if gooi.input then
-    gooi.input = false
-  end
-  gooi.textinput(text)
+    if gooi.input then
+        gooi.input = false
+    end
+    gooi.textinput(text)
 end
 
 function pauseGame()
 
-  if paused then
-    paused = false
-    if PlayerUI.display then
-      gooi.setGroupEnabled("player", true)
-    elseif EditModeUI.display then
-      gooi.setGroupEnabled("edit_mode", true)
-    end
-  else
-    paused = true
-    gooi.setGroupEnabled("edit_mode", false)
-    gooi.setGroupEnabled("player", false)
-    --local screenshot = love.graphics.newScreenshot();
-    --screenshot:encode('png', 'pause.png');
-    --pauseImg = love.graphics.newImage('pause.png')
-    gooi.alert({
-        text = "Game is Paused",
-        ok = function()
-            pauseGame()
+    if PlayerUI.paused then
+        PlayerUI.paused = false
+        if PlayerUI.display then
+            gooi.setGroupVisible("player", true)
+        elseif EditModeUI.display then
+            gooi.setGroupVisible("edit_mode", true)
         end
-    })
-  end
+    else
+        gooi.setGroupVisible("edit_mode", false)
+        gooi.setGroupVisible("player", false)
+        PauseUI.paused = true
+        --[[gooi.alert({
+            text = "Game is Paused",
+            ok = function()
+                pauseGame()
+            end
+        })--]]
+    end
 
 end
