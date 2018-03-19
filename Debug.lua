@@ -51,5 +51,5 @@ function Debug:reset()
 end
 
 function Debug:toggle()
-    self.visible = -self.visible
+    self.visible = not self.visible
 end

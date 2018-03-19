@@ -21,6 +21,14 @@ function PauseUI:load()
       end)
       :setGroup('pause')
 
+    self.elements[2] = gooi.newButton({text = "Toggle Debug Console", x = (w/3)+24, y = 166*s, w = (w/3)-24, h = 48*s})
+        --:setIcon(imgDir.."coin.png"):danger()
+        :setTooltip("Turn Edit Mode on or off")
+        :onRelease(function()
+            Debug:toggle()
+        end)
+        :setGroup('pause')
+
 end
 
 function PauseUI:draw()
