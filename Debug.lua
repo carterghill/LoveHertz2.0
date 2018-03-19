@@ -5,7 +5,7 @@ function Debug:load()
     -- Logs will be a list of strings to output by the debug
     self.logs = {}
     self.visible = true
-    self.x = love.graphics.getWidth()*0.75
+    self.x = 12
     self.y = love.graphics.getHeight()*0.75
 
     self.logs[#self.logs+1] = "Debug console initialized!"
@@ -46,7 +46,6 @@ function Debug:log(s)
 end
 
 function Debug:reset()
-    self.x = love.graphics.getWidth()*0.75
+    self.x = 12
     self.y = love.graphics.getHeight()*0.75
-
 end

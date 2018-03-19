@@ -13,7 +13,7 @@ function PauseUI:load()
     local w = love.graphics.getWidth()
     local h = love.graphics.getHeight()
 
-    
+    self.elements[1] = {}
 
 end
 

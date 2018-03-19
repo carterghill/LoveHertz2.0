@@ -44,10 +44,11 @@ function PlayerUI:load()
   self.healthBar = Element:new(l.players.x-11*getZoom(), l.players.y-18*getZoom(), 86, 16, "Health Bar", "", c)
 
   self.display = false
-  local pause = gooi.newButton({y = 16*s, x = w-296*s, w = 280*s, h = 128*s, group="player"})
+  pauseB = gooi.newButton({y = 16*s, x = w-296*s, w = 280*s, h = 128*s, group="player"})
     :setText("Pause")
     :onRelease(function ()
-      pauseGame()
+      PauseUI:pause()
+      pauseB:setVisible(true)
       --gooi.newButton({y = 16*s, x = w-296*s, w = 280*s, h = 128*s, text = "Unpause"})
           --:onRelease(pauseGame())
     end)

@@ -16,8 +16,6 @@ require("entities/Item")
 require("entities/Items")
 require('Debug')
 require "gooi"
-lol = ""
-paused = false
 
 -- This one is called right at the start
 function love.load()
@@ -101,9 +99,11 @@ end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
     PlayerUI.touch = true
+    --gooi.setGroupVisible("player", true)
     if not EditModeUI.display then
         EditModeUI:toggle()
         EditModeUI:toggle()
+        gooi.setGroupVisible("player", true)
     end
     gooi.pressed(id, x, y)
 end
@@ -125,14 +125,14 @@ end
 
 function love.mousepressed(x, y, button, istouch)
     UI:onClick(x, y)
-    if love.system.getOS() ~= "Android" then
+    if not PlayerUI.touch then
         gooi.pressed()
     end
     Placeables:onClick(x,y,button)
 end
 
 function love.mousereleased(x, y, button, istouch)
-    if love.system.getOS() ~= "Android" then
+    if not PlayerUI.touch then
         gooi.released()
     end
     if not jumpButton:overIt(love.mouse.getPosition())
@@ -153,5 +153,5 @@ end
 function love.resize(w, h)
     Debug:reset()
     Debug:log(("Window resized to width: %d and height: %d."):format(w, h))
-    EditModeUI:load()
+    --EditModeUI:load()
 end

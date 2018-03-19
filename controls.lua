@@ -81,6 +81,8 @@ function love.gamepadreleased( joystick, button )
 end
 
 function love.keypressed(key)
+  PlayerUI.touch = false
+  gooi.setGroupVisible("player", false)
   gooi.keypressed(key, scancode, isrepeat)
   --EditModeUI:onKeypress(key)
   if not gooi.onInput() then
