@@ -35,7 +35,7 @@ function love.gamepadpressed( joystick, button )
     end
     if button == "b" then
         if PauseUI.paused then
-            PauseUI:pause()
+            --PauseUI:pause()
         end
     end
     if button == "x" then
@@ -78,6 +78,11 @@ function love.gamepadreleased( joystick, button )
                 end
             end
         end
+        if button == "b" then
+            if PauseUI.paused then
+                PauseUI:deselect()
+            end
+        end
         if button == "x" then
             if l.players.charge.timer > 0.5 then
                 l.players:shoot(l.players.charge.timer)
@@ -117,7 +122,11 @@ function love.keypressed(key)
         P:jump()
       end
       if key == controls[i].up then
-        P.up = true
+          if PauseUI.paused then
+              PauseUI:up()
+          else
+              P.up = true
+          end
       end
       if key == controls[i].down then
         P.down = true
@@ -131,9 +140,25 @@ function love.keypressed(key)
       if key == controls[i].right then
         P.right = true
       end
+      if key == "up" then
+          if PauseUI.paused then
+              PauseUI:down()
+          end
+      end
+      if key == "down" then
+          if PauseUI.paused then
+              PauseUI:up()
+          end
+      end
+
     end
     if key == "escape" then
       PauseUI:pause()
+    end
+    if key == "backspace" then
+        if PauseUI.paused then
+            PauseUI:deselect()
+        end
     end
 
     if not inSequence and key == controls[1].jump then
@@ -170,6 +195,13 @@ function love.keyreleased(key, scancode)
         l.players:shoot(l.players.charge.timer)
       end
       l.players.charge:stop()
+    end
+    if key == "space" or key == "return" then
+        if PauseUI.paused then
+            PauseUI:select()
+        else
+            l.players:jump()
+        end
     end
   end
 end

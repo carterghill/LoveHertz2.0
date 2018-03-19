@@ -6,7 +6,8 @@ PauseUI = {
     settings = {},
     img = love.graphics.newImage('images/PauseBackground.png'),
     paused = false,
-    group = "pause"
+    group = "pause",
+    clickTime = 0
 }
 
 function PauseUI:load()
@@ -162,16 +163,40 @@ function PauseUI:up()
 end
 
 function PauseUI:select()
-    if self.group == "pause" then
-        self.elements[self.cursor].events:r()
-    elseif self.group == "pause_settings" then
-        self.settings[self.cursor].events:r()
+    if love.timer.getTime() - self.clickTime > 0.1 then
+        -- Adding a click timer to prevent menu items for being pressed twice
+        self.clickTime = love.timer.getTime()
+        if gooi.yesButton then
+            gooi.yesButton.events:r()
+        elseif self.group == "pause" then
+            self.elements[self.cursor].events:r()
+            return
+        elseif self.group == "pause_settings" then
+            self.settings[self.cursor].events:r()
+            return
+        end
+    end
+end
+
+function PauseUI:deselect()
+    if love.timer.getTime() - self.clickTime > 0.1 then
+        -- Adding a click timer to prevent menu items for being pressed twice
+        self.clickTime = love.timer.getTime()
+        if gooi.noButton then
+            gooi.noButton.events:r()
+        elseif self.group == "pause" then
+            self:pause()
+            return
+        elseif self.group == "pause_settings" then
+            self.group = "pause"
+            gooi.setGroupVisible("pause_settings", false)
+            gooi.setGroupVisible("pause", true)
+            return
+        end
     end
 end
 
 function PauseUI:pause()
-
-    Debug:log(tostring(self.settings[2].x))
 
     if self.paused then
 
