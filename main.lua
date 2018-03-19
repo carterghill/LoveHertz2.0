@@ -150,8 +150,18 @@ function love.textinput(text)
     end
     gooi.textinput(text)
 end
+
 function love.resize(w, h)
+
+
+
+    globalScale = love.graphics.getWidth()/1280
+
+
     Debug:reset()
     Debug:log(("Window resized to width: %d and height: %d."):format(w, h))
     EditModeUI:reset()
+    PauseUI:reset()
+
+    --globalScale = love.graphics.getWidth()/1280
 end
