@@ -199,8 +199,6 @@ function love.keyreleased(key, scancode)
     if key == "space" or key == "return" then
         if PauseUI.paused then
             PauseUI:select()
-        else
-            l.players:jump()
         end
     end
   end

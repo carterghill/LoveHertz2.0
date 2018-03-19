@@ -130,8 +130,6 @@ function PauseUI:draw()
                         self.settings[self.cursor].w, self.settings[self.cursor].h)
         end
 
-
-
     end
 
 end
