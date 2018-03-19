@@ -11,8 +11,8 @@ function Cameras:new()
 		y = 0,
 		xSpeed = 0,
 		ySpeed = 0,
-    width = love.graphics.getWidth( ),
-    height = love.graphics.getHeight()
+    	width = love.graphics.getWidth( ),
+    	height = love.graphics.getHeight()
 	}
 
 	if cameraNum == 0 then

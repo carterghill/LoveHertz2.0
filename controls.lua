@@ -99,6 +99,9 @@ function love.keypressed(key)
       end
       if key == controls[i].down then
         P.down = true
+        if PauseUI.paused then
+            PauseUI:down()
+        end
       end
       if key == controls[i].left then
         P.left = true

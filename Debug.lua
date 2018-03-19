@@ -4,7 +4,7 @@ function Debug:load()
 
     -- Logs will be a list of strings to output by the debug
     self.logs = {}
-    self.visible = true
+    self.visible = false
     self.x = 12
     self.y = love.graphics.getHeight()*0.75
 

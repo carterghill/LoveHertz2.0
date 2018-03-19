@@ -162,6 +162,11 @@ function love.resize(w, h)
     Debug:log(("Window resized to width: %d and height: %d."):format(w, h))
     EditModeUI:reset()
     PauseUI:reset()
+    PlayerUI:reset()
+    for i=1, #Cameras do
+        Cameras[i].width = love.graphics.getWidth()
+        Cameras[i].height = love.graphics.getHeight()
+    end
 
     --globalScale = love.graphics.getWidth()/1280
 end
