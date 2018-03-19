@@ -29,10 +29,13 @@ function Element:new(x, y, width, height, type, content, click, update, fontSize
 
   }
 
-  function ui:onClick()
-    self.click()
-    --self:toggleActive()
-  end
+    function ui:onClick()
+
+        if self.click then
+            self.click()
+        end
+        --self:toggleActive()
+    end
 
   function ui:toggleActive()
     if self.active then

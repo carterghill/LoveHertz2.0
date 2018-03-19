@@ -34,14 +34,7 @@ function PlayerUI:load()
   local w = love.graphics.getWidth()
   local h = love.graphics.getHeight()
 
-  local c = function ()
-    l.players.health = l.players.health + 1
-    if l.players.health > l.players.maxHealth then
-      l.players.health = l.players.maxHealth
-    end
-  end
-
-  self.healthBar = Element:new(l.players.x-11*getZoom(), l.players.y-18*getZoom(), 86, 16, "Health Bar", "", c)
+  self.healthBar = Element:new(l.players.x-11*getZoom(), l.players.y-18*getZoom(), 86, 16, "Health Bar", "")
 
   self.display = false
   pauseB = gooi.newButton({y = 16*s, x = w-296*s, w = 280*s, h = 128*s, group="player"})
@@ -52,6 +45,8 @@ function PlayerUI:load()
       --gooi.newButton({y = 16*s, x = w-296*s, w = 280*s, h = 128*s, text = "Unpause"})
           --:onRelease(pauseGame())
     end)
+    pauseB:setGroup("player")--]]
+    PlayerUI:add(pauseB)
   --PlayerUI:add(healthBar)
 
   local style = {
