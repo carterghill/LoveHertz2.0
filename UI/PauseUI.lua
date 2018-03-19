@@ -148,6 +148,27 @@ function PauseUI:down()
     end
 end
 
+function PauseUI:up()
+    self.cursor = self.cursor - 1
+    if self.group == "pause" then
+        if self.cursor < 1 then
+            self.cursor = #self.elements
+        end
+    elseif self.group == "pause_settings" then
+        if self.cursor < 1 then
+            self.cursor = #self.elements
+        end
+    end
+end
+
+function PauseUI:select()
+    if self.group == "pause" then
+        self.elements[self.cursor].events:r()
+    elseif self.group == "pause_settings" then
+        self.settings[self.cursor].events:r()
+    end
+end
+
 function PauseUI:pause()
 
     Debug:log(tostring(self.settings[2].x))

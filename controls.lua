@@ -27,17 +27,29 @@ function love.gamepadpressed( joystick, button )
   local i = joystick:getID()
   if P ~= nil then
     if button == "a" then
-      l.players:shoot()
-      l.players.charge:start()
+        if PauseUI.paused then
+            PauseUI:select()
+        else
+            l.players:jump()
+        end
     end
     if button == "x" then
-      P:shoot()
+        l.players:shoot()
+        l.players.charge:start()
     end
     if button == "dpup" then
-      P.up = true
+        if PauseUI.paused then
+            PauseUI:up()
+        else
+            P.up = true
+        end
     end
     if button == "dpdown" then
-      P.down = true
+        if PauseUI.paused then
+            PauseUI:down()
+        else
+            P.down = true
+        end
     end
     if button == "dpleft" then
       P.left = true
@@ -50,34 +62,39 @@ function love.gamepadpressed( joystick, button )
 end
 
 function love.gamepadreleased( joystick, button )
-  local i = joystick:getID()
-  if P ~= nil then
-    if button == "a" and P.ySpeed < -400 then
-      P.ySpeed = -400
+    local i = joystick:getID()
+    if P ~= nil then
+        if button == "a" then
+            if PauseUI.paused then
+                --PauseUI:selectUp()
+            else
+                if P.ySpeed < -400 then
+                    P.ySpeed = -400
+                end
+            end
+        end
+        if button == "x" then
+            if l.players.charge.timer > 0.5 then
+                l.players:shoot(l.players.charge.timer)
+            end
+            l.players.charge:stop()
+        end
+        if button == "dpup" then
+            P.up = false
+        end
+        if button == "dpdown" then
+            P.down = false
+        end
+        if button == "dpleft" then
+            P.left = false
+        end
+        if button == "dpright" then
+            P.right = false
+        end
+        if button == "start" then
+            PauseUI:pause()
+        end
     end
-    if button == "x" then
-      if l.players.charge.timer > 0.5 then
-        l.players:shoot(l.players.charge.timer)
-      end
-      l.players.charge:stop()
-    end
-    if button == "dpup" then
-      P.up = false
-    end
-    if button == "dpdown" then
-      P.down = false
-    end
-    if button == "dpleft" then
-      P.left = false
-    end
-    if button == "dpright" then
-      P.right = false
-    end
-    if button == "start" then
-      PauseUI:pause()
-    end
-  end
-
 end
 
 function love.keypressed(key)
