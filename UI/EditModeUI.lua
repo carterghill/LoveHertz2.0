@@ -148,6 +148,9 @@ function EditModeUI:load()
               end
             end
           end
+          if #savedLevels == 0 then
+            return
+          end
           current = current + 1
           if current > #savedLevels then
             current = 1
@@ -170,7 +173,6 @@ function EditModeUI:load()
 
   local c = function()
       local x = love.filesystem.getDirectoryItems("My Levels")
-      local y = love.filesystem.getDirectoryItems("Levels")
       local savedLevels = {}
       local current = 1
       for i=1, #x do
@@ -182,14 +184,8 @@ function EditModeUI:load()
           end
         end
       end
-      for i=1, #y do
-        if y[i] ~= ".DS_Store" and y[i] ~= ".DS_Store.txt" then
-          local t = y[i]:gsub(".txt", "")
-          table.insert(savedLevels, t)
-          if t == txt1:getText() then
-            current = #savedLevels
-          end
-        end
+      if #savedLevels == 0 then
+        return
       end
       current = current - 1
       if current < 1 then
