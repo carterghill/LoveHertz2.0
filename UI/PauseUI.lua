@@ -168,6 +168,8 @@ function PauseUI:select()
         self.clickTime = love.timer.getTime()
         if gooi.yesButton then
             gooi.yesButton.events:r()
+            gooi.yesButton = nil
+            gooi.noButton = nil
         elseif self.group == "pause" then
             self.elements[self.cursor].events:r()
             return
@@ -184,6 +186,8 @@ function PauseUI:deselect()
         self.clickTime = love.timer.getTime()
         if gooi.noButton then
             gooi.noButton.events:r()
+            gooi.yesButton = nil
+            gooi.noButton = nil
         elseif self.group == "pause" then
             self:pause()
             return
@@ -201,6 +205,8 @@ function PauseUI:pause()
     if self.paused then
 
         self.paused = false
+        gooi.yesButton = nil
+        gooi.noButton = nil
         if PlayerUI.display then
             gooi.setGroupVisible("player", true)
         elseif EditModeUI.display then

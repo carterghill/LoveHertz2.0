@@ -131,27 +131,6 @@ function EditModeUI:load()
       end)
   loadbtn:setGroup("edit_mode")
   EditModeUI:add(loadbtn)
-  quit = gooi.newButton({text = "Quit Game", x = 16*s, y = 16*s, w = 150*s, h = 48*s})
-      :setIcon():danger()
-      :setTooltip("Exit the program")
-      :onRelease(function()
-          gooi.confirm({
-              text = "Are you sure you\nwant to quit?",
-              ok = function()
-                  love.event.quit()
-              end
-          })
-      end)
-  EditModeUI:add(quit)
-
-  edittoggle = gooi.newButton({text = "Toggle Edit", x = 16*s, y = 80*s, w = 150*s, h = 48*s})
-      --:setIcon(imgDir.."coin.png"):danger()
-      :setTooltip("Turn Edit Mode on or off")
-      :onRelease(function()
-          EditModeUI:toggle()
-      end)
-      :setGroup('edit_mode')
-  EditModeUI:add(edittoggle)
 
   nextbtn = gooi.newButton({text = ">", x = w-151*s, y = 88*s, w = 135*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
