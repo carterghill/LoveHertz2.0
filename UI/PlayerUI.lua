@@ -102,17 +102,15 @@ function PlayerUI:load()
   PlayerUI:add(jumpButton)
 
   shootButton = gooi.newButton({text = "Shoot", x = w-452*s, y = h-176*s, w = 160*s, h = 160*s})
-      --:setIcon(imgDir.."coin.png")
-      --:setTooltip("")
       :onPress(function()
-        l.players:shoot()
-        l.players.charge:start()
+          l.players:shoot()
+          l.players.charge:start()
       end)
       :onRelease(function ()
-        if l.players.charge.timer > 0.5 then
-          l.players:shoot(l.players.charge.timer)
-        end
-        l.players.charge:stop()
+          if l.players.charge.timer > 0.5 then
+              l.players:shoot(l.players.charge.timer)
+          end
+          l.players.charge:stop()
       end)
   shootButton:setGroup("player")--]]
   PlayerUI:add(shootButton)

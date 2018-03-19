@@ -150,26 +150,8 @@ function love.textinput(text)
     end
     gooi.textinput(text)
 end
-
-function pauseGame()
-
-    if PlayerUI.paused then
-        PlayerUI.paused = false
-        if PlayerUI.display then
-            gooi.setGroupVisible("player", true)
-        elseif EditModeUI.display then
-            gooi.setGroupVisible("edit_mode", true)
-        end
-    else
-        gooi.setGroupVisible("edit_mode", false)
-        gooi.setGroupVisible("player", false)
-        PauseUI.paused = true
-        --[[gooi.alert({
-            text = "Game is Paused",
-            ok = function()
-                pauseGame()
-            end
-        })--]]
-    end
-
+function love.resize(w, h)
+    Debug:reset()
+    Debug:log(("Window resized to width: %d and height: %d."):format(w, h))
+    EditModeUI:load()
 end

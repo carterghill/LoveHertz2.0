@@ -44,3 +44,9 @@ end
 function Debug:log(s)
     table.insert(self.logs, 1, s)
 end
+
+function Debug:reset()
+    self.x = love.graphics.getWidth()*0.75
+    self.y = love.graphics.getHeight()*0.75
+
+end

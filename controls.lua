@@ -27,10 +27,11 @@ function love.gamepadpressed( joystick, button )
   local i = joystick:getID()
   if P ~= nil then
     if button == "a" then
-      P:jump()
+      l.players:shoot()
+      l.players.charge:start()
     end
     if button == "x" then
-      --shoot(i)
+      P:shoot()
     end
     if button == "dpup" then
       P.up = true
@@ -45,7 +46,7 @@ function love.gamepadpressed( joystick, button )
       P.right = true
     end
   end
-  print(button)
+  Debug:log(button)
 end
 
 function love.gamepadreleased( joystick, button )
@@ -55,7 +56,10 @@ function love.gamepadreleased( joystick, button )
       P.ySpeed = -400
     end
     if button == "x" then
-      --shoot(i)
+      if l.players.charge.timer > 0.5 then
+        l.players:shoot(l.players.charge.timer)
+      end
+      l.players.charge:stop()
     end
     if button == "dpup" then
       P.up = false
@@ -69,8 +73,11 @@ function love.gamepadreleased( joystick, button )
     if button == "dpright" then
       P.right = false
     end
+    if button == "start" then
+      PauseUI:pause()
+    end
   end
-  print(button)
+
 end
 
 function love.keypressed(key)
@@ -79,8 +86,8 @@ function love.keypressed(key)
   if not gooi.onInput() then
     for i = 1, table.getn(controls) do
       if key == controls[i].shoot then
-        P:shoot()
-
+        l.players:shoot()
+        l.players.charge:start()
       end
       if key == controls[i].jump then
         P:jump()
@@ -99,7 +106,7 @@ function love.keypressed(key)
       end
     end
     if key == "escape" then
-      love.event.quit()
+      PauseUI:pause()
     end
 
     if not inSequence and key == controls[1].jump then
@@ -130,6 +137,12 @@ function love.keyreleased(key, scancode)
     end
     if key == controls[i].right then
       P.right = false
+    end
+    if key == controls[i].shoot then
+      if l.players.charge.timer > 0.5 then
+        l.players:shoot(l.players.charge.timer)
+      end
+      l.players.charge:stop()
     end
   end
 end
