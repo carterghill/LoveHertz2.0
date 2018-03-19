@@ -62,6 +62,11 @@ function EditModeUI:empty()
   self.elements = {}
 end
 
+function EditModeUI:reset()
+    self:empty()
+    self:load()
+end
+
 function EditModeUI:load()
 
   local s = globalScale
@@ -112,6 +117,7 @@ function EditModeUI:load()
   savebtn:setGroup("edit_mode")
   EditModeUI:add(savebtn)
   txt1:setGroup("edit_mode")
+  EditModeUI:add(txt1)
   loadbtn = gooi.newButton({text = "Load", x = w-151*s, y = 144*s, w = 135*s, h = 48*s})
       :setIcon(imgDir.."coin.png")
       :setTooltip("Load the above level")
@@ -144,6 +150,7 @@ function EditModeUI:load()
       :onRelease(function()
           EditModeUI:toggle()
       end)
+      :setGroup('edit_mode')
   EditModeUI:add(edittoggle)
 
   nextbtn = gooi.newButton({text = ">", x = w-151*s, y = 88*s, w = 135*s, h = 48*s})

@@ -11,6 +11,7 @@ function UI:load()
 
   EditModeUI = EditModeUI:load()
   p = PlayerUI:load()
+  PauseUI:load()
 
   --UI:add(EditModeUI)
   UI:add(p)

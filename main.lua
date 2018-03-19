@@ -153,5 +153,5 @@ end
 function love.resize(w, h)
     Debug:reset()
     Debug:log(("Window resized to width: %d and height: %d."):format(w, h))
-    --EditModeUI:load()
+    EditModeUI:reset()
 end

@@ -49,3 +49,7 @@ function Debug:reset()
     self.x = 12
     self.y = love.graphics.getHeight()*0.75
 end
+
+function Debug:toggle()
+    self.visible = -self.visible
+end
