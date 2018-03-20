@@ -147,7 +147,7 @@ function loadImagesInFolder(folder)
 		if string.find(imageNames[i], ".png") or string.find(imageNames[i], ".jpg")
 		or string.find(imageNames[i], ".gif") then
 			images[i] = love.graphics.newImage(folder.."/"..imageNames[i])
-			images[i]:setFilter("nearest", "nearest")
+			--images[i]:setFilter("nearest", "nearest")
 			i = i + 1
     else
 			-- IF INDEX IS NOT IMAGE, REMOVE AND TRY INDEX AGAIN

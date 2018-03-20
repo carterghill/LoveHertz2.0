@@ -252,12 +252,18 @@ function EditModeUI:load()
   -- MOVE SCREEN BUTTON
   ----------------------
 
-  moveScrn = gooi.newButton({text = "M", x = 16*s, y = 16*s, w = 80*s, h = 80*s})
+  moveScrn = gooi.newButton({text = "", x = 16*s, y = 16*s, w = 80*s, h = 80*s})
+      :setBGImage(love.graphics.newImage("images/moveIcon.png"))
       :onRelease(function ()
         self.tool = 'move'
         self.selected = moveScrn
+        c = love.mouse.getSystemCursor("sizeall")
+        love.mouse.setCursor(c)
       end)
+  mv = love.graphics.newImage("images/moveIcon.png")
+  mv:setFilter("nearest", "nearest")
   moveScrn:setGroup("edit_mode")
+  --moveScrn:setBGImage(mv)
   EditModeUI:add(moveScrn)
   self.selected = moveScrn
 

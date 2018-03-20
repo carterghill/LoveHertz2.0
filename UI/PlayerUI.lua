@@ -174,6 +174,8 @@ function PlayerUI:load()
   end
 
   gooi.setStyle(oldStyle)
+  gooi.setGroupVisible("player", false)
+  
   return PlayerUI
 
 end
