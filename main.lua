@@ -126,7 +126,7 @@ end
 
 function love.mousemoved( x, y, dx, dy, istouch )
     if EditModeUI.display and love.mouse.isDown(1) and EditModeUI.tool == "move" then
-        if not (math.abs(dx) > 500 or math.abs(dy) > 500) then
+        if not (math.abs(dx) > 300 or math.abs(dy) > 300) then
             --Cameras:current().xSpeed = dx
             Cameras:current().x = Cameras:current().x - dx
             --Cameras:current().ySpeed = dy

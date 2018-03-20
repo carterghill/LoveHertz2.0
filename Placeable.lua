@@ -9,7 +9,6 @@ Placeables = {
   index = 1,
   currentSet = "tiles"
 
-
 }
 
 Decorative = {

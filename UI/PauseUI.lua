@@ -29,6 +29,7 @@ function PauseUI:load()
       :setTooltip("Turn Edit Mode on or off")
       :onRelease(function()
           EditModeUI:toggle()
+          self:pause()
       end)
       :setGroup('pause')
 

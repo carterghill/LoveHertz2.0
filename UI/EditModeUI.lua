@@ -5,7 +5,8 @@ EditModeUI = {
   display = true,
   elements = {},
   delete = false,
-  tool = "move"
+  tool = "move",
+  selected = {}
 }
 
 deleteButton = {}
@@ -101,7 +102,7 @@ function EditModeUI:load()
   --EditModeUI:add(txt1)
   savebtn = gooi.newButton({text = "Save", x = w-296*s, y = 144*s, w = 135*s, h = 48*s})
       :setIcon(imgDir.."coin.png")
-      :setTooltip("Save the current level")
+      ----:setTooltip("Save the current level")
       :onRelease(function()
           gooi.confirm({
               text = "Save game as \""..txt1:getText().."\'?",
@@ -120,7 +121,7 @@ function EditModeUI:load()
   EditModeUI:add(txt1)
   loadbtn = gooi.newButton({text = "Load", x = w-151*s, y = 144*s, w = 135*s, h = 48*s})
       :setIcon(imgDir.."coin.png")
-      :setTooltip("Load the above level")
+      ----:setTooltip("Load the above level")
       :onRelease(function()
           gooi.confirm({
               text = "Load \""..txt1:getText().."\'?",
@@ -134,7 +135,7 @@ function EditModeUI:load()
 
   nextbtn = gooi.newButton({text = ">", x = w-151*s, y = 88*s, w = 135*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("Next in the list")
+      ----:setTooltip("Next in the list")
       :onRelease(function()
           local x = love.filesystem.getDirectoryItems("My Levels")
           local savedLevels = {}
@@ -204,7 +205,7 @@ function EditModeUI:load()
 
   prevbtn = gooi.newButton({text = "<", x = w-296*s, y = 88*s, w = 135*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("previous in the list")
+    --  --:setTooltip("previous in the list")
       :onRelease(c)
   prevbtn:setGroup("edit_mode")
   EditModeUI:add(prevbtn)
@@ -233,21 +234,21 @@ function EditModeUI:load()
       gooi.removeComponent(deleteButton)
       deleteButton = gooi.newButton({text = "Delete\n(off)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
           :onRelease(f)
-          :setTooltip("Turn delete mode on")
+          ----:setTooltip("Turn delete mode on")
       deleteButton:setGroup("edit_mode")
     else
       EditModeUI.delete = true
       gooi.removeComponent(deleteButton)
       deleteButton = gooi.newButton({text = "Delete\n(on)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
           :onRelease(f)
-          :setTooltip("Turn delete mode off")
+          --:setTooltip("Turn delete mode off")
       deleteButton:setGroup("edit_mode")
     end
   end
 
   deleteButton = gooi.newButton({text = "Delete\n(off)", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("Turn delete mode on")
+      --:setTooltip("Turn delete mode on")
       :onRelease(function ()
           EditModeUI.tool = "delete"
       end)
@@ -269,7 +270,7 @@ function EditModeUI:load()
   tileButtons = {}
   local tiles = gooi.newButton({text = "Tiles", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("previous in the list")
+      --:setTooltip("previous in the list")
       :onRelease(function()
         Placeables.index = 1
         for i=1, #tileButtons do
@@ -282,7 +283,7 @@ function EditModeUI:load()
           local num = #tileButtons+1
           tileButtons[num] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
-              :setTooltip("previous in the list")
+              --:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
               end)
@@ -307,7 +308,7 @@ function EditModeUI:load()
 
   local enemies = gooi.newButton({text = "Bad\nGuys", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      --:setTooltip("previous in the list")
+      ----:setTooltip("previous in the list")
       :onRelease(function()
         Placeables.index = 1
         for i=1, #tileButtons do
@@ -320,7 +321,7 @@ function EditModeUI:load()
           local num = #tileButtons+1
           tileButtons[num] = gooi.newButton({text = "", x = 16*s, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
-              :setTooltip("previous in the list")
+              --:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
               end)
@@ -341,7 +342,7 @@ function EditModeUI:load()
 
   local decorative = gooi.newButton({text = "Decor", x = 16*s, y = 274*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("Get decorative placeable objects")
+      ----:setTooltip("Get decorative placeable objects")
       :onRelease(function()
         Placeables.index = 1
         for i=1, #tileButtons do
@@ -355,7 +356,7 @@ function EditModeUI:load()
           --local num = #tileButtons+1
           tileButtons[i] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
-              :setTooltip("previous in the list")
+              ----:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
               end)
