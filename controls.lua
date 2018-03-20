@@ -35,7 +35,7 @@ function love.gamepadpressed( joystick, button )
     end
     if button == "b" then
         if PauseUI.paused then
-            --PauseUI:pause()
+            --PauseUI:deselect()
         end
     end
     if button == "x" then
@@ -63,7 +63,6 @@ function love.gamepadpressed( joystick, button )
       P.right = true
     end
   end
-  Debug:log(button)
 end
 
 function love.gamepadreleased( joystick, button )

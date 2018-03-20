@@ -16,7 +16,15 @@ function PauseUI:load()
     local h = love.graphics.getHeight()
     local s = h/720
 
-    self.elements[1] = gooi.newButton({text = "Toggle Edit", x = (w/3)+24, y = 110*s, w = (w/3)-24, h = 48*s})
+    self.elements[1] = gooi.newButton({text = "Return to Game", x = (w/3)+24, y = 110*s, w = (w/3)-24, h = 48*s})
+      --:setIcon(imgDir.."coin.png"):danger()
+      :setTooltip("Turn Edit Mode on or off")
+      :onRelease(function()
+          self:pause()
+      end)
+      :setGroup('pause')
+
+    self.elements[2] = gooi.newButton({text = "Toggle Edit", x = (w/3)+24, y = 194*s, w = (w/3)-24, h = 48*s})
       --:setIcon(imgDir.."coin.png"):danger()
       :setTooltip("Turn Edit Mode on or off")
       :onRelease(function()
@@ -24,7 +32,7 @@ function PauseUI:load()
       end)
       :setGroup('pause')
 
-    self.elements[2] = gooi.newButton({text = "Settings", x = (w/3)+24, y = 166*s, w = (w/3)-24, h = 48*s})
+    self.elements[3] = gooi.newButton({text = "Settings", x = (w/3)+24, y = 250*s, w = (w/3)-24, h = 48*s})
         --:setIcon(imgDir.."coin.png"):danger()
         :setTooltip("Turn Edit Mode on or off")
         :onRelease(function()
@@ -35,7 +43,7 @@ function PauseUI:load()
         end)
         :setGroup('pause')
 
-    self.elements[3] = gooi.newButton({text = "Quit Game", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
+    self.elements[4] = gooi.newButton({text = "Quit Game", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
         :setIcon():danger()
         :setTooltip("Exit the program")
         :setGroup('pause')
@@ -76,7 +84,6 @@ function PauseUI:load()
             else
                 love.window.setFullscreen( true )
             end
-
         end)
         :setGroup('pause_settings')
 
@@ -221,7 +228,7 @@ function PauseUI:pause()
         gooi.setGroupVisible("edit_mode", false)
         gooi.setGroupVisible("player", false)
         self.paused = true
-        
+
     end
 
 end

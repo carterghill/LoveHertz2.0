@@ -99,8 +99,8 @@ function love.update(dt)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
+    -- If screen is touched, show touch controls
     PlayerUI.touch = true
-    --gooi.setGroupVisible("player", true)
     if not EditModeUI.display then
         EditModeUI:toggle()
         EditModeUI:toggle()
@@ -127,9 +127,9 @@ end
 function love.mousemoved( x, y, dx, dy, istouch )
     if EditModeUI.display and love.mouse.isDown(1) and EditModeUI.tool == "move" then
         if not (math.abs(dx) > 500 or math.abs(dy) > 500) then
-            Cameras:current().xSpeed = dx
+            --Cameras:current().xSpeed = dx
             Cameras:current().x = Cameras:current().x - dx
-            Cameras:current().ySpeed = dy
+            --Cameras:current().ySpeed = dy
             Cameras:current().y = Cameras:current().y - dy
         end
     end
@@ -165,8 +165,10 @@ end
 
 function love.resize(w, h)
 
+    -- Reset scale on resize
     globalScale = love.graphics.getWidth()/1280
 
+    -- Reset UI elements
     Debug:reset()
     Debug:log(("Window resized to width: %d and height: %d."):format(w, h))
     EditModeUI:reset()
