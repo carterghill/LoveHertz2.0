@@ -16,8 +16,6 @@ function PauseUI:load()
     local h = love.graphics.getHeight()
     local s = h/720
 
-
-
     self.elements[1] = gooi.newButton({text = "Return to Game", x = (w/3)+24, y = 110*s, w = (w/3)-24, h = 48*s})
       --:setIcon(imgDir.."coin.png"):danger()
       :setTooltip("Turn Edit Mode on or off")
@@ -108,11 +106,6 @@ end
 function PauseUI:reset()
     PauseUI:empty()
     PauseUI:load()
-    self.cursor = 1
-
-    self.group = "pause"
-    gooi.setGroupVisible("pause_settings", false)
-    gooi.setGroupVisible("pause", true)
 end
 
 function PauseUI:draw()
@@ -142,6 +135,8 @@ function PauseUI:draw()
                         self.settings[self.cursor].w, self.settings[self.cursor].h)
         end
 
+    else
+        gooi.setGroupVisible("pause", false)
     end
 
 end
