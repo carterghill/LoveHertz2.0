@@ -172,6 +172,15 @@ function EditModeUI:load()
   nextbtn:setGroup("edit_mode")
   EditModeUI:add(nextbtn)
 
+  pauseBtn = gooi.newButton({text = "Pause", x = w-296*s, y = 200*s, w = 280*s, h = 48*s})
+      --:setIcon(imgDir.."coin.png")
+      ----:setTooltip("Save the current level")
+      :onRelease(function()
+          PauseUI:pause()
+      end)
+  pauseBtn:setGroup("edit_mode")
+  EditModeUI:add(pauseBtn)
+
   local c = function()
       local x = love.filesystem.getDirectoryItems("My Levels")
       local savedLevels = {}
