@@ -50,7 +50,7 @@ function UI:updateAll(dt)
 end
 
 function UI:clicked()
-  if gooi.clicked or joystick:xValue() ~= 0 or joystick:yValue() ~= 0 then
+  if gooi.clicked then
     return true
   else
     return false

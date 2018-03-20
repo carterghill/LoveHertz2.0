@@ -38,7 +38,7 @@ function Placeables:onClick(x,y,button)
   x = x/getZoom(globalScale) + Cameras:current().x
   y = y/getZoom(globalScale) + Cameras:current().y
 
-  if button == 1 and Placeables.currentSet == "decorative" and not EditModeUI:overIt(x, y) and not EditModeUI.delete and not UI:clicked() then
+  if button == 1 and Placeables.currentSet == "decorative" and not EditModeUI:overIt(x, y) and EditModeUI.tool == "place" and not UI:clicked() then
 
     Decorative.set[#Decorative.set+1] = {img = Placeables.decorative.images[Placeables.index],
           x = x - Placeables.decorative.images[Placeables.index]:getWidth()/2,
@@ -46,7 +46,7 @@ function Placeables:onClick(x,y,button)
           imagePath = "images/decorative/"..Placeables.decorative.names[Placeables.index]
     }
     slowdowns = #Decorative.set
-  elseif (button == 2 or EditModeUI.delete) and not EditModeUI:overIt(x, y) then
+  elseif (button == 2 or EditModeUI.tool == "delete") and not EditModeUI:overIt(x, y) then
     for i=#en.enemies, 1, -1 do
       if x < en.enemies[i].x + en.enemies[i].width and x > en.enemies[i].x then
         if y < en.enemies[i].y + en.enemies[i].width and y > en.enemies[i].y then
@@ -89,9 +89,7 @@ end
 
 function Placeables:draw()
 
-  if --[[UI:mouseOn() or]] not EditModeUI.display then
-    return
-  end
+  if EditModeUI.display and EditModeUI.tool == "place" then
 
   x, y = love.mouse.getPosition()
 
@@ -134,7 +132,7 @@ function Placeables:draw()
   end
 
   love.graphics.setColor( 255, 255, 255, 255 )
-
+end
 end
 
 function loadImagesInFolder(folder)

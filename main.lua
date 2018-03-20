@@ -79,12 +79,12 @@ function love.update(dt)
     Cameras:update(dt)
     UI:update(dt)
     if EditModeUI.display then
-      if love.mouse.isDown(1) and not EditModeUI.delete then
+      if love.mouse.isDown(1) and EditModeUI.tool == "place" then
         if not UI:mouseOn() then
           Tiles:place()
         end
       end
-      if love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.delete) then
+      if love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.tool == "delete") then
         if not UI:mouseOn() then
           Tiles:remove()
         end
@@ -125,11 +125,13 @@ function love.touchmoved( id, x, y, dx, dy, pressure )
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )
-    if EditModeUI.display and love.mouse.isDown(1) and not (math.abs(dx) > 500 or math.abs(dy) > 500) then
-        Cameras:current().xSpeed = dx
-        Cameras:current().x = Cameras:current().x - dx
-        Cameras:current().ySpeed = dy
-        Cameras:current().y = Cameras:current().y - dy
+    if EditModeUI.display and love.mouse.isDown(1) and EditModeUI.tool == "move" then
+        if not (math.abs(dx) > 500 or math.abs(dy) > 500) then
+            Cameras:current().xSpeed = dx
+            Cameras:current().x = Cameras:current().x - dx
+            Cameras:current().ySpeed = dy
+            Cameras:current().y = Cameras:current().y - dy
+        end
     end
 end
 

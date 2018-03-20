@@ -207,17 +207,21 @@ function PauseUI:pause()
         self.paused = false
         gooi.yesButton = nil
         gooi.noButton = nil
+
         if PlayerUI.display then
             gooi.setGroupVisible("player", true)
         elseif EditModeUI.display then
             gooi.setGroupVisible("edit_mode", true)
         end
+
     else
+
         self.group = 'pause'
         gooi.setGroupVisible("pause", true) -- Reset to main pause menu
         gooi.setGroupVisible("edit_mode", false)
         gooi.setGroupVisible("player", false)
         self.paused = true
+        
     end
 
 end

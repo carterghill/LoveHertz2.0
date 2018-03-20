@@ -4,12 +4,12 @@ require "gooi"
 EditModeUI = {
   display = true,
   elements = {},
-  delete = false
+  delete = false,
+  tool = "move"
 }
 
 deleteButton = {}
 zoomSlider = {}
-joystick = {}
 
 function EditModeUI:toggleMode()
   if self.delete then
@@ -245,15 +245,29 @@ function EditModeUI:load()
     end
   end
 
-  deleteButton = gooi.newButton({text = "Delete\n(off)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
+  deleteButton = gooi.newButton({text = "Delete\n(off)", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("Turn delete mode on")
-      :onRelease(f)
+      :onRelease(function ()
+          EditModeUI.tool = "delete"
+      end)
+      --:setBGImage("images/items/healthpack.png")
   deleteButton:setGroup("edit_mode")
   EditModeUI:add(deleteButton)
 
+  ----------------------
+  -- MOVE SCREEN BUTTON
+  ----------------------
+
+  moveScrn = gooi.newButton({text = "M", x = 16*s, y = 16*s, w = 80*s, h = 80*s})
+      :onRelease(function ()
+        self.tool = 'move'
+      end)
+  moveScrn:setGroup("edit_mode")
+  EditModeUI:add(moveScrn)
+
   tileButtons = {}
-  local tiles = gooi.newButton({text = "Tiles", x = ((112*1)+(90))*s, y = 32*s, w = 80*s, h = 80*s})
+  local tiles = gooi.newButton({text = "Tiles", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("previous in the list")
       :onRelease(function()
@@ -261,6 +275,7 @@ function EditModeUI:load()
         for i=1, #tileButtons do
           gooi.removeComponent(tileButtons[i])
         end
+        self.tool = "place"
         tileButtons = {}
         Placeables.currentSet = "tiles"
         for i=1, #Placeables.tiles do
@@ -290,19 +305,20 @@ function EditModeUI:load()
 
   Placeables.index = 1
 
-  local enemies = gooi.newButton({text = "Bad\nGuys", x = ((112)+(90*2))*s, y = 32*s, w = 80*s, h = 80*s})
+  local enemies = gooi.newButton({text = "Bad\nGuys", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      :setTooltip("previous in the list")
+      --:setTooltip("previous in the list")
       :onRelease(function()
         Placeables.index = 1
         for i=1, #tileButtons do
           gooi.removeComponent(tileButtons[i])
         end
+        self.tool = "place"
         tileButtons = {}
         Placeables.currentSet = "enemies"
         for i=1, #Placeables.enemies do
           local num = #tileButtons+1
-          tileButtons[num] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
+          tileButtons[num] = gooi.newButton({text = "", x = 16*s, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
               :setTooltip("previous in the list")
               :onRelease(function()
@@ -323,7 +339,7 @@ function EditModeUI:load()
   EditModeUI:add(enemies)
   EditModeUI:add(tiles)
 
-  local decorative = gooi.newButton({text = "Decor", x = ((112)+(90*3))*s, y = 32*s, w = 80*s, h = 80*s})
+  local decorative = gooi.newButton({text = "Decor", x = 16*s, y = 274*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       :setTooltip("Get decorative placeable objects")
       :onRelease(function()
@@ -331,6 +347,7 @@ function EditModeUI:load()
         for i=1, #tileButtons do
           gooi.removeComponent(tileButtons[i])
         end
+        self.tool = "place"
         tileButtons = {}
         Placeables.currentSet = "decorative"
         local images = loadImagesInFolder("images/decorative")
@@ -355,10 +372,6 @@ function EditModeUI:load()
   decorative:setGroup("edit_mode")
   EditModeUI:add(decorative)
 
-  --local y_thing = h-500
-
-  joystick = gooi.newJoy({ x = 16*s, y = h-(272*s), size = 256*s, deadZone = 0.1, group = "edit_mode"})
-  EditModeUI:add(joystick)
 
   return EditModeUI
 
@@ -368,21 +381,6 @@ function EditModeUI:draw()
 
   if self.display then
     gooi.draw("edit_mode")
-    if love.mouse.isDown(1) then
-      x, y = love.mouse.getPosition()
-      if self.clicked then
-        local dx = x - self.x
-        local dy = y - self.y
-      else
-        self.clicked = true
-        local dx = 0
-        local dy = 0
-        self.x = x
-        self.y = y
-      end
-    end
-    --Cameras:current().xSpeed = 750 * joystick:xValue()
-    --Cameras:current().ySpeed = 750 * joystick:yValue()
   else
 
   end
