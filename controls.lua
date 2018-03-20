@@ -141,12 +141,12 @@ function love.keypressed(key)
       end
       if key == "up" then
           if PauseUI.paused then
-              PauseUI:down()
+              PauseUI:up()
           end
       end
       if key == "down" then
           if PauseUI.paused then
-              PauseUI:up()
+              PauseUI:down()
           end
       end
 

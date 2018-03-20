@@ -142,27 +142,35 @@ function PauseUI:draw()
 end
 
 function PauseUI:down()
-    self.cursor = self.cursor + 1
-    if self.group == "pause" then
-        if self.cursor > #self.elements then
-            self.cursor = 1
-        end
-    elseif self.group == "pause_settings" then
-        if self.cursor > #self.settings then
-            self.cursor = 1
+    if love.timer.getTime() - self.clickTime > 0.01 then
+        -- Adding a click timer to prevent menu items for being pressed twice
+        self.clickTime = love.timer.getTime()
+        self.cursor = self.cursor + 1
+        if self.group == "pause" then
+            if self.cursor > #self.elements then
+                self.cursor = 1
+            end
+        elseif self.group == "pause_settings" then
+            if self.cursor > #self.settings then
+                self.cursor = 1
+            end
         end
     end
 end
 
 function PauseUI:up()
-    self.cursor = self.cursor - 1
-    if self.group == "pause" then
-        if self.cursor < 1 then
-            self.cursor = #self.elements
-        end
-    elseif self.group == "pause_settings" then
-        if self.cursor < 1 then
-            self.cursor = #self.elements
+    if love.timer.getTime() - self.clickTime > 0.01 then
+        -- Adding a click timer to prevent skipping menu items
+        self.clickTime = love.timer.getTime()
+        self.cursor = self.cursor - 1
+        if self.group == "pause" then
+            if self.cursor < 1 then
+                self.cursor = #self.elements
+            end
+        elseif self.group == "pause_settings" then
+            if self.cursor < 1 then
+                self.cursor = #self.settings
+            end
         end
     end
 end
