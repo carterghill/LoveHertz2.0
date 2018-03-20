@@ -228,29 +228,12 @@ function EditModeUI:load()
 
   ]]
 
-  f = function ()
-    if EditModeUI.delete then
-      EditModeUI.delete = false
-      gooi.removeComponent(deleteButton)
-      deleteButton = gooi.newButton({text = "Delete\n(off)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
-          :onRelease(f)
-          ----:setTooltip("Turn delete mode on")
-      deleteButton:setGroup("edit_mode")
-    else
-      EditModeUI.delete = true
-      gooi.removeComponent(deleteButton)
-      deleteButton = gooi.newButton({text = "Delete\n(on)", x = w-408*s, y = 32*s, w = 80*s, h = 80*s})
-          :onRelease(f)
-          --:setTooltip("Turn delete mode off")
-      deleteButton:setGroup("edit_mode")
-    end
-  end
-
   deleteButton = gooi.newButton({text = "Delete\n(off)", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("Turn delete mode on")
       :onRelease(function ()
           EditModeUI.tool = "delete"
+          self.selected = deleteButton
       end)
       --:setBGImage("images/items/healthpack.png")
   deleteButton:setGroup("edit_mode")
@@ -263,12 +246,14 @@ function EditModeUI:load()
   moveScrn = gooi.newButton({text = "M", x = 16*s, y = 16*s, w = 80*s, h = 80*s})
       :onRelease(function ()
         self.tool = 'move'
+        self.selected = moveScrn
       end)
   moveScrn:setGroup("edit_mode")
   EditModeUI:add(moveScrn)
+  self.selected = moveScrn
 
   tileButtons = {}
-  local tiles = gooi.newButton({text = "Tiles", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
+  tiles = gooi.newButton({text = "Tiles", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       --:setTooltip("previous in the list")
       :onRelease(function()
@@ -277,6 +262,7 @@ function EditModeUI:load()
           gooi.removeComponent(tileButtons[i])
         end
         self.tool = "place"
+        self.selected = tiles
         tileButtons = {}
         Placeables.currentSet = "tiles"
         for i=1, #Placeables.tiles do
@@ -306,7 +292,7 @@ function EditModeUI:load()
 
   Placeables.index = 1
 
-  local enemies = gooi.newButton({text = "Bad\nGuys", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
+  enemies = gooi.newButton({text = "Bad\nGuys", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       ----:setTooltip("previous in the list")
       :onRelease(function()
@@ -315,6 +301,7 @@ function EditModeUI:load()
           gooi.removeComponent(tileButtons[i])
         end
         self.tool = "place"
+        self.selected = enemies
         tileButtons = {}
         Placeables.currentSet = "enemies"
         for i=1, #Placeables.enemies do
@@ -340,7 +327,7 @@ function EditModeUI:load()
   EditModeUI:add(enemies)
   EditModeUI:add(tiles)
 
-  local decorative = gooi.newButton({text = "Decor", x = 16*s, y = 274*s, w = 80*s, h = 80*s})
+  decorative = gooi.newButton({text = "Decor", x = 16*s, y = 274*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       ----:setTooltip("Get decorative placeable objects")
       :onRelease(function()
@@ -349,6 +336,7 @@ function EditModeUI:load()
           gooi.removeComponent(tileButtons[i])
         end
         self.tool = "place"
+        self.selected = decorative
         tileButtons = {}
         Placeables.currentSet = "decorative"
         local images = loadImagesInFolder("images/decorative")
@@ -382,6 +370,9 @@ function EditModeUI:draw()
 
   if self.display then
     gooi.draw("edit_mode")
+    love.graphics.setColor(255, 255, 255, 40)
+    love.graphics.rectangle("fill", self.selected.x+2, self.selected.y+2, self.selected.w-4, self.selected.h-4)
+    love.graphics.setColor(255, 255, 255, 255)
   else
 
   end
