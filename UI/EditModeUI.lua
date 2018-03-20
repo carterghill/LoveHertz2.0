@@ -4,10 +4,7 @@ require "gooi"
 EditModeUI = {
   display = true,
   elements = {},
-  delete = false,
-  clicked = false,
-  x = 0,
-  y = 0
+  delete = false
 }
 
 deleteButton = {}

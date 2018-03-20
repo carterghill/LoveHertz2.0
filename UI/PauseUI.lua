@@ -202,6 +202,8 @@ function PauseUI:pause()
 
     if self.paused then
 
+        gooi.setGroupVisible("pause", false)
+        gooi.setGroupVisible("pause_settings", false)
         self.paused = false
         gooi.yesButton = nil
         gooi.noButton = nil
