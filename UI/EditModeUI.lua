@@ -284,7 +284,7 @@ function EditModeUI:load()
         Placeables.currentSet = "tiles"
         for i=1, #Placeables.tiles do
           local num = #tileButtons+1
-          tileButtons[num] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
+          tileButtons[num] = gooi.newButton({text = "", x = 16*s + (i-1)*86, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
               --:setTooltip("previous in the list")
               :onRelease(function()
@@ -323,7 +323,7 @@ function EditModeUI:load()
         Placeables.currentSet = "enemies"
         for i=1, #Placeables.enemies do
           local num = #tileButtons+1
-          tileButtons[num] = gooi.newButton({text = "", x = 16*s, y = h-112*s, w = 80*s, h = 80*s})
+          tileButtons[num] = gooi.newButton({text = "", x = 16*s + (i-1)*86, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
               --:setTooltip("previous in the list")
               :onRelease(function()
@@ -359,7 +359,7 @@ function EditModeUI:load()
         local images = loadImagesInFolder("images/decorative")
         for i=1, #images do
           --local num = #tileButtons+1
-          tileButtons[i] = gooi.newButton({text = "", x = ((64*4)+(i*90)-90)*s, y = h-112*s, w = 80*s, h = 80*s})
+          tileButtons[i] = gooi.newButton({text = "", x = 16*s + (i-1)*86, y = h-112*s, w = 80*s, h = 80*s})
               --:setIcon(imgDir.."coin.png")
               ----:setTooltip("previous in the list")
               :onRelease(function()

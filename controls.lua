@@ -33,11 +33,6 @@ function love.gamepadpressed( joystick, button )
             l.players:jump()
         end
     end
-    if button == "b" then
-        if PauseUI.paused then
-            --PauseUI:deselect()
-        end
-    end
     if button == "x" then
         l.players:shoot()
         l.players.charge:start()
