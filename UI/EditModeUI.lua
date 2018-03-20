@@ -4,7 +4,10 @@ require "gooi"
 EditModeUI = {
   display = true,
   elements = {},
-  delete = false
+  delete = false,
+  clicked = false,
+  x = 0,
+  y = 0
 }
 
 deleteButton = {}
@@ -368,8 +371,21 @@ function EditModeUI:draw()
 
   if self.display then
     gooi.draw("edit_mode")
-    Cameras:current().xSpeed = 750 * joystick:xValue()
-    Cameras:current().ySpeed = 750 * joystick:yValue()
+    if love.mouse.isDown(1) then
+      x, y = love.mouse.getPosition()
+      if self.clicked then
+        local dx = x - self.x
+        local dy = y - self.y
+      else
+        self.clicked = true
+        local dx = 0
+        local dy = 0
+        self.x = x
+        self.y = y
+      end
+    end
+    --Cameras:current().xSpeed = 750 * joystick:xValue()
+    --Cameras:current().ySpeed = 750 * joystick:yValue()
   else
 
   end

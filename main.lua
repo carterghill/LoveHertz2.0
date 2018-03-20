@@ -58,6 +58,7 @@ function love.draw()
 
     items:draw()
     en:draw()
+    love.graphics.print(love.timer.getFPS())
 
     EditModeUI:draw()
     UI:draw()
@@ -123,6 +124,15 @@ function love.touchmoved( id, x, y, dx, dy, pressure )
     end
 end
 
+function love.mousemoved( x, y, dx, dy, istouch )
+    if EditModeUI.display and love.mouse.isDown(1) and not (math.abs(dx) > 500 or math.abs(dy) > 500) then
+        Cameras:current().xSpeed = dx
+        Cameras:current().x = Cameras:current().x - dx
+        Cameras:current().ySpeed = dy
+        Cameras:current().y = Cameras:current().y - dy
+    end
+end
+
 function love.mousepressed(x, y, button, istouch)
     UI:onClick(x, y)
     if not PlayerUI.touch then
@@ -160,7 +170,7 @@ function love.resize(w, h)
     EditModeUI:reset()
     PauseUI:reset()
     PlayerUI:reset()
-    
+
     for i=1, #Cameras do
         Cameras[i].width = love.graphics.getWidth()
         Cameras[i].height = love.graphics.getHeight()
