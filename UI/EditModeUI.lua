@@ -22,6 +22,7 @@ end
 
 function EditModeUI:toggle()
   if self.display then
+    love.mouse.setVisible(false)
     self.display = false
     if love.system.getOS() == "Android" or PlayerUI.touch then
        PlayerUI.display = true
@@ -29,6 +30,7 @@ function EditModeUI:toggle()
     end
     gooi.setGroupEnabled("edit_mode", false)
   else
+    love.mouse.setVisible(true)
     self.display = true
     self.delete = false
     PlayerUI.display = false

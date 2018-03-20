@@ -18,7 +18,7 @@ function PauseUI:load()
 
     self.elements[1] = gooi.newButton({text = "Return to Game", x = (w/3)+24, y = 110*s, w = (w/3)-24, h = 48*s})
       --:setIcon(imgDir.."coin.png"):danger()
-      :setTooltip("Turn Edit Mode on or off")
+      --:setTooltip("Turn Edit Mode on or off")
       :onRelease(function()
           self:pause()
       end)
@@ -26,7 +26,7 @@ function PauseUI:load()
 
     self.elements[2] = gooi.newButton({text = "Toggle Edit", x = (w/3)+24, y = 194*s, w = (w/3)-24, h = 48*s})
       --:setIcon(imgDir.."coin.png"):danger()
-      :setTooltip("Turn Edit Mode on or off")
+      --:setTooltip("Turn Edit Mode on or off")
       :onRelease(function()
           EditModeUI:toggle()
           self:pause()
@@ -35,7 +35,7 @@ function PauseUI:load()
 
     self.elements[3] = gooi.newButton({text = "Settings", x = (w/3)+24, y = 250*s, w = (w/3)-24, h = 48*s})
         --:setIcon(imgDir.."coin.png"):danger()
-        :setTooltip("Turn Edit Mode on or off")
+        --:setTooltip("Turn Edit Mode on or off")
         :onRelease(function()
             self.group = "pause_settings"
             gooi.setGroupVisible("pause_settings", true)
@@ -46,7 +46,7 @@ function PauseUI:load()
 
     self.elements[4] = gooi.newButton({text = "Quit Game", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
         :setIcon():danger()
-        :setTooltip("Exit the program")
+        --:setTooltip("Exit the program")
         :setGroup('pause')
         :onRelease(function()
             gooi.confirm({
@@ -59,7 +59,7 @@ function PauseUI:load()
 
     self.settings[1] = gooi.newButton({text = "Toggle Debug Console", x = (w/3)+24, y = 110*s, w = (w/3)-24, h = 48*s})
         --:setIcon(imgDir.."coin.png"):danger()
-        :setTooltip("Turn Edit Mode on or off")
+        --:setTooltip("Turn Edit Mode on or off")
         :onRelease(function()
             Debug:toggle()
         end)
@@ -67,7 +67,7 @@ function PauseUI:load()
 
     self.settings[3] = gooi.newButton({text = "Back", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
         --:setIcon(imgDir.."coin.png"):danger()
-        :setTooltip("Go back to the main pause screen")
+        --:setTooltip("Go back to the main pause screen")
         :onRelease(function()
           self.group = "pause"
           gooi.setGroupVisible("pause_settings", false)
@@ -78,7 +78,7 @@ function PauseUI:load()
 
 
     self.settings[2] = gooi.newButton({text = "Fullscreen", x = (w/3)+24, y = 166*s, w = (w/3)-24, h = 48*s})
-        :setTooltip("Turn fullscreen on or off")
+        --:setTooltip("Turn fullscreen on or off")
         :onRelease(function()
             if love.window.getFullscreen() then
                 love.window.setFullscreen( false )
