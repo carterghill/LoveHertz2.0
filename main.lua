@@ -72,6 +72,7 @@ end
 -- This one is also being called repeatedly, handles game logic
 function love.update(dt)
 
+    controls:update()
   gooi.update(dt)
 
   if not PauseUI.paused then

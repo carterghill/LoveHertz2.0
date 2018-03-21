@@ -1,6 +1,13 @@
 controls = {}
 controlsEnabled = true
 
+controls = {
+    up = false,
+    down = false,
+    left = false,
+    right = false
+}
+
 controls[1] = {
 
   left = "a",
@@ -22,6 +29,56 @@ controls[2] = {
   shoot = "j"
 
 }
+
+function love.joystickpressed(joystick, button)
+    local i = joystick:getID()
+    Debug:log("hi")
+    if P ~= nil then
+      if button == "2" then
+          if PauseUI.paused then
+              PauseUI:select()
+          else
+              l.players:jump()
+          end
+      end
+      if button == "1" then
+          l.players:shoot()
+          l.players.charge:start()
+      end
+    end
+    Debug:log(button)
+    --axisDir1, axisDir2, axisDirN = love.joystick.getAxes( i )
+    --Debug:log(axisDir1.." "..axisDir2.." "..axisDirN)
+ end
+
+ function love.joystickreleased( joystick, button )
+     local i = joystick:getID()
+     if P ~= nil then
+         if button == 2 then
+             if PauseUI.paused then
+                 --PauseUI:selectUp()
+             else
+                 if P.ySpeed < -400 then
+                     P.ySpeed = -400
+                 end
+             end
+         end
+         if button == 3 then
+             if PauseUI.paused then
+                 PauseUI:deselect()
+             end
+         end
+         if button == 1 then
+             if l.players.charge.timer > 0.5 then
+                 l.players:shoot(l.players.charge.timer)
+             end
+             l.players.charge:stop()
+         end
+         if button == 10 then
+             PauseUI:pause()
+         end
+     end
+ end
 
 function love.gamepadpressed( joystick, button )
   local i = joystick:getID()
@@ -58,6 +115,7 @@ function love.gamepadpressed( joystick, button )
       P.right = true
     end
   end
+  Debug:log(button)
 end
 
 function love.gamepadreleased( joystick, button )
@@ -103,6 +161,7 @@ end
 
 function love.keypressed(key)
   PlayerUI.touch = false
+  Debug:log(key)
   gooi.setGroupVisible("player", false)
   gooi.keypressed(key, scancode, isrepeat)
   --EditModeUI:onKeypress(key)
@@ -196,4 +255,92 @@ function love.keyreleased(key, scancode)
         end
     end
   end
+end
+
+function controls:update()
+    local joysticks = love.joystick.getJoysticks()
+    for i, joystick in ipairs(joysticks) do
+        local hat = joystick:getHat(1)
+        if hat == "u" then
+
+            -- PLAYER IS HOLDING UP
+            P.up = true
+            P.down = false
+            P.left = false
+            P.right = false
+
+            if not self.up then
+
+                -- PLAYER PRESSED UP
+                self.up = true
+                self.down = false
+                self.left = false
+                self.right = false
+
+                PauseUI:up()
+
+            end
+        elseif hat == "d" then
+
+            P.up = false
+            P.down = true
+            P.left = false
+            P.right = false
+
+            if not self.down then
+
+                -- PLAYER PRESSED Down
+                self.up = false
+                self.down = true
+                self.left = false
+                self.right = false
+
+                PauseUI:down()
+
+            end
+        elseif hat == "l" then
+            P.up = false
+            P.down = false
+            P.left = true
+            P.right = false
+        elseif hat == "r" then
+            P.up = false
+            P.down = false
+            P.left = false
+            P.right = true
+        elseif hat == "ru" then
+            P.up = true
+            P.down = false
+            P.left = false
+            P.right = true
+        elseif hat == "lu" then
+            P.up = true
+            P.down = false
+            P.left = true
+            P.right = false
+        elseif hat == "rd" then
+            P.up = false
+            P.down = true
+            P.left = false
+            P.right = true
+        elseif hat == "ld" then
+            P.up = false
+            P.down = true
+            P.left = true
+            P.right = false
+        elseif hat == "c" then
+
+            P.up = false
+            P.down = false
+            P.left = false
+            P.right = false
+
+            -- PLAYER Released all buttons
+            self.up = false
+            self.down = false
+            self.left = false
+            self.right = false
+
+        end
+    end
 end
