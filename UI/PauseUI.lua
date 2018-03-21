@@ -34,8 +34,6 @@ function PauseUI:load()
       :setGroup('pause')
 
     self.elements[3] = gooi.newButton({text = "Settings", x = (w/3)+24, y = 250*s, w = (w/3)-24, h = 48*s})
-        --:setIcon(imgDir.."coin.png"):danger()
-        --:setTooltip("Turn Edit Mode on or off")
         :onRelease(function()
             self.group = "pause_settings"
             gooi.setGroupVisible("pause_settings", true)
@@ -46,7 +44,6 @@ function PauseUI:load()
 
     self.elements[4] = gooi.newButton({text = "Quit Game", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
         :setIcon():danger()
-        --:setTooltip("Exit the program")
         :setGroup('pause')
         :onRelease(function()
             gooi.confirm({

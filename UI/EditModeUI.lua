@@ -270,9 +270,9 @@ function EditModeUI:load()
   self.selected = moveScrn
 
   tileButtons = {}
-  tiles = gooi.newButton({text = "Tiles", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
+  tiles = gooi.newButton({text = "", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
-      --:setTooltip("previous in the list")
+      :setBGImage("images/tileIcon.png")
       :onRelease(function()
         Placeables.index = 1
         for i=1, #tileButtons do
