@@ -86,6 +86,7 @@ function PauseUI:load()
         :setGroup('pause_settings')
 
     gooi.setGroupVisible("pause", false)
+    gooi.setGroupVisible("pause_settings", false)
 
 end
 
