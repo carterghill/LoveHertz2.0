@@ -10,7 +10,9 @@ PauseUI = {
     clickTime = 0
 }
 
-function PauseUI:load()
+function PauseUI:load(visible)
+
+    visible = visible or false
 
     local w = love.graphics.getWidth()
     local h = love.graphics.getHeight()
@@ -82,11 +84,14 @@ function PauseUI:load()
             else
                 love.window.setFullscreen( true )
             end
+            gooi.setGroupVisible("pause_settings", true)
         end)
         :setGroup('pause_settings')
 
-    gooi.setGroupVisible("pause", false)
-    gooi.setGroupVisible("pause_settings", false)
+    if not visible then
+        gooi.setGroupVisible("pause", false)
+        gooi.setGroupVisible("pause_settings", false)
+    end
 
 end
 
@@ -102,8 +107,11 @@ function PauseUI:empty()
 end
 
 function PauseUI:reset()
+
+    visible = self.paused
+
     PauseUI:empty()
-    PauseUI:load()
+    PauseUI:load(visible)
 end
 
 function PauseUI:draw()

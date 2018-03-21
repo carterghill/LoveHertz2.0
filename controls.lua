@@ -34,14 +34,14 @@ function love.joystickpressed(joystick, button)
     local i = joystick:getID()
     Debug:log("hi")
     if P ~= nil then
-      if button == "2" then
+      if button == 2 then
           if PauseUI.paused then
               PauseUI:select()
           else
               l.players:jump()
           end
       end
-      if button == "1" then
+      if button == 1 then
           l.players:shoot()
           l.players.charge:start()
       end
