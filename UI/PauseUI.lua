@@ -135,6 +135,7 @@ function PauseUI:draw()
 
     else
         gooi.setGroupVisible("pause", false)
+        gooi.setGroupVisible("pause_settings", false)
     end
 
 end
