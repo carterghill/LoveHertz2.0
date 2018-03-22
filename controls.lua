@@ -297,6 +297,7 @@ function controls:update(dt)
                 self.right = false
 
                 PauseUI:down()
+                EditModeUI:down()
 
             end
         elseif hat == "l" then

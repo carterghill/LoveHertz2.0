@@ -418,3 +418,19 @@ function EditModeUI:up()
         end
     end
 end
+
+function EditModeUI:down()
+    Debug:log(#self.tools)
+    for i=1, #self.tools do
+        if self.tools[i] == self.selected then
+            if i == #self.tools then
+                self.selected = 1
+                self.selected.events.r()
+            else
+                self.selected = self.tools[i+1]
+                self.selected.events.r()
+            end
+            break
+        end
+    end
+end
