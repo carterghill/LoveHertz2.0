@@ -44,7 +44,17 @@ function PauseUI:load(visible)
         end)
         :setGroup('pause')
 
-    self.elements[4] = gooi.newButton({text = "Quit Game", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
+    self.elements[4] = gooi.newButton({text = "Load/Save Level", x = (w/3)+24, y = 306*s, w = (w/3)-24, h = 48*s})
+        :setGroup('pause')
+        :onRelease(function()
+            self.group = "pause_level"
+            gooi.setGroupVisible("pause_settings", false)
+            gooi.setGroupVisible("pause", false)
+            gooi.setGroupVisible("pause_level", true)
+            self.cursor = 1
+        end)
+
+    self.elements[5] = gooi.newButton({text = "Quit Game", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
         :setIcon():danger()
         :setGroup('pause')
         :onRelease(function()
