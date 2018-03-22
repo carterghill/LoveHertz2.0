@@ -7,7 +7,8 @@ EditModeUI = {
   delete = false,
   tool = "move",
   selected = {},
-  tools = {}
+  tools = {},
+  tileButton
 }
 
 deleteButton = {}
@@ -290,6 +291,7 @@ function EditModeUI:load()
               --:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
+                self.tileButton = tileButtons[num]
               end)
           tileButtons[num]:setGroup("edit_mode")
 
@@ -305,6 +307,7 @@ function EditModeUI:load()
           end
           Placeables.index = Placeables.index + 1
         end
+        self.tileButton = tileButtons[1]
         Placeables.index = 1
     end)
 
@@ -329,6 +332,7 @@ function EditModeUI:load()
               --:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
+                self.tileButton = tileButtons[num]
               end)
           tileButtons[num]:setGroup("edit_mode")
           if Placeables:getTile() ~= nil then
@@ -338,6 +342,7 @@ function EditModeUI:load()
           end
           Placeables.index = Placeables.index + 1
         end
+        self.tileButton = tileButtons[1]
         Placeables.index = 1
       end)
   enemies:setGroup("edit_mode")
@@ -365,6 +370,7 @@ function EditModeUI:load()
               ----:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
+                self.tileButton = tileButtons[num]
               end)
           tileButtons[i]:setGroup("edit_mode")
           --if Placeables:getTile() ~= nil then
@@ -373,6 +379,7 @@ function EditModeUI:load()
           --end
           Placeables.index = Placeables.index + 1
         end
+        self.tileButton = tileButtons[1]
         Placeables.index = 1
         --gooi.newButton({text = #tileButtons, x = (64*4)+(i*72)-72, y = 640, w = 64, h = 64})
       end)
@@ -385,7 +392,6 @@ function EditModeUI:load()
   table.insert(EditModeUI.tools, decorative)
   table.insert(EditModeUI.tools, deleteButton)
 
-
   return EditModeUI
 
 end
@@ -396,6 +402,9 @@ function EditModeUI:draw()
     gooi.draw("edit_mode")
     love.graphics.setColor(255, 255, 255, 40)
     love.graphics.rectangle("fill", self.selected.x+2, self.selected.y+2, self.selected.w-4, self.selected.h-4)
+    if self.tileButton then
+      love.graphics.rectangle("fill", self.tileButton.x+2, self.tileButton.y+2, self.tileButton.w-4, self.tileButton.h-4)
+    end
     love.graphics.setColor(255, 255, 255, 255)
   else
 
