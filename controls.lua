@@ -346,22 +346,34 @@ function controls:update(dt)
             local axis = joystick:getAxis(j)
             if j == 3 then
                 -- X-AXIS MOVEMENT OF RIGHT ANALOG STICK
-                if math.abs(axis) > 0.2 then
-                    --axis = -0.8*axis
-                    --axis = math.abs(1/(math.log(axis)))
-                    Debug:log(axis)
-                    self.x = self.x + axis*800*dt
-                    --love.mouse.setX(self.x)
+                if axis > 0.2 then
+                    if not (self.x >= love.graphics.getWidth()-10) then
+                        self.x = self.x + axis*800*dt
+                    else
+                        self.x = self.x - 1
+                    end
+                elseif axis < -0.2 then
+                    if not (self.x <= 10) then
+                        self.x = self.x + axis*800*dt
+                    else
+                        self.x = self.x + 1
+                    end
                 end
             end
             if j == 6 then
                 -- Y-AXIS MOVEMENT OF RIGHT ANALOG STICK
-                if math.abs(axis) > 0.2 then
-                    --axis = -0.8*axis
-                    --axis = math.abs(1/(math.log(axis)))
-                    Debug:log(axis)
-                    self.y = self.y + axis*800*dt
-                    --love.mouse.setX(self.x)
+                if axis > 0.2 then
+                    if not (self.y >= love.graphics.getHeight()-10) then   
+                        self.y = self.y + axis*800*dt
+                    else
+                        self.y = self.y - 1
+                    end
+                elseif axis < -0.2 then
+                    if not (self.y <= 10) then
+                        self.y = self.y + axis*800*dt
+                    else
+                        self.y = self.y + 1
+                    end
                 end
             end
             if j == 1 then
@@ -380,7 +392,14 @@ function controls:update(dt)
                     Cameras:current().ySpeed = 0
                 end
             end
-            love.mouse.setPosition(self.x, self.y)
+
+            if not (self.x >= love.graphics.getWidth()-5)
+            and not (self.x <= 5)
+            and not (self.y >= love.graphics.getHeight()-5)
+            and not (self.y <= 5) then
+                love.mouse.setPosition(self.x, self.y)
+            end
+            --love.mouse.setPosition(self.x, self.y)
         end
     end
 end

@@ -20,7 +20,7 @@ require "gooi"
 -- This one is called right at the start
 function love.load()
 
-    love.mouse.setGrabbed(true)
+    --love.mouse.setGrabbed(true)
     love.filesystem.setIdentity( "beatboy" )
     globalScale = love.graphics.getWidth()/1280
     en = Enemies:new()
@@ -98,6 +98,8 @@ function love.update(dt)
       end
     end
   end
+  x, y = love.mouse.getPosition()
+  Debug:log(x..", "..y)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
