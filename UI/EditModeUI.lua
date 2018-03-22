@@ -451,7 +451,7 @@ function EditModeUI:down()
     end
 end
 
-function EditModeUI:right()
+function EditModeUI:left()
     local t = love.timer.getTime()
     if not PauseUI.paused and t - self.clickTime > 0.1 then
         self.clickTime = love.timer.getTime()
@@ -460,9 +460,11 @@ function EditModeUI:right()
                 if i == 1 then
                     self.tileButton = tileButtons[#tileButtons]
                     self.tileButton.events.r()
+                    self.tileButton = tileButtons[#tileButtons]
                 else
                     self.tileButton = tileButtons[i-1]
                     self.tileButton.events.r()
+                    self.tileButton = tileButtons[i-1]
                 end
                 break
             end
@@ -470,7 +472,7 @@ function EditModeUI:right()
     end
 end
 
-function EditModeUI:left()
+function EditModeUI:right()
     local t = love.timer.getTime()
     if not PauseUI.paused and t - self.clickTime > 0.1 then
         self.clickTime = love.timer.getTime()
@@ -479,9 +481,11 @@ function EditModeUI:left()
                 if i == #tileButtons then
                     self.tileButton = tileButtons[1]
                     self.tileButton.events.r()
+                    self.tileButton = tileButtons[1]
                 else
                     self.tileButton = tileButtons[i+1]
                     self.tileButton.events.r()
+                    self.tileButton = tileButtons[i+1]
                 end
                 break
             end
