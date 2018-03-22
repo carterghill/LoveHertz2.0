@@ -248,6 +248,7 @@ function EditModeUI:load()
       :onRelease(function ()
           EditModeUI.tool = "delete"
           self.selected = deleteButton
+          removeTileButtons()
       end)
       --:setBGImage("images/items/healthpack.png")
   deleteButton:setGroup("edit_mode")
@@ -264,6 +265,7 @@ function EditModeUI:load()
         self.selected = moveScrn
         c = love.mouse.getSystemCursor("sizeall")
         love.mouse.setCursor(c)
+        removeTileButtons()
       end)
   mv = love.graphics.newImage("images/moveIcon.png")
   mv:setFilter("nearest", "nearest")
@@ -491,4 +493,10 @@ function EditModeUI:right()
             end
         end
     end
+end
+
+function removeTileButtons()
+  for i=1, #tileButtons do
+    gooi.removeComponent(tileButtons[i])
+  end
 end
