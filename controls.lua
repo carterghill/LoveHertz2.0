@@ -197,13 +197,28 @@ function love.keypressed(key)
           if PauseUI.paused then
               PauseUI:up()
           end
+          if EditModeUI.display then
+              EditModeUI:up()
+          end
       end
       if key == "down" then
           if PauseUI.paused then
               PauseUI:down()
           end
+          if EditModeUI.display then
+              EditModeUI:down()
+          end
       end
-
+      if key == "left" then
+          if EditModeUI.display then
+              EditModeUI:left()
+          end
+      end
+      if key == "right" then
+          if EditModeUI.display then
+              EditModeUI:right()
+          end
+      end
     end
     if key == "escape" then
       PauseUI:pause()
@@ -301,15 +316,44 @@ function controls:update(dt)
 
             end
         elseif hat == "l" then
+
             P.up = false
             P.down = false
             P.left = true
             P.right = false
+
+            if not self.left then
+
+                -- PLAYER PRESSED LEFT
+                self.up = false
+                self.down = false
+                self.left = true
+                self.right = false
+
+                --PauseUI:down()
+                EditModeUI:left()
+
+            end
         elseif hat == "r" then
+
             P.up = false
             P.down = false
             P.left = false
             P.right = true
+
+            if not self.right then
+
+                -- PLAYER PRESSED RIGHT
+                self.up = false
+                self.down = false
+                self.left = false
+                self.right = true
+
+                --PauseUI:down()
+                EditModeUI:right()
+
+            end
+
         elseif hat == "ru" then
             P.up = true
             P.down = false

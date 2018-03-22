@@ -8,7 +8,8 @@ EditModeUI = {
   tool = "move",
   selected = {},
   tools = {},
-  tileButton
+  tileButton,
+  clickTime = 0
 }
 
 deleteButton = {}
@@ -413,7 +414,9 @@ function EditModeUI:draw()
 end
 
 function EditModeUI:up()
-    if not PauseUI.paused then
+    local t = love.timer.getTime()
+    if not PauseUI.paused and t - self.clickTime > 0.1 then
+        self.clickTime = love.timer.getTime()
         for i=1, #self.tools do
             if self.tools[i] == self.selected then
                 if i == 1 then
@@ -430,15 +433,55 @@ function EditModeUI:up()
 end
 
 function EditModeUI:down()
-    if not PauseUI.paused then
+    local t = love.timer.getTime()
+    if not PauseUI.paused and t - self.clickTime > 0.1 then
+        self.clickTime = love.timer.getTime()
         for i=1, #self.tools do
             if self.tools[i] == self.selected then
                 if i == #self.tools then
-                    self.selected = 1
+                    self.selected = self.tools[1]
                     self.selected.events.r()
                 else
                     self.selected = self.tools[i+1]
                     self.selected.events.r()
+                end
+                break
+            end
+        end
+    end
+end
+
+function EditModeUI:right()
+    local t = love.timer.getTime()
+    if not PauseUI.paused and t - self.clickTime > 0.1 then
+        self.clickTime = love.timer.getTime()
+        for i=1, #tileButtons do
+            if tileButtons[i] == self.tileButton then
+                if i == 1 then
+                    self.tileButton = tileButtons[#tileButtons]
+                    self.tileButton.events.r()
+                else
+                    self.tileButton = tileButtons[i-1]
+                    self.tileButton.events.r()
+                end
+                break
+            end
+        end
+    end
+end
+
+function EditModeUI:left()
+    local t = love.timer.getTime()
+    if not PauseUI.paused and t - self.clickTime > 0.1 then
+        self.clickTime = love.timer.getTime()
+        for i=1, #tileButtons do
+            if tileButtons[i] == self.tileButton then
+                if i == #tileButtons then
+                    self.tileButton = tileButtons[1]
+                    self.tileButton.events.r()
+                else
+                    self.tileButton = tileButtons[i+1]
+                    self.tileButton.events.r()
                 end
                 break
             end
