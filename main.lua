@@ -20,6 +20,7 @@ require "gooi"
 -- This one is called right at the start
 function love.load()
 
+    love.mouse.setGrabbed(true)
     love.filesystem.setIdentity( "beatboy" )
     globalScale = love.graphics.getWidth()/1280
     en = Enemies:new()
@@ -131,6 +132,25 @@ function love.mousemoved( x, y, dx, dy, istouch )
             Cameras:current().x = Cameras:current().x - dx/getZoom()
             Cameras:current().y = Cameras:current().y - dy/getZoom()
         end
+    end
+
+    joyUsed = false
+    local joysticks = love.joystick.getJoysticks()
+    for i, joystick in ipairs(joysticks) do
+
+            local axis = math.abs(joystick:getAxis(3))
+            if axis > 0.1 then
+                joyUsed = true
+            end
+            local axis = math.abs(joystick:getAxis(6))
+            if axis > 0.1 then
+                joyUsed = true
+            end
+
+    end
+    if not joyUsed then
+        controls.x = controls.x + dx
+        controls.y = controls.y + dy
     end
 end
 

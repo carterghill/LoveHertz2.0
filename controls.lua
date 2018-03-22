@@ -7,7 +7,9 @@ controls = {
     left = false,
     right = false,
     dx = 0,
-    dy = 0
+    dy = 0,
+    x = 0,
+    y = 0
 }
 
 controls[1] = {
@@ -344,55 +346,27 @@ function controls:update(dt)
             local axis = joystick:getAxis(j)
             if j == 3 then
                 -- X-AXIS MOVEMENT OF RIGHT ANALOG STICK
-                if axis > 0.05 then
-                    --axis = 0.8*axis
-                    --axis = math.abs(1/(math.log(axis)))
-                    self.dx = self.dx + axis*800*dt
-                    if math.abs(self.dx) > 1 then
-                        local x = love.mouse.getX()
-                        love.mouse.setX(x + self.dx)
-                        self.dx = 0
-                    end
-                elseif axis < -0.05 then
+                if math.abs(axis) > 0.2 then
                     --axis = -0.8*axis
                     --axis = math.abs(1/(math.log(axis)))
                     Debug:log(axis)
-                    self.dx = self.dx + axis*800*dt
-
-                    if math.abs(self.dx) > 1 then
-                        local x = love.mouse.getX()
-                        love.mouse.setX(x + 1 + self.dx)
-                        self.dx = 0
-                    end
+                    self.x = self.x + axis*800*dt
+                    --love.mouse.setX(self.x)
                 end
             end
             if j == 6 then
                 -- Y-AXIS MOVEMENT OF RIGHT ANALOG STICK
-                if axis > 0.05 then
-                    --axis = 0.8*axis
-                    --axis = math.abs(1/(math.log(axis)))
-                    self.dy = self.dy + axis*800*dt
-                    if math.abs(self.dy) > 1 then
-                        local y = love.mouse.getY()
-                        love.mouse.setY(y + self.dy)
-                        self.dy = 0
-                    end
-                elseif axis < -0.05 then
+                if math.abs(axis) > 0.2 then
                     --axis = -0.8*axis
                     --axis = math.abs(1/(math.log(axis)))
                     Debug:log(axis)
-                    self.dy = self.dy + axis*800*dt
-
-                    if math.abs(self.dy) > 1 then
-                        local y = love.mouse.getY()
-                        love.mouse.setY(y + 1 + self.dy)
-                        self.dy = 0
-                    end
+                    self.y = self.y + axis*800*dt
+                    --love.mouse.setX(self.x)
                 end
             end
             if j == 1 then
                 -- LEFT ANALOG X-AXIS
-                if math.abs(axis) > 0.1 then
+                if math.abs(axis) > 0.2 then
                     Cameras:current().xSpeed = axis*100000*dt
                 else
                     Cameras:current().xSpeed = 0
@@ -400,12 +374,13 @@ function controls:update(dt)
             end
             if j == 2 then
                 -- LEFT ANALOG X-AXIS
-                if math.abs(axis) > 0.1 then
+                if math.abs(axis) > 0.2 then
                     Cameras:current().ySpeed = axis*100000*dt
                 else
                     Cameras:current().ySpeed = 0
                 end
             end
+            love.mouse.setPosition(self.x, self.y)
         end
     end
 end
