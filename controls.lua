@@ -278,6 +278,7 @@ function controls:update(dt)
                 self.right = false
 
                 PauseUI:up()
+                EditModeUI:up()
 
             end
         elseif hat == "d" then
@@ -363,7 +364,7 @@ function controls:update(dt)
             if j == 6 then
                 -- Y-AXIS MOVEMENT OF RIGHT ANALOG STICK
                 if axis > 0.2 then
-                    if not (self.y >= love.graphics.getHeight()-10) then   
+                    if not (self.y >= love.graphics.getHeight()-10) then
                         self.y = self.y + axis*800*dt
                     else
                         self.y = self.y - 1
@@ -385,7 +386,7 @@ function controls:update(dt)
                 end
             end
             if j == 2 then
-                -- LEFT ANALOG X-AXIS
+                -- LEFT ANALOG Y-AXIS
                 if math.abs(axis) > 0.2 then
                     Cameras:current().ySpeed = axis*100000*dt
                 else

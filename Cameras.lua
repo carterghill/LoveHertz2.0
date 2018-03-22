@@ -51,8 +51,8 @@ function Cameras:update(dt)
 
 
 	end
-	Cameras[cameraNum].x = Cameras[cameraNum].x + Cameras[cameraNum].xSpeed*dt
-	Cameras[cameraNum].y = Cameras[cameraNum].y + Cameras[cameraNum].ySpeed*dt
+	Cameras[cameraNum].x = Cameras[cameraNum].x + Cameras[cameraNum].xSpeed/getZoom()*dt
+	Cameras[cameraNum].y = Cameras[cameraNum].y + Cameras[cameraNum].ySpeed/getZoom()*dt
 end
 
 function Cameras:current()

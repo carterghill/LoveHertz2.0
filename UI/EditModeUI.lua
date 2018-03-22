@@ -6,7 +6,8 @@ EditModeUI = {
   elements = {},
   delete = false,
   tool = "move",
-  selected = {}
+  selected = {},
+  tools = {}
 }
 
 deleteButton = {}
@@ -249,6 +250,7 @@ function EditModeUI:load()
       --:setBGImage("images/items/healthpack.png")
   deleteButton:setGroup("edit_mode")
   EditModeUI:add(deleteButton)
+  EditModeUI.tools[5] = deleteButton
 
   ----------------------
   -- MOVE SCREEN BUTTON
@@ -268,6 +270,7 @@ function EditModeUI:load()
   --moveScrn:setBGImage(mv)
   EditModeUI:add(moveScrn)
   self.selected = moveScrn
+  EditModeUI.tools[1] = moveScrn
 
   tileButtons = {}
   tiles = gooi.newButton({text = "", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
@@ -307,6 +310,8 @@ function EditModeUI:load()
         Placeables.index = 1
     end)
 
+    EditModeUI.tools[2] = tiles
+
   Placeables.index = 1
 
   enemies = gooi.newButton({text = "Bad\nGuys", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
@@ -343,6 +348,7 @@ function EditModeUI:load()
   tiles:setGroup("edit_mode")
   EditModeUI:add(enemies)
   EditModeUI:add(tiles)
+  EditModeUI.tools[3] = enemies
 
   decorative = gooi.newButton({text = "Decor", x = 16*s, y = 274*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
@@ -377,6 +383,7 @@ function EditModeUI:load()
       end)
   decorative:setGroup("edit_mode")
   EditModeUI:add(decorative)
+  EditModeUI.tools[4] = decoractive
 
 
   return EditModeUI
@@ -385,7 +392,7 @@ end
 
 function EditModeUI:draw()
 
-  if self.display then
+  if self.display and not PauseUI.paused then
     gooi.draw("edit_mode")
     love.graphics.setColor(255, 255, 255, 40)
     love.graphics.rectangle("fill", self.selected.x+2, self.selected.y+2, self.selected.w-4, self.selected.h-4)
@@ -394,4 +401,18 @@ function EditModeUI:draw()
 
   end
 
+end
+
+function EditModeUI:up()
+    Debug:log(#self.tools)
+    for i=1, #self.tools do
+        if self.tools[i] == self.selected then
+            if i == 1 then
+                self.selected = self.tools[#self.tools]
+            else
+                self.selected = self.tools[i-1]
+            end
+            i=99999
+        end
+    end
 end

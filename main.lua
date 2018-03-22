@@ -98,8 +98,6 @@ function love.update(dt)
       end
     end
   end
-  x, y = love.mouse.getPosition()
-  Debug:log(x..", "..y)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
