@@ -250,7 +250,6 @@ function EditModeUI:load()
       --:setBGImage("images/items/healthpack.png")
   deleteButton:setGroup("edit_mode")
   EditModeUI:add(deleteButton)
-  EditModeUI.tools[5] = deleteButton
 
   ----------------------
   -- MOVE SCREEN BUTTON
@@ -270,7 +269,6 @@ function EditModeUI:load()
   --moveScrn:setBGImage(mv)
   EditModeUI:add(moveScrn)
   self.selected = moveScrn
-  EditModeUI.tools[1] = moveScrn
 
   tileButtons = {}
   tiles = gooi.newButton({text = "", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
@@ -310,8 +308,6 @@ function EditModeUI:load()
         Placeables.index = 1
     end)
 
-    EditModeUI.tools[2] = tiles
-
   Placeables.index = 1
 
   enemies = gooi.newButton({text = "Bad\nGuys", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
@@ -348,7 +344,6 @@ function EditModeUI:load()
   tiles:setGroup("edit_mode")
   EditModeUI:add(enemies)
   EditModeUI:add(tiles)
-  EditModeUI.tools[3] = enemies
 
   decorative = gooi.newButton({text = "Decor", x = 16*s, y = 274*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
@@ -383,7 +378,12 @@ function EditModeUI:load()
       end)
   decorative:setGroup("edit_mode")
   EditModeUI:add(decorative)
-  EditModeUI.tools[4] = decoractive
+
+  table.insert(EditModeUI.tools, moveScrn)
+  table.insert(EditModeUI.tools, tiles)
+  table.insert(EditModeUI.tools, enemies)
+  table.insert(EditModeUI.tools, decorative)
+  table.insert(EditModeUI.tools, deleteButton)
 
 
   return EditModeUI
@@ -409,10 +409,12 @@ function EditModeUI:up()
         if self.tools[i] == self.selected then
             if i == 1 then
                 self.selected = self.tools[#self.tools]
+                self.selected.events.r()
             else
                 self.selected = self.tools[i-1]
+                self.selected.events.r()
             end
-            i=99999
+            break
         end
     end
 end
