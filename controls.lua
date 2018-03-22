@@ -5,7 +5,9 @@ controls = {
     up = false,
     down = false,
     left = false,
-    right = false
+    right = false,
+    dx = 0,
+    dy = 0
 }
 
 controls[1] = {
@@ -32,7 +34,6 @@ controls[2] = {
 
 function love.joystickpressed(joystick, button)
     local i = joystick:getID()
-    Debug:log("hi")
     if P ~= nil then
       if button == 2 then
           if PauseUI.paused then
@@ -46,7 +47,6 @@ function love.joystickpressed(joystick, button)
           l.players.charge:start()
       end
     end
-    Debug:log(button)
     --axisDir1, axisDir2, axisDirN = love.joystick.getAxes( i )
     --Debug:log(axisDir1.." "..axisDir2.." "..axisDirN)
  end
@@ -115,7 +115,6 @@ function love.gamepadpressed( joystick, button )
       P.right = true
     end
   end
-  Debug:log(button)
 end
 
 function love.gamepadreleased( joystick, button )
@@ -161,7 +160,6 @@ end
 
 function love.keypressed(key)
   PlayerUI.touch = false
-  Debug:log(key)
   gooi.setGroupVisible("player", false)
   gooi.keypressed(key, scancode, isrepeat)
   --EditModeUI:onKeypress(key)
@@ -257,7 +255,7 @@ function love.keyreleased(key, scancode)
   end
 end
 
-function controls:update()
+function controls:update(dt)
     local joysticks = love.joystick.getJoysticks()
     for i, joystick in ipairs(joysticks) do
         local hat = joystick:getHat(1)
@@ -341,6 +339,73 @@ function controls:update()
             self.left = false
             self.right = false
 
+        end
+        for j=1, joystick:getAxisCount() do
+            local axis = joystick:getAxis(j)
+            if j == 3 then
+                -- X-AXIS MOVEMENT OF RIGHT ANALOG STICK
+                if axis > 0.05 then
+                    --axis = 0.8*axis
+                    --axis = math.abs(1/(math.log(axis)))
+                    self.dx = self.dx + axis*800*dt
+                    if math.abs(self.dx) > 1 then
+                        local x = love.mouse.getX()
+                        love.mouse.setX(x + self.dx)
+                        self.dx = 0
+                    end
+                elseif axis < -0.05 then
+                    --axis = -0.8*axis
+                    --axis = math.abs(1/(math.log(axis)))
+                    Debug:log(axis)
+                    self.dx = self.dx + axis*800*dt
+
+                    if math.abs(self.dx) > 1 then
+                        local x = love.mouse.getX()
+                        love.mouse.setX(x + 1 + self.dx)
+                        self.dx = 0
+                    end
+                end
+            end
+            if j == 6 then
+                -- Y-AXIS MOVEMENT OF RIGHT ANALOG STICK
+                if axis > 0.05 then
+                    --axis = 0.8*axis
+                    --axis = math.abs(1/(math.log(axis)))
+                    self.dy = self.dy + axis*800*dt
+                    if math.abs(self.dy) > 1 then
+                        local y = love.mouse.getY()
+                        love.mouse.setY(y + self.dy)
+                        self.dy = 0
+                    end
+                elseif axis < -0.05 then
+                    --axis = -0.8*axis
+                    --axis = math.abs(1/(math.log(axis)))
+                    Debug:log(axis)
+                    self.dy = self.dy + axis*800*dt
+
+                    if math.abs(self.dy) > 1 then
+                        local y = love.mouse.getY()
+                        love.mouse.setY(y + 1 + self.dy)
+                        self.dy = 0
+                    end
+                end
+            end
+            if j == 1 then
+                -- LEFT ANALOG X-AXIS
+                if math.abs(axis) > 0.1 then
+                    Cameras:current().xSpeed = axis*100000*dt
+                else
+                    Cameras:current().xSpeed = 0
+                end
+            end
+            if j == 2 then
+                -- LEFT ANALOG X-AXIS
+                if math.abs(axis) > 0.1 then
+                    Cameras:current().ySpeed = axis*100000*dt
+                else
+                    Cameras:current().ySpeed = 0
+                end
+            end
         end
     end
 end
