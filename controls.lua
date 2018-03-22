@@ -360,6 +360,8 @@ function controls:update(dt)
                     else
                         self.x = self.x + 1
                     end
+                else
+                    self.x = love.mouse.getX()
                 end
             end
             if j == 6 then
@@ -376,6 +378,8 @@ function controls:update(dt)
                     else
                         self.y = self.y + 1
                     end
+                else
+                    self.y = love.mouse.getY()
                 end
             end
             if j == 1 then

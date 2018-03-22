@@ -404,33 +404,35 @@ function EditModeUI:draw()
 end
 
 function EditModeUI:up()
-    Debug:log(#self.tools)
-    for i=1, #self.tools do
-        if self.tools[i] == self.selected then
-            if i == 1 then
-                self.selected = self.tools[#self.tools]
-                self.selected.events.r()
-            else
-                self.selected = self.tools[i-1]
-                self.selected.events.r()
+    if not PauseUI.paused then
+        for i=1, #self.tools do
+            if self.tools[i] == self.selected then
+                if i == 1 then
+                    self.selected = self.tools[#self.tools]
+                    self.selected.events.r()
+                else
+                    self.selected = self.tools[i-1]
+                    self.selected.events.r()
+                end
+                break
             end
-            break
         end
     end
 end
 
 function EditModeUI:down()
-    Debug:log(#self.tools)
-    for i=1, #self.tools do
-        if self.tools[i] == self.selected then
-            if i == #self.tools then
-                self.selected = 1
-                self.selected.events.r()
-            else
-                self.selected = self.tools[i+1]
-                self.selected.events.r()
+    if not PauseUI.paused then
+        for i=1, #self.tools do
+            if self.tools[i] == self.selected then
+                if i == #self.tools then
+                    self.selected = 1
+                    self.selected.events.r()
+                else
+                    self.selected = self.tools[i+1]
+                    self.selected.events.r()
+                end
+                break
             end
-            break
         end
     end
 end
