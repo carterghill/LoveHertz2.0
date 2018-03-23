@@ -109,6 +109,7 @@ function love.touchpressed( id, x, y, dx, dy, pressure )
         gooi.setGroupVisible("player", true)
     end
     gooi.pressed(id, x, y)
+    Placeables:onClick(x , y, 1)
 end
 
 function love.touchreleased( id, x, y, dx, dy, pressure )
@@ -127,6 +128,7 @@ function love.touchmoved( id, x, y, dx, dy, pressure )
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )
+
     if EditModeUI.display and not PauseUI.paused
     and (love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.tool == "move")) then
         if not (math.abs(dx) > 150 or math.abs(dy) > 150) then
@@ -160,7 +162,9 @@ function love.mousepressed(x, y, button, istouch)
     if not PlayerUI.touch then
         gooi.pressed()
     end
-    Placeables:onClick(x,y,button)
+    if not istouch then
+      Placeables:onClick(x,y,button)
+    end
 end
 
 function love.mousereleased(x, y, button, istouch)
