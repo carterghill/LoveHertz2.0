@@ -45,7 +45,8 @@ function Placeables:onClick(x,y,button)
           imagePath = "images/decorative/"..Placeables.decorative.names[Placeables.index]
     }
     slowdowns = #Decorative.set
-  elseif (button == 2 or EditModeUI.tool == "delete") and not EditModeUI:overIt(x, y) then
+
+  elseif (EditModeUI.tool == "delete") and not EditModeUI:overIt(x, y) then
     for i=#en.enemies, 1, -1 do
       if x < en.enemies[i].x + en.enemies[i].width and x > en.enemies[i].x then
         if y < en.enemies[i].y + en.enemies[i].width and y > en.enemies[i].y then
@@ -113,7 +114,7 @@ function Placeables:draw()
     end
 
   love.graphics.setColor( 255, 255, 255, 255 )
-  
+
   end
 end
 

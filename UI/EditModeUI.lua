@@ -205,7 +205,7 @@ function EditModeUI:load()
 
   Placeables.index = 1
 
-  enemies = gooi.newButton({text = "Bad\nGuys", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
+  enemies = gooi.newButton({text = "", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       ----:setTooltip("previous in the list")
       :onRelease(function()
@@ -239,6 +239,7 @@ function EditModeUI:load()
         Placeables.index = 1
       end)
   enemies:setGroup("edit_mode")
+  enemies:setBGImage("images/enemyIcon.png")
   tiles:setGroup("edit_mode")
   EditModeUI:add(enemies)
   EditModeUI:add(tiles)
