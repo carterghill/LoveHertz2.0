@@ -99,7 +99,7 @@ function PauseUI:load(visible)
         end)
         :setGroup('pause_settings')
 
-    self.txt = gooi.newText({y = 180*s, x = (w/3)+24, w = (w/3)-24, h = 64*s}):setText("")
+    self.txt = gooi.newText({y = 180*s, x = (w/3)+24, w = (w/3)-24, h = 64*s}):setText("New Level")
     self.txt:setGroup("pause_level")
 
     self.nextbtn = gooi.newButton({text = ">", x = (w/2)+24, y = 260*s, w = (w/6)-24, h = 48*s})
@@ -129,14 +129,14 @@ function PauseUI:load(visible)
             local y = self.txt.y
             local w = self.txt.w
             local h = self.txt.h
-            --txt1.indexCursor = 1
+            --self.txt.indexCursor = 1
             gooi.removeComponent(self.txt)
             if savedLevels[current] == nil then
               return
             end
             self.txt = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
             self.txt:setGroup("pause_level")
-            --txt1:setText(savedLevels[current]:gsub(".txt", ""))
+            --self.txt:setText(savedLevels[current]:gsub(".txt", ""))
         end)
     self.nextbtn:setGroup("pause_level")
 
@@ -164,11 +164,11 @@ function PauseUI:load(visible)
         local y = self.txt.y
         local w = self.txt.w
         local h = self.txt.h
-        --txt1.indexCursor = 1
+        --self.txt.indexCursor = 1
         gooi.removeComponent(self.txt)
         self.txt = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
         self.txt:setGroup("pause_level")
-        --txt1:setText(savedLevels[current]:gsub(".txt", ""))
+        --self.txt:setText(savedLevels[current]:gsub(".txt", ""))
     end
 
     self.prevbtn = gooi.newButton({text = "<", x = (w/3)+24, y = 260*s, w = (w/6)-24, h = 48*s})
@@ -181,9 +181,9 @@ function PauseUI:load(visible)
         :setIcon(imgDir.."coin.png")
         :onRelease(function()
             gooi.confirm({
-                text = "Save game as \""..txt1:getText().."\'?",
+                text = "Save game as \""..self.txt:getText().."\'?",
                 ok = function()
-                  local t = txt1:getText()..".txt"
+                  local t = self.txt:getText()..".txt"
                   l:save(t)
                 end
             })
@@ -194,9 +194,9 @@ function PauseUI:load(visible)
         :setIcon(imgDir.."coin.png")
         :onRelease(function()
             gooi.confirm({
-                text = "Load \""..txt1:getText().."\'?",
+                text = "Load \""..self.txt:getText().."\'?",
                 ok = function()
-                    l:load(txt1:getText()..".txt")
+                    l:load(self.txt:getText()..".txt")
                 end
             })
         end)
