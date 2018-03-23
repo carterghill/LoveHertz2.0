@@ -4,6 +4,7 @@ PauseUI = {
     cursor = 1,
     elements = {},
     settings = {},
+    level = {},
     img = love.graphics.newImage('images/PauseBackground.png'),
     paused = false,
     group = "pause",
@@ -98,9 +99,20 @@ function PauseUI:load(visible)
         end)
         :setGroup('pause_settings')
 
+    self.level[1] = gooi.newButton({text = "Back", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
+            --:setIcon(imgDir.."coin.png"):danger()
+            --:setTooltip("Go back to the main pause screen")
+            :onRelease(function()
+              self.group = "pause"
+              gooi.setGroupVisible("pause_level", false)
+              gooi.setGroupVisible("pause", true)
+            end)
+            :setGroup('pause_level')
+
     if not visible then
         gooi.setGroupVisible("pause", false)
         gooi.setGroupVisible("pause_settings", false)
+        gooi.setGroupVisible("pause_level", false)
     end
 
 end
@@ -112,8 +124,12 @@ function PauseUI:empty()
     for i=1, #self.settings do
         gooi.removeComponent(self.settings[i])
     end
+    for i=1, #self.level do
+        gooi.removeComponent(self.level[i])
+    end
     self.elements = {}
     self.settings = {}
+    self.level = {}
 end
 
 function PauseUI:reset()
@@ -149,10 +165,14 @@ function PauseUI:draw()
         elseif self.group == "pause_settings" then
             lg.rectangle("line", self.settings[self.cursor].x, self.settings[self.cursor].y,
                         self.settings[self.cursor].w, self.settings[self.cursor].h)
+        elseif self.group == "pause_level" then
+            lg.rectangle("line", self.level[self.cursor].x, self.level[self.cursor].y,
+                        self.level[self.cursor].w, self.level[self.cursor].h)
         end
 
     else
         gooi.setGroupVisible("pause", false)
+        gooi.setGroupVisible("pause_level", false)
         gooi.setGroupVisible("pause_settings", false)
     end
 
