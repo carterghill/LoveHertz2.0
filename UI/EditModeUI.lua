@@ -129,16 +129,18 @@ function EditModeUI:load()
 
   ]]
 
-  deleteButton = gooi.newButton({text = "Delete\n(off)", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
+  deleteButton = gooi.newButton({text = "", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
       :onRelease(function ()
           EditModeUI.tool = "delete"
           self.selected = deleteButton
           removeTileButtons()
           love.mouse.setVisible(true)
           love.mouse.setCursor(love.mouse.getSystemCursor("no"))
+          --love.mouse.setCursor(love.mouse.newCursor("images/eraser.png"))
       end)
 
   deleteButton:setGroup("edit_mode")
+  deleteButton:setBGImage("images/eraser.png")
   EditModeUI:add(deleteButton)
 
   ----------------------
