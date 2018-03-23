@@ -177,7 +177,9 @@ function PauseUI:load(visible)
         :onRelease(c)
     self.prevbtn:setGroup("pause_level")
 
-    self.level[1] = gooi.newButton({text = "Back", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
+    self.level[1] = self.prevbtn
+
+    self.level[2] = gooi.newButton({text = "Back", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
             --:setIcon(imgDir.."coin.png"):danger()
             --:setTooltip("Go back to the main pause screen")
             :onRelease(function()
@@ -269,6 +271,10 @@ function PauseUI:down()
             if self.cursor > #self.settings then
                 self.cursor = 1
             end
+        elseif self.group == "pause_level" then
+            if self.cursor > #self.level then
+                self.cursor = 1
+            end
         end
     end
 end
@@ -285,6 +291,24 @@ function PauseUI:up()
         elseif self.group == "pause_settings" then
             if self.cursor < 1 then
                 self.cursor = #self.settings
+            end
+        elseif self.group == "pause_level" then
+            if self.cursor < 1 then
+                self.cursor = #self.level
+            end
+        end
+    end
+end
+
+function PauseUI:right()
+    if love.timer.getTime() - self.clickTime > 0.01 then
+        -- Adding a click timer to prevent skipping menu items
+        self.clickTime = love.timer.getTime()
+        if self.group == "pause_level" then
+            if self.level[self.cursor] == self.prevbtn then
+                self.level[self.cursor] = self.nextbtn
+            elseif self.level[self.cursor] == self.nextbtn then
+                self.level[self.cursor] = self.prevbtn
             end
         end
     end

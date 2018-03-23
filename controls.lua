@@ -212,11 +212,13 @@ function love.keypressed(key)
       if key == "left" then
           if EditModeUI.display then
               EditModeUI:left()
+              PauseUI:right()
           end
       end
       if key == "right" then
           if EditModeUI.display then
               EditModeUI:right()
+              PauseUI:right()
           end
       end
     end
@@ -335,7 +337,7 @@ function controls:update(dt)
                 EditModeUI:left()
 
             end
-            
+
         elseif hat == "r" then
 
             P.up = false
