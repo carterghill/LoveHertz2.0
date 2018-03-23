@@ -43,7 +43,7 @@ function UI:updateAll(dt)
   end
 
   local z = zoomSlider:getValue()
-  if z ~= nil then
+  if z ~= nil and z ~= 0 then
     zoom = z*1.75
   end
 

@@ -2272,8 +2272,6 @@ function gooi.keypressed(key, scancode, isrepeat)
         gooi.closeDialog()
     end
 
-    Debug:log(key)
-
     local fields = gooi.getByType("text")
     for i = 1, #fields do
         local f = fields[i]

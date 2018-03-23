@@ -98,86 +98,11 @@ function EditModeUI:load()
 
   -----------------------------------------------
   -----------------------------------------------
-  -- Free elements with no layout:
+  -- Menu and Zoom
   -----------------------------------------------
   -----------------------------------------------
 
-  --lbl1 = gooi.newLabel({x = 10, text = "Level Name: "}):left()
-  txt1 = gooi.newText({y = 16*s, x = w-296*s, w = 280*s, h = 64*s}):setText("")
-  --EditModeUI:add(txt1)
-  savebtn = gooi.newButton({text = "Save", x = w-296*s, y = 144*s, w = 135*s, h = 48*s})
-      :setIcon(imgDir.."coin.png")
-      ----:setTooltip("Save the current level")
-      :onRelease(function()
-          gooi.confirm({
-              text = "Save game as \""..txt1:getText().."\'?",
-              ok = function()
-                local t = txt1:getText()..".txt"
-                if not love.filesystem.exists("My Levels/"..t) then
-                  --savedGrid:add(gooi.newButton({text = txt1:getText()}))
-                end
-                l:save(t)
-              end
-          })
-      end)
-  savebtn:setGroup("edit_mode")
-  EditModeUI:add(savebtn)
-  txt1:setGroup("edit_mode")
-  EditModeUI:add(txt1)
-  loadbtn = gooi.newButton({text = "Load", x = w-151*s, y = 144*s, w = 135*s, h = 48*s})
-      :setIcon(imgDir.."coin.png")
-      ----:setTooltip("Load the above level")
-      :onRelease(function()
-          gooi.confirm({
-              text = "Load \""..txt1:getText().."\'?",
-              ok = function()
-                  l:load(txt1:getText()..".txt")
-              end
-          })
-      end)
-  loadbtn:setGroup("edit_mode")
-  EditModeUI:add(loadbtn)
-
-  nextbtn = gooi.newButton({text = ">", x = w-151*s, y = 88*s, w = 135*s, h = 48*s})
-      --:setIcon(imgDir.."coin.png")
-      ----:setTooltip("Next in the list")
-      :onRelease(function()
-          local x = love.filesystem.getDirectoryItems("My Levels")
-          local savedLevels = {}
-          local current = 1
-          for i=1, #x do
-            if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
-              local t = x[i]:gsub(".txt", "")
-              table.insert(savedLevels, t)
-              if t == txt1:getText() then
-                current = #savedLevels
-              end
-            end
-          end
-          if #savedLevels == 0 then
-            return
-          end
-          current = current + 1
-          if current > #savedLevels then
-            current = 1
-          end
-          local x = txt1.x
-          local y = txt1.y
-          local w = txt1.w
-          local h = txt1.h
-          --txt1.indexCursor = 1
-          gooi.removeComponent(txt1)
-          if savedLevels[current] == nil then
-            return
-          end
-          txt1 = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
-          txt1:setGroup("edit_mode")
-          --txt1:setText(savedLevels[current]:gsub(".txt", ""))
-      end)
-  nextbtn:setGroup("edit_mode")
-  EditModeUI:add(nextbtn)
-
-  pauseBtn = gooi.newButton({text = "Pause", x = w-296*s, y = 200*s, w = 280*s, h = 48*s})
+  pauseBtn = gooi.newButton({text = "Pause", x = w-296*s, y = 16*s, w = 280*s, h = 64*s})
       --:setIcon(imgDir.."coin.png")
       ----:setTooltip("Save the current level")
       :onRelease(function()
@@ -186,48 +111,10 @@ function EditModeUI:load()
   pauseBtn:setGroup("edit_mode")
   EditModeUI:add(pauseBtn)
 
-  local c = function()
-      local x = love.filesystem.getDirectoryItems("My Levels")
-      local savedLevels = {}
-      local current = 1
-      for i=1, #x do
-        if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
-          local t = x[i]:gsub(".txt", "")
-          table.insert(savedLevels, t)
-          if t == txt1:getText() then
-            current = #savedLevels
-          end
-        end
-      end
-      if #savedLevels == 0 then
-        return
-      end
-      current = current - 1
-      if current < 1 then
-        current = #savedLevels
-      end
-      local x = txt1.x
-      local y = txt1.y
-      local w = txt1.w
-      local h = txt1.h
-      --txt1.indexCursor = 1
-      gooi.removeComponent(txt1)
-      txt1 = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
-      txt1:setGroup("edit_mode")
-      --txt1:setText(savedLevels[current]:gsub(".txt", ""))
-  end
-
-  prevbtn = gooi.newButton({text = "<", x = w-296*s, y = 88*s, w = 135*s, h = 48*s})
-      --:setIcon(imgDir.."coin.png")
-    --  --:setTooltip("previous in the list")
-      :onRelease(c)
-  prevbtn:setGroup("edit_mode")
-  EditModeUI:add(prevbtn)
-
   zoomSlider = gooi.newSlider({
     value = 0.5,
     x = w-296*s,
-    y = h-60*s,
+    y = 88*s,
     w = 280*s,
     h = 44*s,
     group = "grp1"
