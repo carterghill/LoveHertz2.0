@@ -99,6 +99,9 @@ function PauseUI:load(visible)
         end)
         :setGroup('pause_settings')
 
+    self.txt = gooi.newText({y = 180*s, x = (w/3)+24, w = (w/3)-24, h = 64*s}):setText("")
+    self.txt:setGroup("pause_level")
+
     self.level[1] = gooi.newButton({text = "Back", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
             --:setIcon(imgDir.."coin.png"):danger()
             --:setTooltip("Go back to the main pause screen")
