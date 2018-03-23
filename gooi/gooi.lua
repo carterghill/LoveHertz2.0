@@ -2272,12 +2272,20 @@ function gooi.keypressed(key, scancode, isrepeat)
         gooi.closeDialog()
     end
 
+    Debug:log(key)
+
     local fields = gooi.getByType("text")
     for i = 1, #fields do
         local f = fields[i]
         if f == gooi.focused then
-            f:typeCode(key)
-            f:setToRepeat(key)
+
+            if key == "escape" or key == "return" or key == "up" or key == "down" then
+                gooi.focused = nil
+                f.hasFocus = false
+            else
+                f:typeCode(key)
+                f:setToRepeat(key)
+            end
         end
     end
 end
