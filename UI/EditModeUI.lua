@@ -384,4 +384,6 @@ function removeTileButtons()
   for i=1, #tileButtons do
     gooi.removeComponent(tileButtons[i])
   end
+  tileButtons = {}
+  EditModeUI.tileButton = nil
 end

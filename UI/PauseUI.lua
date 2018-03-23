@@ -230,6 +230,15 @@ function PauseUI:empty()
         gooi.removeComponent(self.settings[i])
     end
     for i=1, #self.level do
+        if self.level[i] == self.prevbtn then
+            gooi.removeComponent(self.nextbtn)
+        elseif self.level[i] == self.nextbtn then
+            gooi.removeComponent(self.prevbtn)
+        elseif self.level[i] == self.savebtn then
+            gooi.removeComponent(self.loadbtn)
+        elseif self.level[i] == self.loadbtn then
+            gooi.removeComponent(self.savebtn)
+        end
         gooi.removeComponent(self.level[i])
     end
     self.elements = {}
