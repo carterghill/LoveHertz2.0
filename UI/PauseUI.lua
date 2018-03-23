@@ -102,6 +102,81 @@ function PauseUI:load(visible)
     self.txt = gooi.newText({y = 180*s, x = (w/3)+24, w = (w/3)-24, h = 64*s}):setText("")
     self.txt:setGroup("pause_level")
 
+    self.nextbtn = gooi.newButton({text = ">", x = (w/2)+24, y = 260*s, w = (w/6)-24, h = 48*s})
+        --:setIcon(imgDir.."coin.png")
+        ----:setTooltip("Next in the list")
+        :onRelease(function()
+            local x = love.filesystem.getDirectoryItems("My Levels")
+            local savedLevels = {}
+            local current = 1
+            for i=1, #x do
+              if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
+                local t = x[i]:gsub(".txt", "")
+                table.insert(savedLevels, t)
+                if t == self.txt:getText() then
+                  current = #savedLevels
+                end
+              end
+            end
+            if #savedLevels == 0 then
+              return
+            end
+            current = current + 1
+            if current > #savedLevels then
+              current = 1
+            end
+            local x = self.txt.x
+            local y = self.txt.y
+            local w = self.txt.w
+            local h = self.txt.h
+            --txt1.indexCursor = 1
+            gooi.removeComponent(self.txt)
+            if savedLevels[current] == nil then
+              return
+            end
+            self.txt = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
+            self.txt:setGroup("pause_level")
+            --txt1:setText(savedLevels[current]:gsub(".txt", ""))
+        end)
+    self.nextbtn:setGroup("pause_level")
+
+    local c = function()
+        local x = love.filesystem.getDirectoryItems("My Levels")
+        local savedLevels = {}
+        local current = 1
+        for i=1, #x do
+          if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
+            local t = x[i]:gsub(".txt", "")
+            table.insert(savedLevels, t)
+            if t == self.txt:getText() then
+              current = #savedLevels
+            end
+          end
+        end
+        if #savedLevels == 0 then
+          return
+        end
+        current = current - 1
+        if current < 1 then
+          current = #savedLevels
+        end
+        local x = self.txt.x
+        local y = self.txt.y
+        local w = self.txt.w
+        local h = self.txt.h
+        --txt1.indexCursor = 1
+        gooi.removeComponent(self.txt)
+        self.txt = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
+        self.txt:setGroup("pause_level")
+        --txt1:setText(savedLevels[current]:gsub(".txt", ""))
+    end
+
+    self.prevbtn = gooi.newButton({text = "<", x = (w/3)+24, y = 260*s, w = (w/6)-24, h = 48*s})
+        --:setIcon(imgDir.."coin.png")
+      --  --:setTooltip("previous in the list")
+        :onRelease(c)
+    self.prevbtn:setGroup("pause_level")
+
     self.level[1] = gooi.newButton({text = "Back", x = (w/3)+24, y = 580*s, w = (w/3)-24, h = 48*s})
             --:setIcon(imgDir.."coin.png"):danger()
             --:setTooltip("Go back to the main pause screen")

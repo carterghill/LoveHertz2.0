@@ -243,14 +243,12 @@ function EditModeUI:load()
   ]]
 
   deleteButton = gooi.newButton({text = "Delete\n(off)", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
-      --:setIcon(imgDir.."coin.png")
-      --:setTooltip("Turn delete mode on")
       :onRelease(function ()
           EditModeUI.tool = "delete"
           self.selected = deleteButton
           removeTileButtons()
       end)
-      --:setBGImage("images/items/healthpack.png")
+
   deleteButton:setGroup("edit_mode")
   EditModeUI:add(deleteButton)
 

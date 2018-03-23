@@ -315,6 +315,7 @@ function controls:update(dt)
                 EditModeUI:down()
 
             end
+
         elseif hat == "l" then
 
             P.up = false
@@ -334,6 +335,7 @@ function controls:update(dt)
                 EditModeUI:left()
 
             end
+            
         elseif hat == "r" then
 
             P.up = false
