@@ -127,8 +127,9 @@ function love.touchmoved( id, x, y, dx, dy, pressure )
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )
-    if EditModeUI.display and (love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.tool == "move")) then
-        if not (math.abs(dx) > 300 or math.abs(dy) > 300) then
+    if EditModeUI.display and not PauseUI.paused
+    and (love.mouse.isDown(2) or (love.mouse.isDown(1) and EditModeUI.tool == "move")) then
+        if not (math.abs(dx) > 150 or math.abs(dy) > 150) then
             Cameras:current().x = Cameras:current().x - dx/getZoom()
             Cameras:current().y = Cameras:current().y - dy/getZoom()
         end
