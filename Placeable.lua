@@ -90,48 +90,31 @@ function Placeables:draw()
 
   if EditModeUI.display and EditModeUI.tool == "place" then
 
-  x, y = love.mouse.getPosition()
+    x, y = love.mouse.getPosition()
 
-  love.graphics.setColor( 255, 255, 255, 125 )
---  if placeable == "Tile" then
+    love.graphics.setColor( 255, 255, 255, 125 )
+    if Placeables:getTile() ~= nil then
+      local tile = Placeables:getTile()
 
-    --x = x - ((x + cameras[cameraNum].x) % 64)
-    --y = y - ((y + cameras[cameraNum].y) % 64)
-
-
-    --local scale = 64/placeableTiles[placeableTileNum].img:getWidth()
-
-    --love.graphics.draw(placeableTiles[placeableTileNum].img, x, y, 0, scale)
-
-  --elseif placeable == "Enemy" then
-  --  love.graphics.draw(placeableEnemies[placeableEnemyNum].img, x - placeableEnemies[placeableEnemyNum].img:getWidth()/2, y
-    --      - placeableEnemies[placeableEnemyNum].img:getHeight()/2)
-
-  --elseif placeable == "Static" then
-    --love.graphics.draw(placeableStatic[placeableStaticNum].img, x - placeableStatic[placeableStaticNum].img:getWidth()/2, y
-    --      - placeableStatic[placeableStaticNum].img:getHeight()/2)
-  --end
-  if Placeables:getTile() ~= nil then
-    local tile = Placeables:getTile()
-
-    if tile.images == nil then
-      if tile.defaultImage == nil then
-        img = tile
+      if tile.images == nil then
+        if tile.defaultImage == nil then
+          img = tile
+        else
+          img = tile.defaultImage
+        end
+        sc = 1
       else
-        img = tile.defaultImage
+        img = tile.images[1]
+        sc = 64/img:getWidth()
       end
-      sc = 1
-    else
-      img = tile.images[1]
-      sc = 64/img:getWidth()
+      x = x - img:getWidth()/2*getZoom()
+      y = y - img:getHeight()/2*getZoom()
+      love.graphics.draw(img, x, y, 0, sc*getZoom())
     end
-    x = x - img:getWidth()/2*getZoom()
-    y = y - img:getHeight()/2*getZoom()
-    love.graphics.draw(img, x, y, 0, sc*getZoom())
-  end
 
   love.graphics.setColor( 255, 255, 255, 255 )
-end
+  
+  end
 end
 
 function loadImagesInFolder(folder)

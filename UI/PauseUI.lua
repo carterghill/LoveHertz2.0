@@ -11,9 +11,10 @@ PauseUI = {
     clickTime = 0
 }
 
-function PauseUI:load(visible)
+function PauseUI:load(visible, group)
 
     visible = visible or false
+    group = group or "pause"
 
     local w = love.graphics.getWidth()
     local h = love.graphics.getHeight()
@@ -96,6 +97,8 @@ function PauseUI:load(visible)
                 love.window.setFullscreen( true )
             end
             gooi.setGroupVisible("pause_settings", true)
+            gooi.setGroupVisible("pause", false)
+            gooi.setGroupVisible("pause_level", false)
         end)
         :setGroup('pause_settings')
 
@@ -218,6 +221,21 @@ function PauseUI:load(visible)
         gooi.setGroupVisible("pause", false)
         gooi.setGroupVisible("pause_settings", false)
         gooi.setGroupVisible("pause_level", false)
+    else
+        self.group = group
+        if group == "pause" then
+            gooi.setGroupVisible("pause_settings", false)
+            gooi.setGroupVisible("pause_level", false)
+            gooi.setGroupVisible("pause", true)
+        elseif group == "pause_settings" then
+            gooi.setGroupVisible("pause_settings", true)
+            gooi.setGroupVisible("pause", false)
+            gooi.setGroupVisible("pause_level", false)
+        elseif group == "pause_level" then
+            gooi.setGroupVisible("pause", false)
+            gooi.setGroupVisible("pause_settings", false)
+            gooi.setGroupVisible("pause_level", true)
+        end
     end
 
 end
@@ -249,9 +267,11 @@ end
 function PauseUI:reset()
 
     visible = self.paused
+    group = self.group
 
     PauseUI:empty()
-    PauseUI:load(visible)
+    PauseUI:load(visible, group)
+
 end
 
 function PauseUI:draw()

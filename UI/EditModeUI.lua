@@ -134,6 +134,8 @@ function EditModeUI:load()
           EditModeUI.tool = "delete"
           self.selected = deleteButton
           removeTileButtons()
+          love.mouse.setVisible(true)
+          love.mouse.setCursor(love.mouse.getSystemCursor("no"))
       end)
 
   deleteButton:setGroup("edit_mode")
@@ -150,6 +152,7 @@ function EditModeUI:load()
         self.selected = moveScrn
         c = love.mouse.getSystemCursor("sizeall")
         love.mouse.setCursor(c)
+        love.mouse.setVisible(true)
         removeTileButtons()
       end)
   mv = love.graphics.newImage("images/moveIcon.png")
@@ -170,6 +173,7 @@ function EditModeUI:load()
         end
         self.tool = "place"
         self.selected = tiles
+        love.mouse.setVisible(false)
         tileButtons = {}
         Placeables.currentSet = "tiles"
         for i=1, #Placeables.tiles do
@@ -211,6 +215,7 @@ function EditModeUI:load()
         end
         self.tool = "place"
         self.selected = enemies
+        love.mouse.setVisible(false)
         tileButtons = {}
         Placeables.currentSet = "enemies"
         for i=1, #Placeables.enemies do
@@ -248,6 +253,7 @@ function EditModeUI:load()
         end
         self.tool = "place"
         self.selected = decorative
+        love.mouse.setVisible(false)
         tileButtons = {}
         Placeables.currentSet = "decorative"
         local images = loadImagesInFolder("images/decorative")
