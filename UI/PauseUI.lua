@@ -172,10 +172,8 @@ function PauseUI:load(visible)
     end
 
     self.prevbtn = gooi.newButton({text = "<", x = (w/3)+24, y = 260*s, w = (w/6)-24, h = 48*s})
-        --:setIcon(imgDir.."coin.png")
-      --  --:setTooltip("previous in the list")
         :onRelease(c)
-    self.prevbtn:setGroup("pause_level")
+        :setGroup("pause_level")
 
     self.savebtn = gooi.newButton({text = "Save", x = (w/3)+24, y = 324*s, w = (w/6)-24, h = 48*s})
         :setIcon(imgDir.."coin.png")
@@ -343,7 +341,7 @@ function PauseUI:right()
                 self.level[self.cursor-1] = self.nextbtn
             elseif self.level[self.cursor] == self.loadbtn then
                 self.level[self.cursor] = self.savebtn
-                self.level[self.cursor-1] = self.savebtn
+                self.level[self.cursor-1] = self.prevbtn
             end
         end
     end

@@ -335,7 +335,7 @@ function controls:update(dt)
                 self.left = true
                 self.right = false
 
-                --PauseUI:down()
+                PauseUI:right()
                 EditModeUI:left()
 
             end
@@ -355,7 +355,7 @@ function controls:update(dt)
                 self.left = false
                 self.right = true
 
-                --PauseUI:down()
+                PauseUI:right()
                 EditModeUI:right()
 
             end
