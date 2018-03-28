@@ -15,14 +15,8 @@ EditModeUI = {
 deleteButton = {}
 zoomSlider = {}
 
-function EditModeUI:toggleMode()
-  if self.delete then
-    self.delete = false
-  else
-    self.delete = true
-  end
-end
-
+--- toggle
+-- Turns Edit Mode on or off
 function EditModeUI:toggle()
   if self.display then
     love.mouse.setVisible(false)
@@ -42,10 +36,17 @@ function EditModeUI:toggle()
   end
 end
 
+--- add
+-- Inserts an element into the list of edit mode elements
+-- @param e - The element
 function EditModeUI:add(e)
   self.elements[#self.elements+1] = e
 end
 
+--- overIt
+-- Tells you whether or not your mouse is over an EditModeUI element
+-- @param x - The mouse's x position
+-- @param y - The mouse's y position
 function EditModeUI:overIt(x, y)
   local x = x or love.mouse.getX()
   local y = y or love.mouse.getY()
@@ -57,6 +58,8 @@ function EditModeUI:overIt(x, y)
   return false
 end
 
+--- empty
+-- Remove every element from edit mode
 function EditModeUI:empty()
   for i=1, #self.elements do
     gooi.removeComponent(self.elements[i])
@@ -68,6 +71,8 @@ function EditModeUI:empty()
   self.elements = {}
 end
 
+--- reset
+-- Reinitialized the EditModeUI, usually for rescaling purposes
 function EditModeUI:reset()
     self:empty()
     self:load()
@@ -165,6 +170,11 @@ function EditModeUI:load()
   self.selected = moveScrn
 
   tileButtons = {}
+
+  ----------------------
+  -- TILES BUTTON
+  ----------------------
+
   tiles = gooi.newButton({text = "", x = 16*s, y = 102*s, w = 80*s, h = 80*s})
       --:setIcon(imgDir.."coin.png")
       :setBGImage("images/tileIcon.png")
@@ -207,6 +217,10 @@ function EditModeUI:load()
 
   Placeables.index = 1
 
+  ----------------------
+  -- ENEMIES BUTTON
+  ----------------------
+
   enemies = gooi.newButton({text = "", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
 
       :onRelease(function()
@@ -245,9 +259,11 @@ function EditModeUI:load()
   EditModeUI:add(enemies)
   EditModeUI:add(tiles)
 
+  ----------------------
+  -- DECORATIVE BUTTON
+  ----------------------
+
   decorative = gooi.newButton({text = "", x = 16*s, y = 274*s, w = 80*s, h = 80*s})
-      --:setIcon(imgDir.."coin.png")
-      ----:setTooltip("Get decorative placeable objects")
       :onRelease(function()
         Placeables.index = 1
         for i=1, #tileButtons do
@@ -260,24 +276,17 @@ function EditModeUI:load()
         Placeables.currentSet = "decorative"
         local images = loadImagesInFolder("images/decorative")
         for i=1, #images do
-          --local num = #tileButtons+1
           tileButtons[i] = gooi.newButton({text = "", x = 16*s + (i-1)*86, y = h-96*s, w = 80*s, h = 80*s})
-              --:setIcon(imgDir.."coin.png")
-              ----:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
                 self.tileButton = tileButtons[i]
               end)
           tileButtons[i]:setGroup("edit_mode")
-          --if Placeables:getTile() ~= nil then
-            --local img = Placeables:getTile()
-            tileButtons[i]:setBGImage(images[i])
-          --end
+          tileButtons[i]:setBGImage(images[i])
           Placeables.index = Placeables.index + 1
         end
         self.tileButton = tileButtons[1]
         Placeables.index = 1
-        --gooi.newButton({text = #tileButtons, x = (64*4)+(i*72)-72, y = 640, w = 64, h = 64})
       end)
   decorative:setGroup("edit_mode")
   decorative:setBGImage("images/decorativeIcon.png")
