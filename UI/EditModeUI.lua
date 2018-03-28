@@ -208,8 +208,7 @@ function EditModeUI:load()
   Placeables.index = 1
 
   enemies = gooi.newButton({text = "", x = 16*s, y = 188*s, w = 80*s, h = 80*s})
-      --:setIcon(imgDir.."coin.png")
-      ----:setTooltip("previous in the list")
+
       :onRelease(function()
         Placeables.index = 1
         for i=1, #tileButtons do
@@ -267,7 +266,7 @@ function EditModeUI:load()
               ----:setTooltip("previous in the list")
               :onRelease(function()
                 Placeables.index = i
-                self.tileButton = tileButtons[num]
+                self.tileButton = tileButtons[i]
               end)
           tileButtons[i]:setGroup("edit_mode")
           --if Placeables:getTile() ~= nil then
@@ -332,7 +331,7 @@ end
 function EditModeUI:down()
     local t = love.timer.getTime()
     if not PauseUI.paused and t - self.clickTime > 0.1 then
-        self.clickTime = love.timer.getTime()
+        self.clickTime = t
         for i=1, #self.tools do
             if self.tools[i] == self.selected then
                 if i == #self.tools then
@@ -351,7 +350,7 @@ end
 function EditModeUI:left()
     local t = love.timer.getTime()
     if not PauseUI.paused and t - self.clickTime > 0.1 then
-        self.clickTime = love.timer.getTime()
+        self.clickTime = t
         for i=1, #tileButtons do
             if tileButtons[i] == self.tileButton then
                 if i == 1 then
