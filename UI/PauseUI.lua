@@ -8,7 +8,8 @@ PauseUI = {
     img = love.graphics.newImage('images/PauseBackground.png'),
     paused = false,
     group = "pause",
-    clickTime = 0
+    clickTime = 0,
+    mouseVisible = true
 }
 
 function PauseUI:load(visible, group)
@@ -438,10 +439,14 @@ function PauseUI:pause()
         gooi.yesButton = nil
         gooi.noButton = nil
 
+
+
         if PlayerUI.display then
             gooi.setGroupVisible("player", true)
+            love.mouse.setVisible(false)
         elseif EditModeUI.display then
             gooi.setGroupVisible("edit_mode", true)
+            love.mouse.setVisible(true)
         end
 
     else
@@ -451,6 +456,8 @@ function PauseUI:pause()
         gooi.setGroupVisible("edit_mode", false)
         gooi.setGroupVisible("player", false)
         self.paused = true
+
+        love.mouse.setVisible(true)
 
     end
 

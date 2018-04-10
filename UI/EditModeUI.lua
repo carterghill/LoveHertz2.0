@@ -47,6 +47,7 @@ end
 -- Tells you whether or not your mouse is over an EditModeUI element
 -- @param x - The mouse's x position
 -- @param y - The mouse's y position
+-- @return true if on element, else false
 function EditModeUI:overIt(x, y)
   local x = x or love.mouse.getX()
   local y = y or love.mouse.getY()

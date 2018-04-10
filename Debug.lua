@@ -40,16 +40,22 @@ function Debug:draw()
 
 end
 
--- Store string s in the logs
+--- log
+-- Add a string to the debug console
+-- @param s - new data to input
 function Debug:log(s)
     table.insert(self.logs, 1, s)
 end
 
+--- reset
+-- Reset the size of the console
 function Debug:reset()
     self.x = 12
     self.y = love.graphics.getHeight()*0.75
 end
 
+--- toggle
+-- Turn the console on or off 
 function Debug:toggle()
     self.visible = not self.visible
 end
