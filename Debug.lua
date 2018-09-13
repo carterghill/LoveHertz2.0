@@ -30,7 +30,7 @@ function Debug:draw()
         for i=1, lines do
             local y = lines - i
             if #self.logs > i then
-                love.graphics.print(self.logs[i], self.x+6, (h*0.75)+(y*12))
+                love.graphics.print(tostring(self.logs[i]), self.x+6, (h*0.75)+(y*12))
             else
                 break
             end
@@ -55,7 +55,7 @@ function Debug:reset()
 end
 
 --- toggle
--- Turn the console on or off 
+-- Turn the console on or off
 function Debug:toggle()
     self.visible = not self.visible
 end

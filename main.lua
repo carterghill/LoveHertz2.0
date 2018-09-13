@@ -15,6 +15,7 @@ require("entities/Enemies")
 require("entities/Item")
 require("entities/Items")
 require('Debug')
+require("LevelFile")
 require "gooi"
 
 -- This one is called right at the start
@@ -22,6 +23,7 @@ function love.load()
 
     --love.mouse.setGrabbed(true)
     love.filesystem.setIdentity( "beatboy" )
+
     globalScale = love.graphics.getWidth()/1280
     en = Enemies:new()
     slowdowns = 0
@@ -44,6 +46,8 @@ function love.load()
     end
     Cameras:setPosition(l.players.x, l.players.y)
     Debug:load()
+    Debug:toggle()
+    lvl = LevelFile:load("first.lvl")
 end
 
 -- This function is being called repeatedly and draws things to the screen
@@ -68,12 +72,14 @@ function love.draw()
     gooi.draw()
     Debug:draw()
 
+    love.graphics.draw(lvl.icon)
+
 end
 
 -- This one is also being called repeatedly, handles game logic
 function love.update(dt)
 
-    controls:update(dt)
+  controls:update(dt)
   gooi.update(dt)
 
   if not PauseUI.paused then
@@ -102,6 +108,7 @@ end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
     -- If screen is touched, show touch controls
+    lvl:load()
     PlayerUI.touch = true
     if not EditModeUI.display then
         EditModeUI:toggle()

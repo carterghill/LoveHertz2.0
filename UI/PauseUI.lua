@@ -440,7 +440,6 @@ function PauseUI:pause()
         gooi.noButton = nil
 
 
-
         if PlayerUI.display then
             gooi.setGroupVisible("player", true)
             love.mouse.setVisible(false)

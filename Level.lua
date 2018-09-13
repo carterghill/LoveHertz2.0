@@ -77,6 +77,7 @@ function Level:new(t, p, n)
   end
 
   function l:load(name)
+
     if name == nil then
 	     if love.filesystem.exists("Levels/default.txt") then
          save = Tserial.unpack(love.filesystem.read("Levels/default.txt"))
@@ -84,7 +85,10 @@ function Level:new(t, p, n)
 		       return
 	     end
     else
-      if love.filesystem.exists("My Levels/"..name) then
+      if name:match("^.+(%..+)$") == ".lvl" then
+        love.filesystem.mount(name, "level")
+        save = Tserial.unpack(love.filesystem.read("level/default.txt"))
+      elseif love.filesystem.exists("My Levels/"..name) then
         save = Tserial.unpack(love.filesystem.read("My Levels/"..name))
       else
         return
