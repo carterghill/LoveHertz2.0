@@ -16,6 +16,7 @@ require("entities/Item")
 require("entities/Items")
 require('Debug')
 require("LevelFile")
+require("Menu")
 require "gooi"
 
 -- This one is called right at the start
@@ -23,6 +24,9 @@ function love.load()
 
     --love.mouse.setGrabbed(true)
     love.filesystem.setIdentity( "beatboy" )
+    Menu:load()
+
+    inGame = false
 
     globalScale = love.graphics.getWidth()/1280
     en = Enemies:new()
@@ -53,26 +57,32 @@ end
 -- This function is being called repeatedly and draws things to the screen
 function love.draw()
 
-    b:draw()
-    Placeables:draw()
-    Decorative:draw()
-    if l ~= nil then
-        Tiles:draw()
-        l.players:draw()
+    if inGame then
+        b:draw()
+        Placeables:draw()
+        Decorative:draw()
+        if l ~= nil then
+            Tiles:draw()
+            l.players:draw()
+        end
+
+        items:draw()
+        en:draw()
+        love.graphics.print(love.timer.getFPS())
+
+        EditModeUI:draw()
+        UI:draw()
+        PauseUI:draw()
+
+
+        Debug:draw()
+
+        love.graphics.draw(lvl.icon)
+    else
+        Menu:draw()
     end
 
-    items:draw()
-    en:draw()
-    love.graphics.print(love.timer.getFPS())
-
-    EditModeUI:draw()
-    UI:draw()
-    PauseUI:draw()
-
     gooi.draw()
-    Debug:draw()
-
-    love.graphics.draw(lvl.icon)
 
 end
 
@@ -82,7 +92,7 @@ function love.update(dt)
   controls:update(dt)
   gooi.update(dt)
 
-  if not PauseUI.paused then
+  if not PauseUI.paused and inGame then
     items:update(dt)
     Cameras:update(dt)
     UI:update(dt)
@@ -103,20 +113,26 @@ function love.update(dt)
         en:update(dt)
       end
     end
+  else
+      Menu:update()
   end
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )
-    -- If screen is touched, show touch controls
-    lvl:load()
-    PlayerUI.touch = true
-    if not EditModeUI.display then
-        EditModeUI:toggle()
-        EditModeUI:toggle()
-        gooi.setGroupVisible("player", true)
+
+    if ingame then
+        -- If screen is touched, show touch controls
+        lvl:load()
+        PlayerUI.touch = true
+        if not EditModeUI.display then
+            EditModeUI:toggle()
+            EditModeUI:toggle()
+            gooi.setGroupVisible("player", true)
+        end
+
+        Placeables:onClick(x , y, 1)
     end
     gooi.pressed(id, x, y)
-    Placeables:onClick(x , y, 1)
 end
 
 function love.touchreleased( id, x, y, dx, dy, pressure )
@@ -205,6 +221,7 @@ function love.resize(w, h)
     EditModeUI:reset()
     PauseUI:reset()
     PlayerUI:reset()
+    Menu:reset()
 
     for i=1, #Cameras do
         Cameras[i].width = love.graphics.getWidth()
