@@ -114,7 +114,7 @@ function love.update(dt)
       end
     end
   else
-      Menu:update()
+      Menu:update(dt)
   end
 end
 

@@ -97,6 +97,9 @@ function love.gamepadpressed( joystick, button )
         l.players.charge:start()
     end
     if button == "dpup" then
+        if not inGame then
+            Menu:up()
+        end
         if PauseUI.paused then
             PauseUI:up()
         else
@@ -104,6 +107,9 @@ function love.gamepadpressed( joystick, button )
         end
     end
     if button == "dpdown" then
+        if not inGame then
+            Menu:down()
+        end
         if PauseUI.paused then
             PauseUI:down()
         else
@@ -177,16 +183,26 @@ function love.keypressed(key, scancode, isrepeat)
         P:jump()
       end
       if key == controls[i].up then
-          if PauseUI.paused then
-              PauseUI:up()
+          if not inGame then
+              Menu:up()
           else
-              P.up = true
+              if PauseUI.paused then
+                  PauseUI:up()
+              else
+                  P.up = true
+              end
           end
       end
       if key == controls[i].down then
-        P.down = true
-        if PauseUI.paused then
-            PauseUI:down()
+
+        if not inGame then
+            Menu:down()
+        else
+            if PauseUI.paused then
+                PauseUI:down()
+            else
+                P.down = true
+            end
         end
       end
       if key == controls[i].left then
@@ -196,19 +212,28 @@ function love.keypressed(key, scancode, isrepeat)
         P.right = true
       end
       if key == "up" then
-          if PauseUI.paused then
-              PauseUI:up()
-          end
-          if EditModeUI.display then
-              EditModeUI:up()
+          if not inGame then
+              Menu:up()
+          else
+              if PauseUI.paused then
+                  PauseUI:up()
+              end
+              if EditModeUI.display then
+                  EditModeUI:up()
+              end
           end
       end
       if key == "down" then
-          if PauseUI.paused then
-              PauseUI:down()
-          end
-          if EditModeUI.display then
-              EditModeUI:down()
+
+          if not inGame then
+              Menu:down()
+          else
+              if PauseUI.paused then
+                  PauseUI:down()
+              end
+              if EditModeUI.display then
+                  EditModeUI:down()
+              end
           end
       end
       if key == "left" then
