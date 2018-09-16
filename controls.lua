@@ -41,7 +41,11 @@ function love.joystickpressed(joystick, button)
           if PauseUI.paused then
               PauseUI:select()
           else
-              l.players:jump()
+              if not inGame then
+                  Menu:select()
+              else
+                  l.players:jump()
+              end
           end
       end
       if button == 1 then
@@ -89,7 +93,11 @@ function love.gamepadpressed( joystick, button )
         if PauseUI.paused then
             PauseUI:select()
         else
-            l.players:jump()
+            if not inGame then
+                Menu:select()
+            else
+                l.players:jump()
+            end
         end
     end
     if button == "x" then
@@ -180,7 +188,11 @@ function love.keypressed(key, scancode, isrepeat)
         l.players.charge:start()
       end
       if key == controls[i].jump then
-        P:jump()
+        if not inGame then
+            Menu:select()
+        else
+            P:jump()
+        end
       end
       if key == controls[i].up then
           if not inGame then

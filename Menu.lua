@@ -2,18 +2,20 @@ Menu = {}
 
 function Menu:load()
 
-  self.groups = {"main", "levels"}
+  self.group = "main"
   self.scale = love.graphics.getHeight()/720
   self.titleFont = love.graphics.newFont( "fonts/CuteFont-Regular.ttf", 124*self.scale)
   self.clickTime = 0
 
   self.buttonFont = love.graphics.newFont( "fonts/Changa-Regular.ttf", 36*self.scale)
 
+  -- Start screen menu buttons
   self.start = MenuButton:new("Start Game", 0, 380, nil, self.buttonFont)
   self.levels = MenuButton:new("Custom Levels", 0, 440, nil, self.buttonFont)
   self.settings = MenuButton:new("Settings", 0, 500, nil, self.buttonFont)
   self.quit = MenuButton:new("Quit", 0, 590, nil, self.buttonFont)
 
+  -- Assign which buttons are above or below each other
   self.start.up = self.quit
   self.start.down = self.levels
 
@@ -28,6 +30,7 @@ function Menu:load()
 
   self.selected = self.start
 
+  -- Give each button an action
   self.start.func = function ()
       inGame = true
   end
@@ -36,14 +39,20 @@ function Menu:load()
       love.event.quit()
   end
 
+  self.settings.func = function ()
+      self.group = "settings"
+  end
+
 end
 
 function Menu:update(dt)
   if self.clickTime > 0 then
     self.clickTime = self.clickTime - dt
   else
-    if love.keyboard.isDown("space") then
+    if love.keyboard.isDown("return") then
       Menu:select()
+    elseif love.keyboard.isDown("escape") then
+      self.group = "main"
     end
   end
 end
@@ -51,38 +60,44 @@ end
 function Menu:select()
     if self.clickTime <= 0 then
       self.selected.func()
-      self.clickTime = 0.05
+      self.clickTime = 0.01
     end
 end
 
 function Menu:down()
   if self.clickTime <= 0 then
     self.selected = self.selected.down
-    self.clickTime = 0.05
+    self.clickTime = 0.01
   end
 end
 
 function Menu:up()
   if self.clickTime <= 0 then
     self.selected = self.selected.up
-    self.clickTime = 0.05
+    self.clickTime = 0.01
   end
 end
 
 function Menu:draw()
 
-  love.graphics.setFont(self.titleFont)
-  love.graphics.printf("Beatboy", 0, 0, love.graphics.getWidth(), "center")
-  love.graphics.printf("and", 0, 100*self.scale, love.graphics.getWidth(), "center")
-  love.graphics.printf("Melody", 0, 200*self.scale, love.graphics.getWidth(), "center")
-  love.graphics.setFont(love.graphics.newFont(12))
+  if self.group == "main" then
+    love.graphics.setFont(self.titleFont)
+    love.graphics.printf("Beatboy", 0, 0, love.graphics.getWidth(), "center")
+    love.graphics.printf("and", 0, 100*self.scale, love.graphics.getWidth(), "center")
+    love.graphics.printf("Melody", 0, 200*self.scale, love.graphics.getWidth(), "center")
+    love.graphics.setFont(love.graphics.newFont(12))
 
-  love.graphics.rectangle("fill", 430*globalScale, (self.selected.y+34)*self.scale, 15*globalScale, 15*globalScale)
+    love.graphics.rectangle("fill", 430*globalScale, (self.selected.y+34)*self.scale, 15*globalScale, 15*globalScale)
 
-  self.start:draw()
-  self.levels:draw()
-  self.settings:draw()
-  self.quit:draw()
+    self.start:draw()
+    self.levels:draw()
+    self.settings:draw()
+    self.quit:draw()
+  elseif self.group == "settings" then
+    love.graphics.setFont(self.titleFont)
+    love.graphics.printf("Settings", 0, -25*self.scale, love.graphics.getWidth(), "center")
+    love.graphics.setFont(love.graphics.newFont(12))
+  end
 
 end
 
