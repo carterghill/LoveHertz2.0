@@ -16,14 +16,25 @@ function Menu:load()
 
   self.start.up = self.quit
   self.start.down = self.levels
+
   self.levels.up = self.start
   self.levels.down = self.settings
+
   self.settings.up = self.levels
   self.settings.down = self.quit
+
   self.quit.up = self.settings
   self.quit.down = self.start
 
   self.selected = self.start
+
+  self.start.func = function ()
+      inGame = true
+  end
+
+  self.quit.func = function ()
+      love.event.quit()
+  end
 
 end
 
@@ -32,9 +43,16 @@ function Menu:update(dt)
     self.clickTime = self.clickTime - dt
   else
     if love.keyboard.isDown("space") then
-      inGame = true
+      Menu:select()
     end
   end
+end
+
+function Menu:select()
+    if self.clickTime <= 0 then
+      self.selected.func()
+      self.clickTime = 0.05
+    end
 end
 
 function Menu:down()

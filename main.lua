@@ -51,7 +51,7 @@ function love.load()
     Cameras:setPosition(l.players.x, l.players.y)
     Debug:load()
     Debug:toggle()
-    lvl = LevelFile:load("first.lvl")
+    --lvl = LevelFile:load("first.lvl")
 end
 
 -- This function is being called repeatedly and draws things to the screen
@@ -77,7 +77,7 @@ function love.draw()
 
         Debug:draw()
 
-        love.graphics.draw(lvl.icon)
+        --love.graphics.draw(lvl.icon)
     else
         Menu:draw()
     end
