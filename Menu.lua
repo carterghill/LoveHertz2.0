@@ -91,7 +91,7 @@ function Menu:draw()
     love.graphics.printf("Melody", 0, 200*self.scale, love.graphics.getWidth(), "center")
     love.graphics.setFont(love.graphics.newFont(12))
 
-    love.graphics.rectangle("fill", (self.selected.x - 30)*globalScale, (self.selected.y+34)*self.scale, 16*globalScale, 16*globalScale)
+    love.graphics.rectangle("fill", self.selected.x - 75*globalScale, (self.selected.y+34)*self.scale, 16*self.scale, 16*self.scale)
 
     self.start:draw()
     self.levels:draw()
@@ -152,13 +152,14 @@ function MenuButton:new(text, x, y, func, font)
     --love.graphics.setFont(self.font)
     --love.graphics.printf(self.text, self.x, self.y*Menu.scale, love.graphics.getWidth(), "center")
     --self.x = (love.graphics.getWidth()/2)-(self.text:getWidth()/2)
-    love.graphics.draw(self.text, self.x*love.graphics.getWidth()/1280, self.y*love.graphics.getHeight()/720)
+    love.graphics.draw(self.text, self.x, self.y*(love.graphics.getHeight()/720))
     --love.graphics.setNewFont(12)
 
   end
 
   function mb:reset()
-    mb.text = love.graphics.newText( Menu.buttonFont, text )
+    self.text = love.graphics.newText( Menu.buttonFont, text )
+    self.x = x or (love.graphics.getWidth()/2)-(self.text:getWidth()/2)
   end
 
   return mb
