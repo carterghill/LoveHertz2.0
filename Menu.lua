@@ -7,44 +7,64 @@ function Menu:load()
   self.titleFont = love.graphics.newFont( "fonts/CuteFont-Regular.ttf", 124*self.scale)
   self.clickTime = 0
 
+  self.menus = {}
+  self.menus["main"] = {}
+  self.menus["settings"] = {}
+
   self.buttonFont = love.graphics.newFont( "fonts/Changa-Regular.ttf", 36*self.scale)
 
-  -- Start screen menu buttons
-  self.start = MenuButton:new("Start Game", nil, 380, nil, self.buttonFont)
-  self.levels = MenuButton:new("Custom Levels", nil, 440, nil, self.buttonFont)
-  self.settings = MenuButton:new("Settings", nil, 500, nil, self.buttonFont)
-  self.quit = MenuButton:new("Quit", nil, 590, nil, self.buttonFont)
-
-  -- Assign which buttons are above or below each other
-  self.start.up = self.quit
-  self.start.down = self.levels
-
-  self.levels.up = self.start
-  self.levels.down = self.settings
-
-  self.settings.up = self.levels
-  self.settings.down = self.quit
-
-  self.quit.up = self.settings
-  self.quit.down = self.start
-
-  self.selected = self.start
-
   -- Give each button an action
-  self.start.func = function ()
+  local f = function ()
       inGame = true
   end
-
-  self.quit.func = function ()
-      love.event.quit()
-  end
-
-  self.settings.func = function ()
+  self:add(MenuButton:new("Start Game", nil, 380, f, self.buttonFont), "main")
+  self:add(MenuButton:new("Custom Levels", nil, 440, nil, self.buttonFont), "main")
+  local f = function ()
       self.group = "settings"
   end
+  self:add(MenuButton:new("Settings", nil, 500, f, self.buttonFont), "main")
+  local f = function ()
+      love.event.quit()
+  end
+  self:add(MenuButton:new("Quit", nil, 590, f, self.buttonFont), "main")
+
+  self.selected = self.menus["main"][1]
 
   -- Settings screen buttons
-  self.fullscreen = MenuButton:new("Fullscreen", 0, 380, nil, self.buttonFont)
+  --self.fullscreen = MenuButton:new("Fullscreen", 0, 380, nil, self.buttonFont)
+
+end
+
+function Menu:add(item, t)
+
+  if self.menus[t] == nil then
+    self.menus[t] = {}
+  end
+
+  table.insert(self.menus[t], item)
+  local s = #self.menus[t]
+
+  -- If it's the only item, up and down should lead to itself
+  if s == 1 then
+    self.menus[t][s].up = self.menus[t][s]
+    self.menus[t][s].down = self.menus[t][s]
+    return
+  end
+
+  -- If there's 2, up and down should both point to each other
+  if s == 2 then
+    self.menus[t][s].up = self.menus[t][1]
+    self.menus[t][s].down = self.menus[t][1]
+    self.menus[t][1].up = self.menus[t][s]
+    self.menus[t][1].down = self.menus[t][s]
+    return
+  end
+
+  -- Otherwise, set down to 1, and up to s-1 (the one below in list)
+  self.menus[t][s].up = self.menus[t][s-1]
+  self.menus[t][s].down = self.menus[t][1]
+  self.menus[t][1].up = self.menus[t][s]
+  self.menus[t][s-1].down = self.menus[t][s]
 
 end
 
@@ -93,19 +113,16 @@ function Menu:draw()
 
     love.graphics.rectangle("fill", self.selected.x - 75*globalScale, (self.selected.y+34)*self.scale, 16*self.scale, 16*self.scale)
 
-    self.start:draw()
-    self.levels:draw()
-    self.settings:draw()
-    self.quit:draw()
-
   elseif self.group == "settings" then
 
     love.graphics.setFont(self.titleFont)
     love.graphics.printf("Settings", 0, -25*self.scale, love.graphics.getWidth(), "center")
     love.graphics.setFont(love.graphics.newFont(12))
 
+  end
 
-
+  for i=1, #self.menus[self.group] do
+    self.menus[self.group][i]:draw()
   end
 
 end
@@ -135,7 +152,6 @@ function MenuButton:new(text, x, y, func, font)
 
   local mb = {}           -- Table for the button
 
---  mb.x = x or (love.graphics.getWidth()/2)-(mb.text:getWidth()/2)           -- x position of button
   mb.y = y or 0           -- y position of button
   mb.text = text or ""    -- What the button says
   mb.text = love.graphics.newText( font, text )
@@ -149,11 +165,45 @@ function MenuButton:new(text, x, y, func, font)
 
   function mb:draw()
 
-    --love.graphics.setFont(self.font)
-    --love.graphics.printf(self.text, self.x, self.y*Menu.scale, love.graphics.getWidth(), "center")
-    --self.x = (love.graphics.getWidth()/2)-(self.text:getWidth()/2)
     love.graphics.draw(self.text, self.x, self.y*(love.graphics.getHeight()/720))
-    --love.graphics.setNewFont(12)
+
+  end
+
+  function mb:reset()
+    self.text = love.graphics.newText( Menu.buttonFont, text )
+    self.x = x or (love.graphics.getWidth()/2)-(self.text:getWidth()/2)
+  end
+
+  return mb
+
+end
+
+
+----------------------------------------------------
+---- Menu Title (Different Than Button lolol) -----
+----------------------------------------------------
+
+
+MenuButton = {}
+
+function MenuButton:new(text, x, y, func, font)
+
+  local mb = {}           -- Table for the button
+
+  mb.y = y or 0           -- y position of button
+  mb.text = text or ""    -- What the button says
+  mb.text = love.graphics.newText( font, text )
+  mb.up = self            -- The button above it
+  mb.down = self          -- The button below it
+
+  mb.func = func or function () end
+  mb.font = font or love.graphics.newFont(12)
+
+  mb.x = x or (love.graphics.getWidth()/2)-(mb.text:getWidth()/2)
+
+  function mb:draw()
+
+    love.graphics.draw(self.text, self.x, self.y*(love.graphics.getHeight()/720))
 
   end
 
