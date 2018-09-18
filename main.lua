@@ -189,6 +189,7 @@ function love.mousepressed(x, y, button, istouch)
     if not istouch then
       Placeables:onClick(x,y,button)
     end
+    Menu:click()
 end
 
 function love.mousereleased(x, y, button, istouch)

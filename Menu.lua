@@ -85,6 +85,26 @@ function Menu:update(dt)
       self.group = "main"
     end
   end
+  for k,v in pairs(self.menus) do
+    for i=1, #v do
+      v[i]:update()
+    end
+  end
+end
+
+function Menu:click()
+
+    local x, y = love.mouse.getPosition()
+    local w = self.selected.text:getWidth()
+    local h = self.selected.text:getHeight()
+
+    if x > self.selected.x and
+    x < self.selected.x + w and
+    y > self.selected.y and
+    y < self.selected.y + h then
+        Menu:select()
+    end
+
 end
 
 function Menu:select()
@@ -168,6 +188,21 @@ function MenuButton:new(text, x, y, func, font)
     self.x = x or (love.graphics.getWidth()/2)-(self.text:getWidth()/2)
   end
 
+  function mb:update(dt)
+
+    local x, y = love.mouse.getPosition()
+    local w = self.text:getWidth()
+    local h = self.text:getHeight()
+
+    if x > self.x and
+    x < self.x + w and
+    y > self.y and
+    y < self.y + h then
+      Menu.selected = self
+    end
+
+  end
+
   return mb
 
 end
@@ -199,6 +234,10 @@ function MenuTitle:new(text, x, y, font)
   function mt:reset()
     self.text = love.graphics.newText( Menu.titleFont, text )
     self.x = x or (love.graphics.getWidth()/2)-(self.text:getWidth()/2)
+  end
+
+  function mt:update(dt)
+
   end
 
   return mt
