@@ -30,8 +30,10 @@ function Menu:load()
 
   self.selected = self.menus["main"][1]
 
-  -- Settings screen buttons
-  --self.fullscreen = MenuButton:new("Fullscreen", 0, 380, nil, self.buttonFont)
+  self:add(MenuTitle:new("Settings", nil, -25*self.scale, self.titleFont), "settings")
+  self:add(MenuTitle:new("Beatboy", nil, 0, self.titleFont), "main")
+  self:add(MenuTitle:new("and", nil, 100*self.scale, self.titleFont), "main")
+  self:add(MenuTitle:new("Melody", nil, 200*self.scale, self.titleFont), "main")
 
 end
 
@@ -43,6 +45,11 @@ function Menu:add(item, t)
 
   table.insert(self.menus[t], item)
   local s = #self.menus[t]
+
+  -- If the function value it nil, it is not a button
+  if item.func == nil then
+    return
+  end
 
   -- If it's the only item, up and down should lead to itself
   if s == 1 then
@@ -103,23 +110,7 @@ end
 
 function Menu:draw()
 
-  if self.group == "main" then
-
-    love.graphics.setFont(self.titleFont)
-    love.graphics.printf("Beatboy", 0, 0, love.graphics.getWidth(), "center")
-    love.graphics.printf("and", 0, 100*self.scale, love.graphics.getWidth(), "center")
-    love.graphics.printf("Melody", 0, 200*self.scale, love.graphics.getWidth(), "center")
-    love.graphics.setFont(love.graphics.newFont(12))
-
-    love.graphics.rectangle("fill", self.selected.x - 75*globalScale, (self.selected.y+34)*self.scale, 16*self.scale, 16*self.scale)
-
-  elseif self.group == "settings" then
-
-    love.graphics.setFont(self.titleFont)
-    love.graphics.printf("Settings", 0, -25*self.scale, love.graphics.getWidth(), "center")
-    love.graphics.setFont(love.graphics.newFont(12))
-
-  end
+  love.graphics.rectangle("fill", self.selected.x - 75*globalScale, (self.selected.y+34)*self.scale, 16*self.scale, 16*self.scale)
 
   for i=1, #self.menus[self.group] do
     self.menus[self.group][i]:draw()
@@ -133,10 +124,13 @@ function Menu:reset()
   self.titleFont = love.graphics.newFont( "fonts/CuteFont-Regular.ttf", 124*self.scale)
   self.buttonFont = love.graphics.newFont( "fonts/Changa-Regular.ttf", 36*self.scale)
 
-  self.start:reset()
-  self.levels:reset()
-  self.settings:reset()
-  self.quit:reset()
+  for k,v in pairs(self.menus) do
+
+    for i=1, #v do
+      v[i]:reset()
+      Debug:log("Type: "..type(v[i]))
+    end
+  end
 
 end
 
@@ -184,34 +178,29 @@ end
 ----------------------------------------------------
 
 
-MenuButton = {}
+MenuTitle = {}
 
-function MenuButton:new(text, x, y, func, font)
+function MenuTitle:new(text, x, y, font)
 
-  local mb = {}           -- Table for the button
+  local mt = {}           -- Table for the button
 
-  mb.y = y or 0           -- y position of button
-  mb.text = text or ""    -- What the button says
-  mb.text = love.graphics.newText( font, text )
-  mb.up = self            -- The button above it
-  mb.down = self          -- The button below it
+  mt.y = y or 0           -- y position of button
+  mt.text = love.graphics.newText( font, text )
 
-  mb.func = func or function () end
-  mb.font = font or love.graphics.newFont(12)
+  mt.font = font or love.graphics.newFont(12)
+  mt.x = x or (love.graphics.getWidth()/2)-(mt.text:getWidth()/2)
 
-  mb.x = x or (love.graphics.getWidth()/2)-(mb.text:getWidth()/2)
-
-  function mb:draw()
+  function mt:draw()
 
     love.graphics.draw(self.text, self.x, self.y*(love.graphics.getHeight()/720))
 
   end
 
-  function mb:reset()
-    self.text = love.graphics.newText( Menu.buttonFont, text )
+  function mt:reset()
+    self.text = love.graphics.newText( Menu.titleFont, text )
     self.x = x or (love.graphics.getWidth()/2)-(self.text:getWidth()/2)
   end
 
-  return mb
+  return mt
 
 end

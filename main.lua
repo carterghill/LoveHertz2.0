@@ -82,6 +82,7 @@ function love.draw()
         Menu:draw()
     end
 
+    Debug:draw()
     gooi.draw()
 
 end
