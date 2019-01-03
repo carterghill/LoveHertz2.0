@@ -182,6 +182,10 @@ function love.keypressed(key, scancode, isrepeat)
   --end
   --EditModeUI:onKeypress(key)
   if not gooi.onInput() then
+
+    if not inGame and key=="return" and isrepeat then
+        Menu:select()
+    end
     for i = 1, table.getn(controls) do
       if key == controls[i].shoot then
         l.players:shoot()

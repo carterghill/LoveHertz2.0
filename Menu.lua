@@ -21,12 +21,18 @@ function Menu:load()
   self:add(MenuButton:new("Custom Levels", nil, 440, nil, self.buttonFont), "main")
   local f = function ()
       self.group = "settings"
+      self.selected = self.menus["settings"][1]
   end
   self:add(MenuButton:new("Settings", nil, 500, f, self.buttonFont), "main")
   local f = function ()
       love.event.quit()
   end
   self:add(MenuButton:new("Quit", nil, 590, f, self.buttonFont), "main")
+  local f  = function ()
+    self.selected = self.menus["main"][1]
+    self.group = "main"
+  end
+  self:add(MenuButton:new("< Back", nil, 590, f, self.buttonFont), "settings")
 
   self.selected = self.menus["main"][1]
 
@@ -80,16 +86,16 @@ function Menu:update(dt)
     self.clickTime = self.clickTime - dt
   else
     if love.keyboard.isDown("return") then
-      Menu:select()
+      --Menu:select()
     elseif love.keyboard.isDown("escape") then
       self.group = "main"
     end
   end
-  for k,v in pairs(self.menus) do
-    for i=1, #v do
-      v[i]:update()
+  --for k,v in pairs(self.menus) do
+    for i=1, #self.menus[self.group] do
+      self.menus[self.group][i]:update()
     end
-  end
+  --end
 end
 
 function Menu:click()
