@@ -494,7 +494,7 @@ function controls:update(dt)
             and not (self.x <= 5)
             and not (self.y >= love.graphics.getHeight()-5)
             and not (self.y <= 5) then
-                love.mouse.setPosition(self.x, self.y)
+                --love.mouse.setPosition(self.x, self.y)
             end
             --love.mouse.setPosition(self.x, self.y)
         end
