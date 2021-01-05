@@ -85,7 +85,7 @@ function EditModeUI:load()
   local w = love.graphics.getWidth()
   local h = love.graphics.getHeight()
 
-  imgDir = "/imgs/"
+  imgDir = "/images/"
   fontDir = "/fonts/"
   style = {
       font = love.graphics.newFont(fontDir.."Arimo-Bold.ttf", 24*s),
@@ -114,7 +114,7 @@ function EditModeUI:load()
       :onRelease(function()
           PauseUI:pause()
       end)
-  pauseBtn:setGroup("edit_mode")
+  pauseBtn:setGroup("pause_button")
   EditModeUI:add(pauseBtn)
 
   zoomSlider = gooi.newSlider({
@@ -307,6 +307,7 @@ function EditModeUI:draw()
 
   if self.display and not PauseUI.paused then
     gooi.draw("edit_mode")
+    gooi.draw("pause_button")
     love.graphics.setColor(255, 255, 255, 40)
     love.graphics.rectangle("fill", self.selected.x+2, self.selected.y+2, self.selected.w-4, self.selected.h-4)
     if self.tileButton then
@@ -314,7 +315,7 @@ function EditModeUI:draw()
     end
     love.graphics.setColor(255, 255, 255, 255)
   else
-
+      gooi.draw("pause_button")
   end
 
 end
