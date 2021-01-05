@@ -1,5 +1,5 @@
-require("Level")
-require("Debug")
+require("main/Level")
+require("main/Debug")
 
 LevelFile = {}
 

@@ -1,5 +1,5 @@
-require("Cameras")
-require("Tile")
+require("main/Cameras")
+require("main/Tile")
 
 Tiles = {
   set = {}

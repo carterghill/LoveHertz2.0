@@ -1,6 +1,6 @@
-require('collision')
+require('main/Collision')
 require('entities/Entity')
-require("Animation")
+require("main/Animation")
 require("entities/ChargeEffect")
 
 Player = {}

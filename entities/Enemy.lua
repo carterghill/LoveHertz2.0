@@ -1,4 +1,4 @@
-require('collision')
+require('main/Collision')
 require('entities/Entity')
 
 Enemy = {}

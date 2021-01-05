@@ -1,5 +1,5 @@
-require("Tserial")
-require("table")
+require("main/Tserial")
+require("main/Table")
 
 Level = {}
 
