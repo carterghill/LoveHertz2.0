@@ -106,6 +106,7 @@ function Level:new(t, p, n)
         Music:play()
     else
         Debug:log("Level has no song")
+        Music:stop()
     end
 
     self.name = save.name

@@ -14,12 +14,17 @@ function Music:load()
 
 	end
 
+	table.insert(self.music, "No Music")
+
 end
 
 function Music:loadSong(song)
 
 	if song ~= nil then
 		if love.filesystem.exists("Music/"..song) then
+			if self.song ~= nil then
+				love.audio.stop(self.song)
+			end
 			self.song = love.audio.newSource("Music/"..song, "stream")
 			self.songName = song
 			return
@@ -38,9 +43,18 @@ function Music:getSong()
 	return self.songName
 end
 
+function Music:stop()
+
+	if self.song ~= nil then
+		love.audio.stop(self.song)
+	end
+
+end
+
 function Music:play()
 
 	if self.song ~= nil then
+		love.audio.stop(self.song)
 		love.audio.play(self.song)
 	else
 		Debug:log("Audio source is nil")
