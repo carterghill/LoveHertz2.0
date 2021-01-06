@@ -114,7 +114,9 @@ function love.update(dt)
       end
     end
   else
-      Menu:update(dt)
+      if not inGame then
+          Menu:update(dt)
+      end
   end
 end
 

@@ -102,6 +102,7 @@ function EditModeUI:load()
   gooi.mode3d()
   --gooi.glass()
 
+
   -----------------------------------------------
   -----------------------------------------------
   -- Menu and Zoom
@@ -126,6 +127,103 @@ function EditModeUI:load()
     group = "grp1"
   })
   zoomSlider:setGroup("edit_mode")
+
+
+
+  -----------------------------------------------
+  -----------------------------------------------
+  -- MUSIC SELECTION
+  -----------------------------------------------
+  -----------------------------------------------
+
+  self.txt = gooi.newText({x = w-296*s, y = 148*s, w = 280*s, h = 64*s}):setText("Music")
+  self.txt:setGroup("edit_mode")
+
+  self.nextbtn = gooi.newButton({text = ">", x = w-150*s, y = 220*s, w = 136*s, h = 48*s})
+      --:setIcon(imgDir.."coin.png")
+      ----:setTooltip("Next in the list")
+      :onRelease(function()
+          local x = love.filesystem.getDirectoryItems("Music")
+          local savedLevels = {}
+          local current = 1
+          for i=1, #x do
+            if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
+              local t = x[i]:gsub(".txt", "")
+              table.insert(savedLevels, t)
+              if t == self.txt:getText() then
+                current = #savedLevels
+              end
+            end
+          end
+          if #savedLevels == 0 then
+            return
+          end
+          current = current + 1
+          if current > #savedLevels then
+            current = 1
+          end
+          local x = self.txt.x
+          local y = self.txt.y
+          local w = self.txt.w
+          local h = self.txt.h
+          --self.txt.indexCursor = 1
+          gooi.removeComponent(self.txt)
+          if savedLevels[current] == nil then
+            return
+          end
+          self.txt = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
+          self.txt:setGroup("edit_mode")
+          --self.txt:setText(savedLevels[current]:gsub(".txt", ""))
+      end)
+  self.nextbtn:setGroup("edit_mode")
+
+  local c = function()
+      local x = love.filesystem.getDirectoryItems("Music")
+      local savedLevels = {}
+      local current = 1
+      for i=1, #x do
+        if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
+          local t = x[i]:gsub(".txt", "")
+          table.insert(savedLevels, t)
+          if t == self.txt:getText() then
+            current = #savedLevels
+          end
+        end
+      end
+      if #savedLevels == 0 then
+        return
+      end
+      current = current - 1
+      if current < 1 then
+        current = #savedLevels
+      end
+      local x = self.txt.x
+      local y = self.txt.y
+      local w = self.txt.w
+      local h = self.txt.h
+      --self.txt.indexCursor = 1
+      gooi.removeComponent(self.txt)
+      self.txt = gooi.newText({x = x, w = w, h = h, y = y}):setText(savedLevels[current]:gsub(".txt", ""))
+      self.txt:setGroup("edit_mode")
+      --self.txt:setText(savedLevels[current]:gsub(".txt", ""))
+  end
+  self.prevbtn = gooi.newButton({text = "<", x = w-296*s, y = 220*s, w = 136*s, h = 48*s})
+      :onRelease(c)
+      :setGroup("edit_mode")
+
+
+  selectSong = gooi.newButton({text = "Play", x = w-296*s, y = 276*s, w = 280*s, h = 64*s})
+      --:setIcon(imgDir.."coin.png")
+      ----:setTooltip("Save the current level")
+      :onRelease(function()
+          Music:loadSong(self.txt:getText())
+          Music:play()
+      end)
+  selectSong:setGroup("edit_mode")
+  EditModeUI:add(pauseBtn)
+
+
+
   EditModeUI:add(zoomSlider)
 
   --c()

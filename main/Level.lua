@@ -30,8 +30,12 @@ function Level:new(t, p, n)
       startx = l.x,
       starty = l.y,
       x = 0,
-      y = 0
+      y = 0,
+      song = "None"
     }
+
+    save.song = Music:getSong()
+    Debug:log(save.song)
 
     if l.players ~= nil then
       save.x = l.players.x
@@ -79,10 +83,6 @@ function Level:new(t, p, n)
 
   function l:load(name)
 
-      -- Load stage music
-      Music:loadSong("BestFriend.mp3")
-      Music:play()
-
     if name == nil then
 	     if love.filesystem.exists("Levels/default.txt") then
          save = Tserial.unpack(love.filesystem.read("Levels/default.txt"))
@@ -98,6 +98,14 @@ function Level:new(t, p, n)
       else
         return
       end
+    end
+
+    -- Load stage music
+    if save.song ~= nil then
+        Music:loadSong(save.song)
+        Music:play()
+    else
+        Debug:log("Level has no song")
     end
 
     self.name = save.name

@@ -14,20 +14,28 @@ function Music:load()
 
 	end
 
-	self.song = love.audio.newSource("Music/BestFriend.mp3", "stream")
-
 end
 
 function Music:loadSong(song)
 
-	if love.filesystem.exists("Music/"..song) then
-		self.song = love.audio.newSource("Music/"..song, "stream")
+	if song ~= nil then
+		if love.filesystem.exists("Music/"..song) then
+			self.song = love.audio.newSource("Music/"..song, "stream")
+			self.songName = song
+			return
+		end
 	end
+
+	Debug:log("Music does not exist or is nil")
 
 end
 
 function Music:getMusic()
 	return self.music
+end
+
+function Music:getSong()
+	return self.songName
 end
 
 function Music:play()

@@ -44,7 +44,16 @@ end
 -- Add a string to the debug console
 -- @param s - new data to input
 function Debug:log(s)
-    table.insert(self.logs, 1, s)
+    if s then
+        table.insert(self.logs, 1, s)
+    else
+        if self.logs then
+            self.logs[#self.logs+1] = "nil"
+        else
+            self.logs = {}
+            self.logs[#self.logs+1] = "nil"
+        end
+    end
 end
 
 --- reset
