@@ -16,6 +16,9 @@ function Menu:load()
   -- Give each button an action
   local f = function ()
       inGame = true
+      if love.filesystem.exists("Levels/default.txt") ~= nil then
+          l:load()
+      end
   end
   self:add(MenuButton:new("Start Game", nil, 380, f, self.buttonFont), "main")
   self:add(MenuButton:new("Custom Levels", nil, 440, nil, self.buttonFont), "main")
@@ -37,9 +40,8 @@ function Menu:load()
   self.selected = self.menus["main"][1]
 
   self:add(MenuTitle:new("Settings", nil, -25*self.scale, self.titleFont), "settings")
-  self:add(MenuTitle:new("Beatboy", nil, 0, self.titleFont), "main")
-  self:add(MenuTitle:new("and", nil, 100*self.scale, self.titleFont), "main")
-  self:add(MenuTitle:new("Melody", nil, 200*self.scale, self.titleFont), "main")
+  self:add(MenuTitle:new("Love", nil, 0, self.titleFont), "main")
+  self:add(MenuTitle:new("Hertz", nil, 100*self.scale, self.titleFont), "main")
 
 end
 

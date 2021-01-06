@@ -1,5 +1,6 @@
 require("main/Tserial")
 require("main/Table")
+require("main/Music")
 
 Level = {}
 
@@ -77,6 +78,10 @@ function Level:new(t, p, n)
   end
 
   function l:load(name)
+
+      -- Load stage music
+      Music:loadSong("BestFriend.mp3")
+      Music:play()
 
     if name == nil then
 	     if love.filesystem.exists("Levels/default.txt") then

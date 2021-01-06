@@ -17,6 +17,7 @@ require("entities/Items")
 require('main/Debug')
 require("main/LevelFile")
 require("main/Menu")
+require("main/Music")
 require "gooi"
 
 -- This one is called right at the start
@@ -25,6 +26,8 @@ function love.load()
     --love.mouse.setGrabbed(true)
     love.filesystem.setIdentity( "lovehertz" )
     Menu:load()
+    --Music:load()
+    --Music:play()
 
     inGame = false
 
@@ -37,10 +40,6 @@ function love.load()
     l = Level:new(Tiles, P)
     items = Items:new()
     b = Background:new("images/backgrounds/city")
-
-    if love.filesystem.exists("Levels/default.txt") ~= nil then
-        l:load()
-    end
 
     UI:load()
 
