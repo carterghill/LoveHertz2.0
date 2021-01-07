@@ -50,7 +50,9 @@ function love.load()
     Cameras:setPosition(l.players.x, l.players.y)
     Debug:load()
     Debug:toggle()
-    --lvl = LevelFile:load("first.lvl")
+    lvl = LevelFile:load("testzip.lvl")
+    l:load(lvl.location)
+    --inGame = true
 end
 
 -- This function is being called repeatedly and draws things to the screen

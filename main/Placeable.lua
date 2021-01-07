@@ -66,10 +66,24 @@ function Placeables:onClick(x,y,button)
   end
 end
 
+function Placeables:loadCustom()
+
+    if love.filesystem.exists("CustomLevel/tiles") then
+        local files = love.filesystem.getDirectoryItems("CustomLevel/tiles")
+        for k, file in ipairs(files) do
+            Debug:log(k .. ". " .. file) --outputs something like "1. main.lua"
+            --table.insert(self.music, file)
+        end
+    end
+
+end
+
 function Placeables:load()
+
   Placeables:newTile("tiles/default/grass")
   Placeables:newTile("tiles/default/grass2")
   Placeables:newTile("tiles/one-way/grass")
+
   local dir = getFoldersInFolder("images/enemies")
   for i=1, #dir do
     local enemy = Enemy:new(dir[i],"images/enemies/"..dir[i], 1)

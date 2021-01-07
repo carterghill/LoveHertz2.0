@@ -9,26 +9,35 @@ function LevelFile:load(location)
 
   if location:match("^.+(%..+)$") == ".lvl" then
 
-    success = love.filesystem.mount(location, "level")
-    Debug:log(love.filesystem.exists("level/icon.png"))
-    Debug:log(success)
+    success = love.filesystem.mount("testzip.lvl", "CustomLevel")
+    print(success)
 
     imgtypes = {".png", ".gif", ".jpg", ".jpe", ".jpeg", ".bmp"}
     for k, v in pairs(imgtypes) do
-      if love.filesystem.exists("level/icon"..v) then
-        lvl.icon = love.graphics.newImage("level/icon"..v)
+      if love.filesystem.exists("CustomLevel/testzip/icon"..v) then
+        lvl.icon = love.graphics.newImage("CustomLevel/testzip/icon"..v)
+        Debug:log("icon found")
       end
     end
 
-    lvl.map = Tserial.unpack(love.filesystem.read("level/default.txt"))
+    --lvl.map = Tserial.unpack(love.filesystem.read("level/default.txt"))
+    if love.filesystem.exists("CustomLevel/testzip/default.txt") then
+        Debug:log("Exists")
+    else
+        Debug:log("Does not exist")
+    end
+
+    inGame = true
 
   end
 
   lvl.location = location
 
-  function lvl:load()
-    l:load(location)
-  end
+  --function lvl:load()
+    Placeables:loadCustom()
+    l:load("CustomLevel/testzip/default.txt")
+
+  --end
 
   return lvl
 

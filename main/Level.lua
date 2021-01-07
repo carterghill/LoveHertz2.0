@@ -92,7 +92,7 @@ function Level:new(t, p, n)
     else
       if name:match("^.+(%..+)$") == ".lvl" then
         love.filesystem.mount(name, "level")
-        save = Tserial.unpack(love.filesystem.read("level/default.txt"))
+        save = Tserial.unpack(love.filesystem.read("CustomLevel/testzip/default.txt"))
       elseif love.filesystem.exists("My Levels/"..name) then
         save = Tserial.unpack(love.filesystem.read("My Levels/"..name))
       else
@@ -123,6 +123,7 @@ function Level:new(t, p, n)
       Placeables.index = save.tiles[i].index
       Tiles:placeAlways(save.tiles[i].x - (Cameras:current().x or 0)+1, save.tiles[i].y - (Cameras:current().y or 0) +1 )
       debug = debug..", "..tostring(#Tiles.set)
+      --Debug:log(debug)
       --Tiles.set[#Tiles.set].type = save.tiles[i].type
     end
     if save.decorative ~= nil then
