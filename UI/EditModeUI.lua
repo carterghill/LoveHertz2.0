@@ -231,7 +231,7 @@ function EditModeUI:load()
       end)
   stopSong:setGroup("edit_mode")
   stopSong:setBGImage("images/stop.png")
-  EditModeUI:add(selectSong)
+  EditModeUI:add(stopSong)
 
 
 

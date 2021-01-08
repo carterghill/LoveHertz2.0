@@ -58,13 +58,13 @@ function UI:clicked()
 end
 
 function UI:update(dt)
-  UIthread:start(UI:updateAll(dt))
-  --UI:updateAll(dt)
+  --UIthread:start(UI:updateAll(dt))
+  UI:updateAll(dt)
 end
 
 function UI:onClick(x, y)
 
-  PlayerUI.healthBar:onClick(x, y)
+    PlayerUI.healthBar:onClick(x, y)
 
 end
 
