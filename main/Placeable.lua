@@ -82,9 +82,32 @@ end
 
 function Placeables:load()
 
-  Placeables:newTile("tiles/default/grass")
-  Placeables:newTile("tiles/default/grass2")
-  Placeables:newTile("tiles/one-way/grass")
+    -- Get default tiles
+    local files = love.filesystem.getDirectoryItems("tiles/default")
+    for k, file in ipairs(files) do
+        Placeables:newTile("tiles/default/"..file)
+    end
+
+    -- Get default one-ways
+    local files = love.filesystem.getDirectoryItems("tiles/one-way")
+    for k, file in ipairs(files) do
+        Placeables:newTile("tiles/one-way/"..file)
+    end
+
+    -- Get the user's tiles
+    if love.filesystem.exists("My Tiles/default") then
+        local files = love.filesystem.getDirectoryItems("My Tiles/default")
+        for k, file in ipairs(files) do
+            Placeables:newTile("My Tiles/default/"..file)
+        end
+    else
+        love.filesystem.createDirectory("My Tiles")
+        love.filesystem.createDirectory("My Tiles/default")
+    end
+
+  --Placeables:newTile("tiles/default/grass")
+  --Placeables:newTile("tiles/default/grass2")
+  --Placeables:newTile("tiles/one-way/grass")
 
   local dir = getFoldersInFolder("images/enemies")
   for i=1, #dir do
