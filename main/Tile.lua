@@ -54,6 +54,10 @@ function Tile:new(x, y, type)
     armages["Right"] = t.images[4]
   end
 
+  if t.images[1] == nil then
+      return
+  end
+
   tile = {
     images = armages,
     type = type or "default",
@@ -61,7 +65,7 @@ function Tile:new(x, y, type)
     y = placey,
     width = 64,
     height = 64,
-    scale = 64 / Placeables:getTile().images[1]:getWidth(),
+    scale = 64 / t.images[1]:getWidth(),
     folder = t.folder,
     index = Placeables.index
   }

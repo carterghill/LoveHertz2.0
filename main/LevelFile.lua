@@ -10,21 +10,21 @@ function LevelFile:load(location)
   if location:match("^.+(%..+)$") == ".lvl" then
 
     success = love.filesystem.mount(location, "CustomLevel")
-    Debug:log(location)
+    print(tostring(success))
 
     imgtypes = {".png", ".gif", ".jpg", ".jpe", ".jpeg", ".bmp"}
     for k, v in pairs(imgtypes) do
       if love.filesystem.exists("CustomLevel/icon"..v) then
         lvl.icon = love.graphics.newImage("CustomLevel/icon"..v)
-        Debug:log("icon found")
+        print("icon found")
       end
     end
 
     --lvl.map = Tserial.unpack(love.filesystem.read("level/default.txt"))
     if love.filesystem.exists("CustomLevel/default.txt") then
-        Debug:log("Exists")
+        print("Exists")
     else
-        Debug:log("Does not exist")
+        print("Does not exist")
     end
 
     inGame = true

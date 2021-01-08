@@ -72,7 +72,7 @@ function Placeables:loadCustom()
         local files = love.filesystem.getDirectoryItems("CustomLevel/tiles/default")
         for k, file in ipairs(files) do
             Debug:log(k .. ". " .. file) --outputs something like "1. main.lua"
-            Placeables:newTile("tiles/default/"..file)
+            Placeables:newTile("CustomLevel/tiles/default/"..file)
         end
     else
         Debug:log("No custom tiles present")
