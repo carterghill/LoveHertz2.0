@@ -136,10 +136,10 @@ function EditModeUI:load()
   -----------------------------------------------
   -----------------------------------------------
 
-  self.txt = gooi.newText({x = w-296*s, y = 156*s, w = 280*s, h = 64*s}):setText("Music")
+  self.txt = gooi.newText({x = w-296*s, y = 164*s, w = 280*s, h = 64*s}):setText("Music")
   self.txt:setGroup("edit_mode")
 
-  self.nextbtn = gooi.newButton({text = ">", x = w-150*s, y = 228*s, w = 136*s, h = 48*s})
+  self.nextbtn = gooi.newButton({text = ">", x = w-150*s, y = 236*s, w = 136*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
       ----:setTooltip("Next in the list")
       :onRelease(function()
@@ -207,12 +207,12 @@ function EditModeUI:load()
       self.txt:setGroup("edit_mode")
       --self.txt:setText(savedLevels[current]:gsub(".txt", ""))
   end
-  self.prevbtn = gooi.newButton({text = "<", x = w-296*s, y = 228*s, w = 136*s, h = 48*s})
+  self.prevbtn = gooi.newButton({text = "<", x = w-296*s, y = 236*s, w = 136*s, h = 48*s})
       :onRelease(c)
       :setGroup("edit_mode")
 
 
-  selectSong = gooi.newButton({text = "Play", x = w-296*s, y = 284*s, w = 280*s, h = 64*s})
+  selectSong = gooi.newButton({text = "", x = w-296*s, y = 292*s, w = 136*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
       ----:setTooltip("Save the current level")
       :onRelease(function()
@@ -220,7 +220,18 @@ function EditModeUI:load()
           Music:play()
       end)
   selectSong:setGroup("edit_mode")
-  EditModeUI:add(pauseBtn)
+  selectSong:setBGImage("images/play.png")
+  EditModeUI:add(selectSong)
+
+  stopSong = gooi.newButton({text = "", x = w-150*s, y = 292*s, w = 136*s, h = 48*s})
+      --:setIcon(imgDir.."coin.png")
+      ----:setTooltip("Save the current level")
+      :onRelease(function()
+          Music:stop()
+      end)
+  stopSong:setGroup("edit_mode")
+  stopSong:setBGImage("images/stop.png")
+  EditModeUI:add(selectSong)
 
 
 

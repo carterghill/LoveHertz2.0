@@ -126,7 +126,7 @@ function component.new(t, x, y, w, h, group)
 		self.mode3d = false
 		return self
 	end
-	
+
 	c.style = gooi.deepcopy(component.style)
 
 	function c:make3d()
@@ -167,7 +167,7 @@ function component.new(t, x, y, w, h, group)
         self.imgDataShadow:setPixel(0, 0, 0, 0, 0, 80)
         self.imgDataShadow:setPixel(0, 1, 0, 0, 0, 30)
         self.imgDataShadow:setPixel(0, 2, 0, 0, 0, 5)
-        
+
         self.imgShadow = love.graphics.newImage(self.imgDataShadow)
         self.imgShadow:setFilter("linear", "linear")
     end
@@ -210,7 +210,7 @@ function component.new(t, x, y, w, h, group)
     end
 
 	c:make3d()
-	
+
 	return setmetatable(c, component)
 end
 
@@ -314,10 +314,11 @@ function component:draw()-- Every component has the same base:
     if self.bgImage then
       love.graphics.setColor(255, 255, 255)
       love.graphics.draw(self.bgImage,
-        math.floor(self.x),
+        math.floor(self.x + self.w/2 - self.h/2),
         math.floor(self.y),
         0,
-        self.w / self.bgImage:getWidth(),
+        --self.w / self.bgImage:getWidth(),
+        self.h / self.bgImage:getHeight(),
         self.h / self.bgImage:getHeight())
     end
 		love.graphics.setStencilTest()
@@ -403,7 +404,7 @@ function component:wasReleased()
 	local b = self:overIt() and self.enabled and self.visible
 	if self.type == "text" then
 		if b then
-			love.keyboard.setTextInput(true) 
+			love.keyboard.setTextInput(true)
 		end
 	end
 	return b

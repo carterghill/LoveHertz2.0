@@ -47,6 +47,7 @@ function Music:stop()
 
 	if self.song ~= nil then
 		love.audio.stop(self.song)
+		self.song = nil
 	end
 
 end
