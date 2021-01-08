@@ -50,8 +50,8 @@ function love.load()
     Cameras:setPosition(l.players.x, l.players.y)
     Debug:load()
     Debug:toggle()
-    lvl = LevelFile:load("testzip.lvl")
-    l:load(lvl.location)
+    --lvl = LevelFile:load("test.lvl")
+    --l:load(lvl.location)
     --inGame = true
 end
 
@@ -120,6 +120,13 @@ function love.update(dt)
           Menu:update(dt)
       end
   end
+end
+
+function love.filedropped(file)
+	--file:open("r")
+	--local data = file:read()
+	lvl = LevelFile:load(file:getFilename())
+    l:load(lvl.location)
 end
 
 function love.touchpressed( id, x, y, dx, dy, pressure )

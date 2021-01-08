@@ -92,7 +92,12 @@ function Level:new(t, p, n)
     else
       if name:match("^.+(%..+)$") == ".lvl" then
         love.filesystem.mount(name, "level")
-        save = Tserial.unpack(love.filesystem.read("CustomLevel/testzip/default.txt"))
+        if love.filesystem.exists("CustomLevel/default.txt") then
+            save = Tserial.unpack(love.filesystem.read("CustomLevel/default.txt"))
+        else
+            Debug:log(".lvl does not contain txt")
+            return
+        end
       elseif love.filesystem.exists("My Levels/"..name) then
         save = Tserial.unpack(love.filesystem.read("My Levels/"..name))
       else
