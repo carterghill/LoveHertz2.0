@@ -136,7 +136,7 @@ function EditModeUI:load()
   -----------------------------------------------
   -----------------------------------------------
 
-  self.txt = gooi.newText({x = w-296*s, y = 164*s, w = 280*s, h = 64*s}):setText("Music")
+  self.txt = gooi.newText({x = w-296*s, y = 164*s, w = 280*s, h = 64*s}):setText("No Music")
   self.txt:setGroup("edit_mode")
 
   self.nextbtn = gooi.newButton({text = ">", x = w-150*s, y = 236*s, w = 136*s, h = 48*s})
@@ -145,6 +145,7 @@ function EditModeUI:load()
       :onRelease(function()
           local x = love.filesystem.getDirectoryItems("Music")
           local savedLevels = {}
+          table.insert(savedLevels, "No Music")
           local current = 1
           for i=1, #x do
             if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
@@ -155,7 +156,7 @@ function EditModeUI:load()
               end
             end
           end
-          if #savedLevels == 0 then
+          if #savedLevels == 1 then
             return
           end
           current = current + 1
@@ -180,6 +181,7 @@ function EditModeUI:load()
   local c = function()
       local x = love.filesystem.getDirectoryItems("Music")
       local savedLevels = {}
+      table.insert(savedLevels, "No Music")
       local current = 1
       for i=1, #x do
         if x[i] ~= ".DS_Store" and x[i] ~= ".DS_Store.txt" then
@@ -190,9 +192,10 @@ function EditModeUI:load()
           end
         end
       end
-      if #savedLevels == 0 then
+      if #savedLevels == 1 then
         return
       end
+
       current = current - 1
       if current < 1 then
         current = #savedLevels
@@ -216,8 +219,13 @@ function EditModeUI:load()
       --:setIcon(imgDir.."coin.png")
       ----:setTooltip("Save the current level")
       :onRelease(function()
-          Music:loadSong(self.txt:getText())
-          Music:play()
+          if self.txt:getText() == "No Music" then
+              Music:stop()
+              Music.songName = "No Music"
+          else
+              Music:loadSong(self.txt:getText())
+              Music:play()
+          end
       end)
   selectSong:setGroup("edit_mode")
   selectSong:setBGImage("images/play.png")
