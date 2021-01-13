@@ -138,6 +138,7 @@ function EditModeUI:load()
 
   self.txt = gooi.newText({x = w-296*s, y = 164*s, w = 280*s, h = 64*s}):setText("No Music")
   self.txt:setGroup("edit_mode")
+  EditModeUI:add(self.txt)
 
   self.nextbtn = gooi.newButton({text = ">", x = w-150*s, y = 236*s, w = 136*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
@@ -177,6 +178,7 @@ function EditModeUI:load()
           --self.txt:setText(savedLevels[current]:gsub(".txt", ""))
       end)
   self.nextbtn:setGroup("edit_mode")
+  EditModeUI:add(self.nextbtn)
 
   local c = function()
       local x = love.filesystem.getDirectoryItems("Music")
@@ -213,6 +215,7 @@ function EditModeUI:load()
   self.prevbtn = gooi.newButton({text = "<", x = w-296*s, y = 236*s, w = 136*s, h = 48*s})
       :onRelease(c)
       :setGroup("edit_mode")
+  EditModeUI:add(self.prevbtn)
 
 
   selectSong = gooi.newButton({text = "", x = w-296*s, y = 292*s, w = 136*s, h = 48*s})
