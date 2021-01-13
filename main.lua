@@ -106,7 +106,7 @@ function love.update(dt)
         end
       end
       if (love.mouse.isDown(1) and EditModeUI.tool == "delete") then
-        if not UI:mouseOn() then
+        if not UI:mouseOn() and not EditModeUI.delete then
           Tiles:remove()
         end
       end

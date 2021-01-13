@@ -36,6 +36,8 @@ end
 
 function Placeables:onClick(x,y,button)
 
+    EditModeUI.delete = false
+
     x = x/getZoom(globalScale) + Cameras:current().x
     y = y/getZoom(globalScale) + Cameras:current().y
 
@@ -76,6 +78,7 @@ function Placeables:onClick(x,y,button)
       if x < en.enemies[i].x + en.enemies[i].width and x > en.enemies[i].x then
         if y < en.enemies[i].y + en.enemies[i].width and y > en.enemies[i].y then
           table.remove(en.enemies, i)
+          EditModeUI.delete = true
           return
         end
       end
@@ -84,6 +87,16 @@ function Placeables:onClick(x,y,button)
       if x < Decorative.set[i].x + Decorative.set[i].img:getWidth() and x > Decorative.set[i].x then
         if y < Decorative.set[i].y + Decorative.set[i].img:getHeight() and y > Decorative.set[i].y then
           table.remove(Decorative.set, i)
+          EditModeUI.delete = true
+          return
+        end
+      end
+    end
+    for i=#Placeables.noCamera, 1, -1 do
+      if x < Placeables.noCamera[i].x + 64 and x > Placeables.noCamera[i].x then
+        if y < Placeables.noCamera[i].y + 64 and y > Placeables.noCamera[i].y then
+          table.remove(Placeables.noCamera, i)
+          EditModeUI.delete = true
           return
         end
       end
