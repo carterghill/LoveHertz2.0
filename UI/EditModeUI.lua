@@ -136,9 +136,15 @@ function EditModeUI:load()
   -----------------------------------------------
   -----------------------------------------------
 
-  self.txt = gooi.newText({x = w-296*s, y = 164*s, w = 280*s, h = 64*s}):setText("No Music")
+  self.txt = gooi.newText({x = w-296*s, y = 164*s, w = 280*s, h = 64*s})
   self.txt:setGroup("edit_mode")
   EditModeUI:add(self.txt)
+
+  if Music.songName ~= nil then
+      self.txt:setText(Music.songName)
+  else
+      self.txt:setText("No Music")
+  end
 
   self.nextbtn = gooi.newButton({text = ">", x = w-150*s, y = 236*s, w = 136*s, h = 48*s})
       --:setIcon(imgDir.."coin.png")
@@ -243,10 +249,29 @@ function EditModeUI:load()
   stopSong:setGroup("edit_mode")
   stopSong:setBGImage("images/stop.png")
   EditModeUI:add(stopSong)
-
-
-
   EditModeUI:add(zoomSlider)
+
+
+  clearLevel = gooi.newButton({text = "Clear Level", x = w-296*s, y = 368*s, w = 280*s, h = 64*s})
+      --:setIcon(imgDir.."coin.png")
+      ----:setTooltip("Save the current level")
+      :onRelease(function()
+          gooi.confirm({
+              text = "Clear the level?",
+              ok = function()
+                  en.enemies = {}
+                  Decorative.set = {}
+                  Tiles.set = {}
+                  Placeables.noCamera = {}
+                  Music.song = nil
+                  Music.songName = "No Music"
+              end
+          })
+      end)
+
+  clearLevel:setGroup("edit_mode")
+  EditModeUI:add(clearLevel)
+
 
   --c()
   --[[
