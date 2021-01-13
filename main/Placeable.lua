@@ -6,6 +6,8 @@ Placeables = {
   tiles = {},
   enemies = {},
   decorative = {},
+  noCamera = {},
+  noCameraImg = love.graphics.newImage("tiles/noCamera.png"),
   index = 1,
   currentSet = "tiles"
 
@@ -34,17 +36,40 @@ end
 
 function Placeables:onClick(x,y,button)
 
-  x = x/getZoom(globalScale) + Cameras:current().x
-  y = y/getZoom(globalScale) + Cameras:current().y
+    x = x/getZoom(globalScale) + Cameras:current().x
+    y = y/getZoom(globalScale) + Cameras:current().y
 
-  if button == 1 and Placeables.currentSet == "decorative" and not EditModeUI:overIt(x, y) and EditModeUI.tool == "place" and not UI:clicked() then
+    if button == 1 and not EditModeUI:overIt(x, y) and EditModeUI.tool == "noCamera" and not UI:clicked() then
+        dx = x % 64
+        dy = y % 64
 
-    Decorative.set[#Decorative.set+1] = {img = Placeables.decorative.images[Placeables.index],
-          x = x - Placeables.decorative.images[Placeables.index]:getWidth()/2,
-          y = y - Placeables.decorative.images[Placeables.index]:getHeight()/2,
-          imagePath = "images/decorative/"..Placeables.decorative.names[Placeables.index]
-    }
-    slowdowns = #Decorative.set
+        if dx < 64 then
+          placex = x - dx
+          if dy < 64 then
+            placey = y-dy
+          else
+            placey = y+dy
+          end
+        else
+          placex = x + dx
+          if dy < 64 then
+            placey = y-dy
+          else
+            placey = y+dy
+          end
+        end
+        Placeables.noCamera[#Placeables.noCamera+1] = {x = placex, y = placey, width=64, height=64}
+        Debug:log(tostring(#Placeables.noCamera).." ("..tostring(placex)..", "..placey..")")
+    end
+
+    if button == 1 and Placeables.currentSet == "decorative" and not EditModeUI:overIt(x, y) and EditModeUI.tool == "place" and not UI:clicked() then
+
+        Decorative.set[#Decorative.set+1] = {img = Placeables.decorative.images[Placeables.index],
+            x = x - Placeables.decorative.images[Placeables.index]:getWidth()/2,
+            y = y - Placeables.decorative.images[Placeables.index]:getHeight()/2,
+            imagePath = "images/decorative/"..Placeables.decorative.names[Placeables.index]
+        }
+        slowdowns = #Decorative.set
 
   elseif (EditModeUI.tool == "delete") and not EditModeUI:overIt(x, y) then
     for i=#en.enemies, 1, -1 do
@@ -119,6 +144,11 @@ function Placeables:load()
 end
 
 function Placeables:getTile()
+
+    if Placeables.currentSet == "noCamera" then
+        return Placeables.noCameraImg
+    end
+
   if Placeables.currentSet == "decorative" then
     return Placeables.decorative.images[Placeables.index]
   else
@@ -127,6 +157,37 @@ function Placeables:getTile()
 end
 
 function Placeables:draw()
+
+    if EditModeUI.display then
+
+        for i=1, #Placeables.noCamera do
+            local x = Placeables.noCamera[i].x
+            local y = Placeables.noCamera[i].y
+            cam = Cameras:current()
+            if cam ~= nil then
+                x = x - cam.x
+                y = y - cam.y
+            end
+            local s = 64/Placeables.noCameraImg:getWidth()
+            love.graphics.setColor( 255, 255, 255, 175 )
+            love.graphics.draw(Placeables.noCameraImg, x*getZoom(), y*getZoom(), 0, getZoom()*s)
+        end
+
+        if EditModeUI.tool == "noCamera" then
+
+            x, y = love.mouse.getPosition()
+
+            x = x - 64/2*getZoom()
+            y = y - 64/2*getZoom()
+
+            local s = 64/Placeables.noCameraImg:getWidth()
+
+            love.graphics.setColor( 255, 255, 255, 125 )
+            love.graphics.draw(Placeables.noCameraImg, x, y, 0, getZoom()*s)
+            love.graphics.setColor( 255, 255, 255, 255 )
+
+        end
+    end
 
   if EditModeUI.display and EditModeUI.tool == "place" then
 
@@ -152,7 +213,7 @@ function Placeables:draw()
       love.graphics.draw(img, x, y, 0, sc*getZoom())
     end
 
-  love.graphics.setColor( 255, 255, 255, 255 )
+    love.graphics.setColor( 255, 255, 255, 255 )
 
   end
 end

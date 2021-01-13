@@ -252,7 +252,7 @@ function EditModeUI:load()
 
   ]]
 
-  deleteButton = gooi.newButton({text = "", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
+  deleteButton = gooi.newButton({text = "", x = 16*s, y = 446*s, w = 80*s, h = 80*s})
       :onRelease(function ()
           EditModeUI.tool = "delete"
           self.selected = deleteButton
@@ -265,6 +265,29 @@ function EditModeUI:load()
   deleteButton:setGroup("edit_mode")
   deleteButton:setBGImage("images/eraser.png")
   EditModeUI:add(deleteButton)
+
+
+  ---------------------
+  ---------------------
+  -- CAMERA COLLIDER
+  ---------------------
+  ---------------------
+
+
+  noCamera = gooi.newButton({text = "", x = 16*s, y = 360*s, w = 80*s, h = 80*s})
+      :onRelease(function ()
+          EditModeUI.tool = "noCamera"
+          self.selected = noCamera
+          removeTileButtons()
+          love.mouse.setVisible(false)
+          --love.mouse.setCursor(love.mouse.getSystemCursor("no"))
+          --love.mouse.setCursor(love.mouse.newCursor("images/eraser.png"))
+      end)
+
+  noCamera:setGroup("edit_mode")
+  noCamera:setBGImage("tiles/noCamera.png")
+  EditModeUI:add(noCamera)
+
 
   ----------------------
   -- MOVE SCREEN BUTTON
@@ -414,7 +437,9 @@ function EditModeUI:load()
   table.insert(EditModeUI.tools, tiles)
   table.insert(EditModeUI.tools, enemies)
   table.insert(EditModeUI.tools, decorative)
+  table.insert(EditModeUI.tools, noCamera)
   table.insert(EditModeUI.tools, deleteButton)
+
 
   return EditModeUI
 

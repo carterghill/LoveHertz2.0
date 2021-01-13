@@ -60,7 +60,7 @@ function love.draw()
 
     if inGame then
         b:draw()
-        Placeables:draw()
+
         Decorative:draw()
         if l ~= nil then
             Tiles:draw()
@@ -77,6 +77,7 @@ function love.draw()
 
 
         Debug:draw()
+        Placeables:draw()
 
         --love.graphics.draw(lvl.icon)
     else

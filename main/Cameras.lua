@@ -74,4 +74,5 @@ function Cameras:moveTo(object, time, dt)
 		Cameras[cameraNum].xSpeed = (((object.x + object.xSpeed/3 + object.width/2)*getZoom() - love.graphics.getWidth( )/2) - Cameras[cameraNum].x*getZoom())/time
 		Cameras[cameraNum].ySpeed = (((object.y + object.ySpeed/10 + object.height/2)*getZoom() - love.graphics.getHeight( )/2) - Cameras[cameraNum].y*getZoom())/time
 	end
+	cameraCollision(Cameras[cameraNum], dt)
 end

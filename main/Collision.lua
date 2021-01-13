@@ -94,6 +94,8 @@ function cameraCollision( player, dt )
   player.leftCol = false
   player.upCol = false
 
+  cameraColliders = Placeables.noCamera
+
   local count = 1
 	while count <= table.getn(cameraColliders) do
 
