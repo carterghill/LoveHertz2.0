@@ -99,10 +99,10 @@ function cameraCollision( player, dt )
   local count = 1
 	while count <= table.getn(cameraColliders) do
 
-    if player.xSpeed > 0 and player.x + player.width + player.xSpeed*dt > cameraColliders[count].x then
-      if player.y+player.height > cameraColliders[count].y and player.y < cameraColliders[count].y + cameraColliders[count].height then
+    if player.xSpeed > 0 and player.x + player.width/getZoom() + player.xSpeed*dt > cameraColliders[count].x then
+      if player.y+player.height/getZoom() > cameraColliders[count].y and player.y < cameraColliders[count].y + cameraColliders[count].height then
         if player.x < cameraColliders[count].x + cameraColliders[count].width/2 then
-          player.x = cameraColliders[count].x - player.width
+          player.x = cameraColliders[count].x - player.width/getZoom()
           player.xSpeed = 0
           player.rightCol = true
         end
@@ -110,8 +110,8 @@ function cameraCollision( player, dt )
 		end
 
     if player.xSpeed < 0 and player.x + player.xSpeed*dt < cameraColliders[count].x + cameraColliders[count].width then
-      if player.y+player.height > cameraColliders[count].y and player.y < cameraColliders[count].y + cameraColliders[count].height then
-        if player.x >= cameraColliders[count].x + cameraColliders[count].width/2 then
+      if player.y+player.height/getZoom() > cameraColliders[count].y and player.y < cameraColliders[count].y + cameraColliders[count].height then
+        if player.x + player.width/getZoom() >= cameraColliders[count].x + cameraColliders[count].width/2 then
           player.x = cameraColliders[count].x + cameraColliders[count].width
           player.xSpeed = 0
           player.leftCol = true
@@ -119,10 +119,10 @@ function cameraCollision( player, dt )
       end
 		end
 
-    if player.ySpeed > 0 and player.y + player.height + player.ySpeed*dt > cameraColliders[count].y then
-      if player.x+player.width > cameraColliders[count].x and player.x < cameraColliders[count].x + cameraColliders[count].width then
-        if player.y + player.height < cameraColliders[count].y + cameraColliders[count].height/2 then
-          player.y = cameraColliders[count].y - player.height
+    if player.ySpeed > 0 and player.y + player.height/getZoom() + player.ySpeed*dt > cameraColliders[count].y then
+      if player.x+player.width/getZoom() > cameraColliders[count].x and player.x < cameraColliders[count].x + cameraColliders[count].width then
+        if player.y + player.height/getZoom() < cameraColliders[count].y + cameraColliders[count].height/2 then
+          player.y = cameraColliders[count].y - player.height/getZoom()
           player.ySpeed = 0
           player.grounded = true
           player.jumped = false
@@ -131,7 +131,7 @@ function cameraCollision( player, dt )
 		end
 
     if player.ySpeed < 0 and player.y + player.ySpeed*dt < cameraColliders[count].y + cameraColliders[count].height then
-      if player.x+player.width > cameraColliders[count].x and player.x < cameraColliders[count].x + cameraColliders[count].width then
+      if player.x+player.width/getZoom() > cameraColliders[count].x and player.x < cameraColliders[count].x + cameraColliders[count].width then
         if player.y > cameraColliders[count].y + cameraColliders[count].height/2 then
           player.y = cameraColliders[count].y + cameraColliders[count].height
           player.ySpeed = 0
